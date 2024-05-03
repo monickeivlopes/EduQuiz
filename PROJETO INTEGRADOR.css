@@ -1,0 +1,23 @@
+body{height: 100vh;background-color: antiquewhite;
+     display: flex; flex-direction: column;justify-content: space-between;}
+
+ 
+header{
+     height: 10%; width: 100%;
+     background-color: blue;
+      display: flex; align-items:center; justify-content:space-between ;}
+
+
+#conteudo{width: 100% ; 
+    display:flex; justify-content: center;}
+
+
+#menu{height: 300px; width: 200px; background-color: burlywood;
+     display: flex;flex-direction: column;align-items:center; justify-content:space-around;
+    border-radius: 50px;}
+
+
+#menu>button{border-radius: 100px; font-size: larger;}
+     
+
+footer{width:100%; background-color: aqua;}
