@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Início</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #002e6b, #fff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            align-items: center;
+            background: transparent;
+        }
+
+        .botao {
+            display: flex;
+            justify-content: center;
+            width: 250px; /* Aumente o tamanho do botão */
+            padding: 15px;
+            background-color: #002e6b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adicione uma sombra ao botão */
+            transition: background-color 0.3s; /* Adicione um efeito de transição */
+            text-decoration: none; /* Remova o sublinhado */
+            margin-top: 20px;
+        }
+
+        .botao:hover {
+            background-color: white;
+            color: #002e6b;
+        }
+
+        h1 {
+            color: #fff; /* Mude a cor do texto */
+        }
+
+        .fundo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <img src="fundo.png" class="fundo">
+    <div class="container">
+        <h1>Bem-vindo ao EduQuiz</h1>       
+        
+        <a href="login.html" class="botao">COMECE AQUI</a>
+    </div>
+</body>
+</html>
