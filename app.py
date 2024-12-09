@@ -1,21 +1,32 @@
-from flask import Flask, render_template, request, redirect, url_for
-from sqlalchemy.orm import Session 
-from sqlalchemy import create_engine
-from models import Base,User
-from flask import flash
-import secrets  
-from flask_mail import Mail, Message
-
-
-
-
-#Criando bd
-engine = create_engine('sqlite:///database.db')
-
-Base.metadata.create_all(bind=engine)
-session = Session(bind=engine)
+from flask import Flask, request, render_template, session, redirect, url_for, make_response
+import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'chave-secreta'
+
+
+DATABASE = 'database.db'
+
+def conectar_banco():
+    return sqlite3.connect(DATABASE)
+
+def criar_tabela():
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            usuario TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            email TEXT NOT NULL,
+            tipo_usuario TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+# Inicializa o banco de dados ao iniciar a aplicação
+criar_tabela()
 
 
 @app.route("/")
@@ -25,75 +36,80 @@ def index():
 #ROTA LOGIN
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        usuario = User.query.filter_by(email=email, password=password).first()
+    if request.method == 'POST':
+        usuario = request.form['usuario']
+        password = request.form['password']
+        conn = conectar_banco()
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT * FROM usuarios WHERE usuario = ? AND password = ? ''', (usuario, password))
+        usuario = cursor.fetchone()
+        conn.close()
 
         if usuario:
-            if usuario.tipo_usuario == "aluno":
-                return redirect(url_for("index_alu"))
+            session['usuario'] = {
+                'id': usuario[0],
+                'usuario': usuario[1],
+                'tipo_usuario': usuario[4]
+            }
+            if usuario[4] == 'professor':
+                return redirect(url_for('index_professor'))
+            else:
+                return redirect(url_for('index_aluno'))
+            
+        return render_template('login.html', erro='Usuário ou senha inválidos.')
 
-            elif usuario.tipo_usuario == "professor":
-                return redirect(url_for("index_prof"))
-
-        else:
-            return "Usuário ou senha inválidos"
-
-    return render_template("login.html")
-
+    if 'usuario' in session:
+        if session['usuario']['tipo_usuario'] == 'professor':
+            return redirect(url_for('index_professor'))
+        return redirect(url_for('index_aluno'))
+    
+    return render_template('login.html')
 
 
-#ROTA DE RECUPERAÇÃO DE SENHA
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'seuemail@gmail.com'
-app.config['MAIL_PASSWORD'] = 'suasenha'
-mail = Mail(app)
+
 
 @app.route("/recuperar-senha", methods=["GET", "POST"])
 def recuperar_senha():
-    if request.method == "POST":
-        email = request.form["email"]
-        usuario = session.query(User).filter_by(email=email).first()
-        
-        if usuario:
-            # Gerar token de recuperação
-            token = secrets.token_urlsafe(16)
-            usuario.recovery_token = token
-            session.commit()
-
-            # Enviar email com o link
-            msg = Message("Recuperação de senha", sender="seuemail@gmail.com", recipients=[email])
-            msg.body = f"Para redefinir sua senha, clique no link abaixo:\n\n{request.host_url}redefinir-senha/{token}"
-            mail.send(msg)
-
-            flash("Um email foi enviado com instruções para redefinir sua senha.")
-        else:
-            flash("Email não encontrado.")
-
-        return redirect(url_for("login"))
     return render_template("recuperar-senha.html")
 
 
 
 #ROTA CADASTRO
-@app.route("/register", methods=['GET','POST'])
+@app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == 'POST':
         usuario = request.form['usuario']
-        email = request.form['email']
         password = request.form['password']
+        email = request.form['email']
         tipo_usuario = request.form['tipo_usuario']
-
-        user = User(usuario=usuario, password=password, email=email, tipo_usuario=tipo_usuario)
-        session.add(user)
-        session.commit()
-
-        return redirect(url_for('login'))
+        try:
+            conn = conectar_banco()
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO usuarios (usuario, password, email, tipo_usuario)
+                VALUES (?, ?, ?, ?)
+            ''', (usuario, password, email, tipo_usuario))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('login'))
+        except sqlite3.IntegrityError:
+            return render_template('register.html', erro='Usuário já cadastrado.')
     return render_template('register.html')
+
+
+@app.route("/index_prof")
+def index_professor():
+    if 'usuario' in session and session['usuario']['tipo_usuario'] == 'professor':
+        return render_template('index_prof.html', nome=session['usuario']['usuario'])
+    return redirect(url_for('login'))
+
+@app.route("/index_alu")
+def index_aluno():
+    if 'usuario' in session and session['usuario']['tipo_usuario'] == 'aluno':
+        return render_template('index_alu.html', nome=session['usuario']['usuario'])
+    return redirect(url_for('login'))
+
 
 
 if __name__ == "__main__":
