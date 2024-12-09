@@ -14,7 +14,7 @@ class User(Base):
     tipo_usuario: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     
-    # Coluna opcional (nullable)
+    # Coluna opcional 
     recovery_token: Mapped[str] = mapped_column(nullable=True)
 
 
