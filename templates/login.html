@@ -105,10 +105,10 @@
 <body>
     <div class="container">
         <h1>Login</h1>
-        <form>
+        <form METHOD="POST">
             <div class="form-group">
-                <label for="username">Usuário:</label>
-                <input type="text" id="username" name="username" required>
+                <label for="usuario">Usuário:</label>
+                <input type="text" id="usuario" name="usuario" required>
             </div>
             <div class="form-group">
                 <label for="password">Senha:</label>
@@ -118,9 +118,11 @@
         </form>
         
         <div class="additional-links">
-            <a href="/esqueci">Esqueci minha senha</a>
+            <a href="{{ url_for('recuperar_senha') }}">Esqueci minha senha</a>
             <span>|</span>
-            <a href="/cadastro">Não possui cadastro?</a>
+            <a href="{{ url_for('register') }}">Não possui cadastro?</a>
+            <br><br>
+            <a href="{{ url_for('index') }}">Voltar para o Início</a>
         </div>
     </div>
 
