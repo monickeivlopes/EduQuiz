@@ -31,7 +31,7 @@
         .botao {
             display: flex;
             justify-content: center;
-            width: 250px; /* Aumente o tamanho do botão */
+            width: 250px; 
             padding: 15px;
             background-color: #002e6b;
             color: #fff;
@@ -39,9 +39,9 @@
             border-radius: 5px;
             font-size: 18px;
             cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Adicione uma sombra ao botão */
-            transition: background-color 0.3s; /* Adicione um efeito de transição */
-            text-decoration: none; /* Remova o sublinhado */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
+            transition: background-color 0.3s; 
+            text-decoration: none; 
             margin-top: 20px;
         }
 
@@ -51,7 +51,7 @@
         }
 
         h1 {
-            color: #fff; /* Mude a cor do texto */
+            color: #fff; 
         }
 
         .fundo {
@@ -63,11 +63,12 @@
     </style>
 </head>
 <body>
-    <img src="fundo.png" class="fundo">
+    <img class="fundo" src="{{ url_for('static', filename='imagens/fundo.png') }}">
     <div class="container">
         <h1>Bem-vindo ao EduQuiz</h1>       
         
-        <a href="login.html" class="botao">COMECE AQUI</a>
+        
+        <a class="botao" href="{{ url_for('login') }}">COMECE AQUI</a>
     </div>
 </body>
 </html>
