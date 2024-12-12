@@ -5,15 +5,15 @@ from mysql.connector import Error
 app = Flask(__name__)
 app.secret_key = 'chave-secreta'
 
-# Configurações do banco de dados MySQL
+
 DATABASE_CONFIG = {
-    'host': 'localhost',  # Substitua pelo host do seu servidor MySQL
-    'user': 'root',       # Substitua pelo usuário do banco de dados
-    'password': 'senha',  # Substitua pela senha do banco de dados
-    'database': 'database'  # Nome do banco de dados
+    'host': 'localhost',  
+    'user': 'root',       
+    'password': '',  
+    'database': 'banco'  
 }
 
-# Conectar ao banco de dados MySQL
+
 def conectar_banco():
     try:
         conn = mysql.connector.connect(**DATABASE_CONFIG)
@@ -22,7 +22,7 @@ def conectar_banco():
         print(f"Erro ao conectar ao MySQL: {e}")
         return None
 
-# Criar tabela no banco de dados
+
 def criar_tabela():
     conn = conectar_banco()
     if conn:
@@ -39,14 +39,14 @@ def criar_tabela():
         conn.commit()
         conn.close()
 
-# Inicializa o banco de dados ao iniciar a aplicação
+
 criar_tabela()
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-# ROTA LOGIN
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
@@ -86,7 +86,7 @@ def login():
 def recuperar_senha():
     return render_template("recuperar-senha.html")
 
-# ROTA CADASTRO
+
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == 'POST':
@@ -104,10 +104,14 @@ def register():
                 ''', (usuario, password, email, tipo_usuario))
                 conn.commit()
                 conn.close()
-                return redirect(url_for('login'))
+                return redirect(url_for('registro_sucesso'))
         except mysql.connector.Error as e:
             return render_template('register.html', erro='Erro ao cadastrar: ' + str(e))
     return render_template('register.html')
+
+@app.route("/registro_sucesso")
+def registro_sucesso():
+    return render_template('registro_sucesso.html')
 
 
 @app.route("/index_prof")
@@ -120,6 +124,11 @@ def index_professor():
 def index_aluno():
     if 'usuario' in session and session['usuario']['tipo_usuario'] == 'aluno':
         return render_template('index_alu.html', nome=session['usuario']['usuario'])
+    return redirect(url_for('login'))
+
+@app.route("/logout")
+def logout():
+    session.pop('usuario', None)
     return redirect(url_for('login'))
 
 
