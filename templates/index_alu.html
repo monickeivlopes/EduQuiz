@@ -18,7 +18,7 @@
       justify-content: space-between;
       background-color: #002b5c;
       padding: 10px 25px;
-      margin-bottom: 0; /* Remove margin */
+      margin-bottom: 0;
     }
     .logo {
       display: flex;
@@ -123,7 +123,7 @@
 <body>
   <header>
     <div class="logo">
-      <img src="1.png" alt="EDUQUIZ Logo">
+      <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="LOGO">
       <span>EDUQUIZ</span>
     </div>
     <nav class="nav-links">
@@ -131,11 +131,12 @@
       <a href="#">Ajuda</a>
       <a href="#">Materiais</a>
       <a href="#">Desempenho</a>
+      <a href="{{ url_for('logout') }}">Sair</a>
     </nav>
   </header>
   <div class="container">
     <div class="image-container">
-      <img src="3.png" alt="EDUQUIZ Logo">
+      <img src="{{ url_for('static', filename='imagens/3.png') }}">
     </div>
     <div class="content">
       <h1>EDUQUIZ, TESTE SEUS LIMITES!</h1>
