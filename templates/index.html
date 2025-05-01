@@ -1,74 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Início</title>
-    <style>
-         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #002e6b, #fff);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            width: 80%;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            padding: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            align-items: center;
-            background: transparent;
-        }
-
-        .botao {
-            display: flex;
-            justify-content: center;
-            width: 250px; 
-            padding: 15px;
-            background-color: #002e6b;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
-            transition: background-color 0.3s; 
-            text-decoration: none; 
-            margin-top: 20px;
-        }
-
-        .botao:hover {
-            background-color: white;
-            color: #002e6b;
-        }
-
-        h1 {
-            color: #fff; 
-        }
-
-        .fundo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <img class="fundo" src="{{ url_for('static', filename='imagens/fundo.png') }}">
-    <div class="container">
-        <h1>Bem-vindo ao EduQuiz</h1>       
-        
-        
-        <a class="botao" href="{{ url_for('login') }}">COMECE AQUI</a>
-    </div>
+    <header>
+        <div class="logo">
+            🎓 <span>EDUQUIZ</span>
+        </div>
+        <nav>
+            <button class="login">Login</button>
+            <a href="#">Ajuda</a>
+            <a href="#"><span class="home-icon">🏠</span></a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>EDUQUIZ, TESTE SEUS LIMITES!</h1>
+        <p class="quote">“A mente que se abre a uma nova ideia jamais<br>voltará ao seu tamanho original.”<br><em>- Albert Einstein</em></p>
+        <a href="#" class="start-button">Comece agora</a>
+        <div class="hats">
+            🎓 🎓 🎓
+        </div>
+    </main>
 </body>
 </html>
