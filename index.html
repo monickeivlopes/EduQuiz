@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduQuiz</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="static/img/Logo.png" alt="Logo EduQuiz">
+            <span>EDUQUIZ</span>
+        </div>
+        <nav>
+            <button class="login">Login</button>
+            <a href="#">Ajuda</a>
+            <a href="#"><span class="home-icon"><img src="static/img/casa.png"></span></a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>EDUQUIZ, TESTE SEUS LIMITES!</h1>
+        <p class="quote">“A mente que se abre a uma nova ideia jamais<br>voltará ao seu tamanho original.”<br><em>- Albert Einstein</em></p>
+        <a href="#" class="start-button">Comece agora</a>
+    </main>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2><img src="static/img/beca2.png" alt="Logo" class="modal-logo">Login</h2>
+            <form>
+                <input type="email" placeholder="Email" required>
+                <input type="text" placeholder="Nome" required>
+                <div class="password-container">
+                    <input type="password" id="password" placeholder="Senha" required>
+                    <span id="toggle-password" class="show-password">
+                        <img src="static/img/eye-closed.png" id="eye-icon" />
+                    </span>
+                </div>
+                <button type="submit">Entrar</button>
+            </form>
+            <p>Ainda não tem conta? <a href="register.html">Cadastre-se</a></p>
+        </div>
+    </div>
+
+    <img src="static/img/becas.png" alt="Becas" class="becas-img">
+</body>
+
+<script>
+    const loginBtn = document.querySelector('.login');
+    const modal = document.getElementById('loginModal');
+
+    loginBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    togglePassword.addEventListener('click', () => {
+        const type = passwordField.type === 'password' ? 'text' : 'password';
+        passwordField.type = type;
+
+        eyeIcon.src = type === 'password' 
+            ? 'static/img/eye-closed.png' 
+            : 'static/img/eye-open.png';
+        eyeIcon.alt = type === 'password' 
+            ? 'Olho Fechado' 
+            : 'Olho Aberto';
+    });
+</script>
+
+</html>

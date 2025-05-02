@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - Eduquiz</title>
+  <link rel="stylesheet" href="static/style-register.css" />
+</head>
+<body>
+  <div class="container">
+    <!-- Lado esquerdo: formulário -->
+    <div class="form-section">
+      <h1><img src="static/img/beca2.png" class="cadastro-logo" />Cadastro</h1>
+      <form>
+        <input type="text" placeholder="Nome" required />
+        <input type="email" placeholder="Email" required />
+        
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Senha" required />
+          <span id="toggle-password" class="show-password">
+            <img src="static/img/eye-closed.png" id="eye-icon" alt="Olho Fechado" />
+          </span>
+        </div>
+
+        <select required>
+          <option disabled selected>Tipo de usuário</option>
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+        </select>
+
+        <button type="submit">Registrar</button>
+        <p>Já tem cadastro?<a href="index.html">Voltar</a></p>
+      </form>
+    </div>
+
+   
+    <div class="info-section">
+      <div class="home-icon"><img src="static/img/casa.png" alt="Home"></div>
+      <img src="static/img/logo2.png" alt="EDUQUIZ Logo" class="eduquiz-logo" />
+      <p><strong>Dê o primeiro passo no seu aprendizado.</strong><br>Conecte-se e aprenda no seu ritmo!</p>
+      <img src="static/img/seta.png" alt="Seta" class="arrow-img" />
+      <span class="page-number">4</span>
+    </div>
+  </div>
+
+  <script>
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordField = document.getElementById('password');
+    const eyeIcon = document.getElementById('eye-icon');
+
+    togglePassword.addEventListener('click', () => {
+      const type = passwordField.type === 'password' ? 'text' : 'password';
+      passwordField.type = type;
+
+      eyeIcon.src = type === 'password' 
+        ? 'static/img/eye-closed.png' 
+        : 'static/img/eye-open.png';
+      eyeIcon.alt = type === 'password' 
+        ? 'Olho Fechado' 
+        : 'Olho Aberto';
+    });
+  </script>
+</body>
+</html>
