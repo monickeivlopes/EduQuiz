@@ -1,0 +1,115 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #001f87;
+    color: white;
+    text-align: center;
+}
+
+header {
+    background-color: #001f87;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.home-button {
+    text-decoration: none;
+    background-color: #001f87;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.home-button:hover {
+    background-color: #2b3baf;
+}
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    gap: 30px;
+}
+
+h1 {
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+.btn-iniciar {
+    background-color: #00ff4c;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    padding: 15px 40px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-iniciar:hover {
+    background-color: #00cc3b;
+}
+
+.botoes-secundarios {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.btn-secundario {
+    background-color: #001958;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-secundario:hover {
+    background-color: #0c2b8c;
+}
+
+.btn-sair {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 30px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-sair:hover {
+    background-color: #cc0000;
+}
