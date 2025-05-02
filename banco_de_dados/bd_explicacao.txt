@@ -1,0 +1,31 @@
+1. usuarios
+   Armazena todos os usuários do sistema (aluno ou professor), com nome, email, senha e tipo.
+
+2. alunos
+   Relaciona o usuário com o curso que está matriculado.
+
+3. professores
+   Identifica que o usuário é um professor.
+4. cursos
+   Lista os cursos disponíveis para associação com alunos.
+
+5. assuntos
+   Contém os temas das questões (ex: Álgebra, Geometria).
+
+6. niveis_dificuldade
+   Define os níveis de dificuldade: Fácil, Médio, Difícil.
+
+7. questoes
+   Armazena o enunciado, assunto, nível de dificuldade e o autor (professor).
+
+8. alternativas
+   Registra as opções de resposta de cada questão e marca qual é a correta.
+
+9. tentativas_quiz
+   Representa uma tentativa de quiz feita por um aluno (com data e nível de dificuldade).
+
+10. respostas_alunos
+    Registra as respostas dadas em cada tentativa: qual questão, qual alternativa e se acertou.
+
+11. materiais
+    Armazena links e descrições de materiais de estudo enviados por professores.
