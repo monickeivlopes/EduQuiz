@@ -11,26 +11,27 @@
     <!-- Lado esquerdo: formulário -->
     <div class="form-section">
       <h1><img src="static/img/beca2.png" class="cadastro-logo" />Cadastro</h1>
-      <form>
-        <input type="text" placeholder="Nome" required />
-        <input type="email" placeholder="Email" required />
-        
+      <form method="POST" action="/register">
+        <input type="text" name="nome" placeholder="Nome" required />
+        <input type="email" name="email" placeholder="Email" required />
+      
         <div class="password-container">
-          <input type="password" id="password" placeholder="Senha" required />
+          <input type="password" id="password" name="senha" placeholder="Senha" required />
           <span id="toggle-password" class="show-password">
             <img src="static/img/eye-closed.png" id="eye-icon" alt="Olho Fechado" />
           </span>
         </div>
-
-        <select required>
-          <option disabled selected>Tipo de usuário</option>
+      
+        <select name="tipo" required>
+          <option disabled selected >Tipo de usuário</option>
           <option value="aluno">Aluno</option>
           <option value="professor">Professor</option>
         </select>
-
+      
         <button type="submit">Registrar</button>
         <p>Já tem cadastro?<a href="index.html">Voltar</a></p>
       </form>
+      
     </div>
 
    
