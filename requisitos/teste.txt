@@ -1,1 +1,104 @@
-"testando" 
+REQUISITOS FUNCIONAIS
+
+Os Requisitos Funcionais descrevem as funcionalidades e operações que o website deve realizar.
+
+## Tabela 2. Funcionalidades do website para aluno e professor
+
+| Nome                              | Funções (usuário tipo aluno e professor)                                                                         |
+|-----------------------------------|------------------------------------------------------------------------------------------------------------------|
+| Cadastrar.                        | O sistema irá armazenar dados do cadastro no banco de dados, como: nome, senha e o tipo de usuário.              |
+| Logar.                            | O sistema irá logar o usuário.                                                                                   |
+| Visualizar informações de ajuda.  | O sistema vai mostrar ao usuário informações gerais sobre:                                                       |
+|                                   | • O uso do sistema.                                                                                              |
+|                                   | • Como realizar um quiz.                                                                                         |
+|                                   | • Como gerenciar questões.                                                                                       |
+|                                   | • Utilizações de botões.                                                                                         |
+|                                   | • A página de Desempenho.                                                                                        |
+
+Fonte: Elaborado pelo autor
+
+## Tabela 3. Funcionalidades do website para o aluno
+
+|Nome                                 |Funções (usuário tipo aluno)                                                                                     |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+|Selecionar dificuldade do Quiz.      | O sistema disponibilizará ao usuário as dificuldades do quiz que ele vai fazer:                                 |
+|                                     | • Fácil – 15 questões de nível fácil.                                                                           |
+|                                     | • Médio – 10 questões de nível médio.                                                                           |
+|                                     | • Difícil – 5 questões de nível difícil.                                                                        |
+| Jogar Quiz.                         | O sistema irá direcionar o usuário para fazer o quiz.                                                           |
+| Concluir Quiz.                      | O sistema irá finalizar a jogada do quiz, e irá validar as respostas.                                           |
+| Visualizar relatório de jogada.     | O sistema mostrará uma tabela de resultados, contendo:                                                          |
+|                                     | • Quantas questões foram acertadas das respondidas.                                                             |
+|                                     | • Qual foi a dificuldade do quiz.                                                                               |
+| Refazer quiz.                       | O sistema irá reiniciar o quiz já feito.                                                                        |
+| Ver respostas.                      | O sistema mostrará ao usuário os dados do quiz feito, como:                                                     |
+|                                     | • As perguntas do quiz.                                                                                         |
+|                                     | • As alternativas marcadas.                                                                                     |
+|                                     | • As alternativas certas.                                                                                       |
+|                                     | • Suas respectivas resoluções.                                                                                  |
+| Visualizar relatório de desempenho. | O sistema irá exibir dados estatísticos baseados nos quizzes já feitos pelo usuário, como:                      |
+|                                     | • O total de questões respondidas.                                                                              |
+|                                     | • O número de acertos.                                                                                          |
+|                                     | • A porcentagem dos acertos.                                                                                    |
+|                                     | • Distribuição de desempenho por nível de dificuldade (fácil, médio e difícil).                                 |
+|                                     | • Quantas questões o aluno acertou de cada assunto.                                                             |
+| Acessar material de estudo.         | O sistema mostrará aos alunos os materiais extras disponibilizados pelos professores.                           |
+
+Fonte: Elaborado pelo autor
+
+### Tabela 4. Funcionalidades do website para professor  
+
+| Nome                           | Funções (usuário tipo professor)                                                                 |
+|--------------------------------|--------------------------------------------------------------------------------------------------|
+| Gerenciar questões.            | O sistema fornecerá ao professor as seguintes opções de gerenciamento:                           |
+|                                | - Cadastrar questões.                                                                            |
+|                                | - Listar questões.                                                                               |
+|                                | - Modificar questões.                                                                            |
+|                                | - Deletar questões.                                                                              |
+| Gerenciar materiais de estudo. | O sistema fornecerá ao professor as seguintes opções de gerenciamento:                           |
+|                                | - Cadastrar materiais.                                                                           |
+|                                | - Listar materiais.                                                                              |
+|                                | - Modificar materiais.                                                                           |
+|                                | - Deletar materiais.                                                                             |
+
+Fonte: Elaborado pelo autor
+
+REQUISITOS NÃO-FUNCIONAIS
+
+Os requisitos não-funcionais, não estão relacionados com as funcionalidades, mas sim com as  características do sistema.
+
+## Tabela 5. Características do sistema
+
+| Nome             | Função                                                                                                                                  |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| Usabilidade.     | Ter uma boa interface para interação homem-máquina através de um design intuitivo e dinâmico. Fontes e etc…                             |
+| Conectividade.   | Necessário estar ligado a uma rede de internet para usufruir.                                                                           |
+| Acessibilidade.  | O desenvolvimento de acesso através de navegadores web, implementando padrões para garantir que o site seja utilizável por pessoas com                              deficiências.                                                                                                                          |
+| Tecnologia.      | O desenvolvimento WEB será com Python, JavaScript, HTML e CSS.                                                                          |
+| Escalabilidade.  | Garantir que o site possa crescer e lidar com um número crescente de usuários e conteúdos sem comprometer o desempenho.                 |
+| Responsividade.  | Garantir que o site funcione bem em todos os dispositivos, incluindo desktops, tablets e smartphones.                                   |
+
+Fonte: Elaborado pelo autor
+
+REQUISITOS DE DOMÍNIO
+
+Os requisitos de domínio, estão relacionados com as restrições e singularidades.
+
+## Tabela 6. Restrições de domínio
+
+|Nome                                                | Função                                                                         
+|----------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Cálculo de acertos.                                | Calcular a porcentagem de acertos. (Acertos / Total de Perguntas) * 100.                               |
+| Permissões dos Usuário.                            | Algumas funções dos botões e a interface do sistema mudam de acordo com o tipo de usuário.             |
+| Quantidade de questões definidas pelas dificuldade.| Ao escolher o nível de dificuldade, o usuário também estará escolhendo a quantidade de questões que irá                                                             fazer (fácil-15; médio-10; difícil-5).                                                                |
+|                                                    | O nível de dificuldade não só está relacionado à quantidade de questões, mas também à complexidade.    |
+| Função para impedir a repetição de questões.       | O sistema só deve fornecer as questões que ainda não foram repassadas para o usuário.                  |
+| Permissões – Ferramenta de Monitoramento.          | A ferramenta de monitoramento de engajamento dos usuários (progresso total do aluno) só poderá ser vista 
+                                                       por professores.                                                                                       |
+
+Fonte: Elaborado pelo autor
+
+
+
+
+
