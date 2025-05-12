@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Início do Professor</title>
+    <link rel="stylesheet" href="static/professor.css"/>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="static/img/Logo.png" alt="Logo EduQuiz">
+            <span>EDUQUIZ</span>
+        </div>
+        <nav>
+            <a href="{{ url_for('logout') }}"><span class="home-icon"><img src="static/img/casa.png"></span> Sair</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Olá, {{ nome }}!</h1>
+        <button class="btn-iniciar">Gerenciar questões</button>
+
+        <div class="botoes-secundarios">
+            <a href="#" class="btn-secundario">
+                <span class="icone"></span> Gerenciar Materias
+            </a>
+            <a href="#" class="btn-secundario">
+                <span class="icone"></span> Relatório de alunos
+            </a>
+        </div>
+
+        <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
+    </main>
+</body>
+</html>

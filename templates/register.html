@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - Eduquiz</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style-register.css') }}" />
+</head>
+<body>
+  <div class="container">
+    <!-- Lado esquerdo: formulário -->
+    <div class="form-section">
+      <h1><img src="{{ url_for('static', filename='img/beca2.png') }}" class="cadastro-logo" />Cadastro</h1>
+      <form method="POST" action="{{ url_for('register') }}">
+        <input type="text" name="nome" placeholder="Nome" required />
+        <input type="email" name="email" placeholder="Email" required />
+      
+        <div class="password-container">
+          <input type="password" id="password" name="senha" placeholder="Senha" required />
+          <span id="toggle-password" class="show-password">
+            <img src="{{ url_for('static', filename='img/eye-closed.png') }}" id="eye-icon" alt="Olho Fechado" />
+          </span>
+        </div>
+      
+        <select name="tipo" required>
+          <option disabled selected >Tipo de usuário</option>
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+        </select>
+      
+        <button type="submit">Registrar</button>
+        <p>Já tem cadastro?<a href="{{ url_for('index') }}">Voltar</a></p>
+      </form>
+    </div>
+
+    <!-- Lado direito: informações adicionais -->
+    <div class="info-section">
+      <div class="home-icon"><img src="{{ url_for('static', filename='img/casa.png') }}" alt="Home"></div>
+      <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="EDUQUIZ Logo" class="eduquiz-logo" />
+      <p><strong>Dê o primeiro passo no seu aprendizado.</strong><br>Conecte-se e aprenda no seu ritmo!</p>
+      <img src="{{ url_for('static', filename='img/seta.png') }}" alt="Seta" class="arrow-img" />
+      <span class="page-number">4</span>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='register.js') }}"></script>
+</body>
+</html>
