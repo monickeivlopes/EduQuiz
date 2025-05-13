@@ -21,12 +21,38 @@ def index():
 
 @app.route('/index_aluno')
 def index_aluno():
-    nome = session.get('usuario_nome', 'Aluno')
+    usuario_id = session.get('usuario_id')
+    if not usuario_id:
+        flash('Usuário não está logado.', 'danger')
+        return redirect(url_for('index'))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
+    usuario = cursor.fetchone()
+
+    if usuario:
+        nome = usuario[0]
+    else:
+        nome = 'Aluno'
     return render_template('index_aluno.html', nome=nome)
+
     
 @app.route('/index_professor')
 def index_professor():
-    nome = session.get('usuario_nome', 'Professor')
+    usuario_id = session.get('usuario_id')
+    if not usuario_id:
+        flash('Usuário não está logado.', 'danger')
+        return redirect(url_for('index'))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
+    usuario = cursor.fetchone()
+
+     if usuario:
+        nome = usuario[0] 
+    else:
+        nome = 'Professor'
+        
     return render_template('index_professor.html', nome=nome)
 
 # Rota de cadastro
