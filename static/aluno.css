@@ -113,3 +113,110 @@ h1 {
 .btn-sair:hover {
     background-color: #cc0000;
 }
+
+/* modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 200vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.modal-content {
+    background-color: #002366; 
+    padding: 2rem;
+    border-radius: 25px;
+    width: 700px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+
+.modal-content select {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    margin: 1.5rem;
+    background-color: #002366;
+    color: #fff;
+}
+
+
+.dificuldade {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.dificuldade input[type="radio"] {
+    display: none;
+}
+
+.dificuldade label {
+    background-color: #cfd2d6; 
+    color: #000;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+    user-select: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.dificuldade input[type="radio"]:checked + label {
+    background-color: #0099ff;
+    color: white;
+}
+
+/* Botões */
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-bottom: 12px;
+    transition: background-color 0.3s;
+}
+
+
+.modal-content .btn-iniciar {
+    background-color: #00cc44;
+    color: white;
+}
+
+
+.modal-content #fechar-modal {
+    background-color: #007bff;
+    color: white;
+}
+
+
+.modal-content button:hover {
+    filter: brightness(1.1);
+}

@@ -48,7 +48,7 @@ def index_professor():
     cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
     usuario = cursor.fetchone()
 
-     if usuario:
+    if usuario:
         nome = usuario[0] 
     else:
         nome = 'Professor'

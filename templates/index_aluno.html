@@ -14,7 +14,7 @@
             <span>EDUQUIZ</span>
         </div>
         <nav>
-            <a href="{{ url_for('logout') }}"><span class="home-icon"><img src="static/img/casa.png"></span> Sair</a>
+            <a href="{{ url_for('logout') }}"><span class="home-icon"><img src="static/img/casa.png">
         </nav>
     </header>
 
@@ -33,5 +33,39 @@
 
         <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
     </main>
+
+    <div id="modal-quiz" class="modal">
+        <div class="modal-content">
+            <h2>Escolher Tema e Dificuldade</h2>
+            <select>
+            <option disabled selected>Filtrar por tema</option>
+            <option>Operações Básicas</option>
+            <option>Matemática Financeira</option>
+            <option>Trigonometria</option>
+            
+            </select>
+
+            <div class="dificuldade">
+                <input type="radio" name="nivel" value="facil" id="facil">
+                <label for="facil">Fácil</label>
+
+                <input type="radio" name="nivel" value="medio" id="medio">
+                <label for="medio">Médio</label>
+
+                <input type="radio" name="nivel" value="dificil" id="dificil">
+                <label for="dificil">Difícil</label>
+            </div>
+
+
+            <div class="botoes-modal">
+            <button class="btn-iniciar">Iniciar Quiz</button>
+            <button class="btn-voltar" id="fechar-modal">Voltar</button>
+            </div>
+        </div>
+    </div>
+
+
+<script src="static/js/quiz.js"></script>
+
 </body>
 </html>
