@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, redirect, flash, url_for, session
 from flask_mysqldb import MySQL
 import hashlib
+import os
+from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 
@@ -10,8 +13,18 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'Eduquiz'
 app.secret_key = 'supersecretkey' 
+UPLOAD_FOLDER = 'uploads'
+ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'ppt', 'pptx', 'png', 'jpg', 'jpeg'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 mysql = MySQL(app)
+
+
+#Função auxiliar para mandar os materiais para o banco
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 # Rota da página inicial
 @app.route("/")
@@ -120,6 +133,41 @@ def logout():
     session.clear()
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('index'))
+
+@app.route('/adicionar_materiais', methods=['GET', 'POST'])
+def adicionar_materiais():
+    if 'usuario_id' not in session or session.get('usuario_tipo') != 'professor':
+        flash('Acesso restrito aos professores.', 'danger')
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        materia = request.form['materia']
+        descricao = request.form['descricao']
+        arquivo = request.files['arquivo']
+
+        if arquivo and allowed_file(arquivo.filename):
+            filename = secure_filename(arquivo.filename)
+            caminho = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            arquivo.save(caminho)
+
+            url_arquivo = os.path.join('uploads', filename)
+            professor_id = session['usuario_id']
+
+            cursor = mysql.connection.cursor()
+            cursor.execute(
+                "INSERT INTO materiais (professor_id, titulo, url) VALUES (%s, %s, %s)",
+                (professor_id, titulo, url_arquivo)
+            )
+            mysql.connection.commit()
+
+            flash('Material adicionado com sucesso!', 'success')
+            return redirect(url_for('index_professor'))
+        else:
+            flash('Tipo de arquivo não permitido.', 'danger')
+
+    return render_template('adicionar_materiais.html')
+
 
 
 if __name__ == '__main__':
