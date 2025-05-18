@@ -91,3 +91,10 @@ CREATE TABLE materiais (
     url TEXT NOT NULL,
     FOREIGN KEY (professor_id) REFERENCES professores(id)
 );
+
+ALTER TABLE materiais DROP FOREIGN KEY materiais_ibfk_1;
+
+-- Agora adicione uma nova foreign key apontando para a tabela usuarios
+ALTER TABLE materiais
+  ADD CONSTRAINT fk_materiais_usuarios
+  FOREIGN KEY (professor_id) REFERENCES usuarios(id);
