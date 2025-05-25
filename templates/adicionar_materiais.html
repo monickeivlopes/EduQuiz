@@ -4,91 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Adicionar Materiais</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='professor.css') }}" />
+  <link rel="stylesheet" href="static/professor.css" />
 </head>
 <body>
 
 <header>
   <div class="logo">
-    <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo EduQuiz" />
+    <img src="static/img/Logo.png" alt="Logo EduQuiz" />
     <span>EDUQUIZ</span>
   </div>
   <nav>
     <a href="{{ url_for('logout') }}">
-      <img src="{{ url_for('static', filename='img/casa.png') }}" alt="Ícone de logout" style="width: 30px;" />
+      <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;" />
     </a>
   </nav>
 </header>
-
-
-
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <ul class="flashes">
-      {% for category, message in messages %}
-        <li class="flash {{ category }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 
 <main>
   <h1>Adicionar Materiais</h1>
 
   <!-- Formulário para adicionar novo material -->
-  <form action="{{ url_for('adicionar_materiais') }}" method="POST" enctype="multipart/form-data" class="form-adicionar">
+  <form action="{{ url_for('adicionar_materiais') }}" method="POST" enctype="multipart/form-data" style="width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px;">
     <input type="text" name="titulo" placeholder="Título do material" required />
     
     <select name="materia" required>
-      <option disabled selected>Selecione o assunto</option>
-      <option value="Matemática">Matemática Básica</option>
-      <option value="Química">Trigonometria</option>
-      <option value="Física">Geometria Analítica</option>
-      <option value="História">Funções</option>
-      <option value="Geografia">Matrizes</option>
+      <option disabled selected>Selecione a matéria</option>
+      <option value="Matemática">Matemática</option>
+      <option value="Química">Química</option>
+      <option value="Física">Física</option>
+      <option value="História">História</option>
+      <option value="Geografia">Geografia</option>
     </select>
 
     <textarea name="descricao" placeholder="Descrição do material..." rows="4" required></textarea>
     <input type="file" name="arquivo" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" required />
 
-    <div class="botoes">
+    <div style="display: flex; justify-content: space-between;">
       <button type="button" class="btn-voltar" onclick="window.history.back()">Voltar</button>
       <button type="submit" class="btn-concluir">Adicionar</button>
     </div>
   </form>
 
   <!-- Lista de materiais já adicionados -->
-  <section class="materiais">
+  <section style="margin-top: 40px;">
     <h2>Materiais já adicionados</h2>
     {% for material in materiais %}
-      <div class="card-material">
-        <h3>{{ material[1] }}</h3>
-        <p><strong>Matéria:</strong> {{ material[2] }}</p>
-        <p><strong>Descrição:</strong> {{ material[3] }}</p>
+      <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-top: 10px;">
+        <h3>{{ material[1] }}</h3>  {# título #}
+<p><strong>Matéria:</strong> {{ material[2] }}</p>
+<p>{{ material[3] }}</p>
+<a href="{{ url_for('baixar_material', material_id=material[0]) }}">📎 Ver material</a>
+<form action="{{ url_for('editar_material', material_id=material[0]) }}" method="POST">
+  <input type="text" name="novo_titulo" value="{{ material[1] }}" required />
+  <input type="text" name="nova_descricao" value="{{ material[3] }}" required />
+  <button type="submit">Salvar alterações</button>
+</form>
+<form action="{{ url_for('excluir_material', material_id=material[0]) }}" method="POST">
+  <button type="submit" style="color: red;">Excluir</button>
+</form>
 
-        <div class="acoes">
-          <!-- Ver Material -->
-          <a class="btn-ver" href="{{ url_for('baixar_material', material_id=material[0]) }}" target="_blank">📎 Ver</a>
-
-          <!-- Editar Material -->
-          <form action="{{ url_for('editar_material', material_id=material[0]) }}" method="POST" class="form-editar">
-            <input type="text" name="novo_titulo" value="{{ material[1] }}" required />
-            <input type="text" name="nova_descricao" value="{{ material[3] }}" required />
-            <button type="submit" class="btn-editar">✏️ Editar</button>
-          </form>
-
-          <!-- Excluir Material -->
-          <form action="{{ url_for('excluir_material', material_id=material[0]) }}" method="POST" class="form-excluir">
-            <button type="submit" class="btn-excluir">🗑️ Excluir</button>
-          </form>
-        </div>
       </div>
     {% else %}
       <p>Nenhum material adicionado ainda.</p>
     {% endfor %}
   </section>
 </main>
+
 
 </body>
 </html>
