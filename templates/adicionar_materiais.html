@@ -23,23 +23,20 @@
 <main>
   <h1>Adicionar Materiais</h1>
 
+  <!-- Formulário para adicionar novo material -->
   <form action="{{ url_for('adicionar_materiais') }}" method="POST" enctype="multipart/form-data" style="width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 15px;">
-
     <input type="text" name="titulo" placeholder="Título do material" required />
-
-    <select name="materia" required>
-    <option disabled selected>Selecione a matéria</option>
-    <option value="Matemática">Matemática</option>
-    <option value="Química">Química</option>
-    <option value="Física">Física</option>
-    <option value="História">História</option>
-    <option value="Geografia">Geografia</option>
-  </select>
-
     
+    <select name="materia" required>
+      <option disabled selected>Selecione a matéria</option>
+      <option value="Matemática">Matemática</option>
+      <option value="Química">Química</option>
+      <option value="Física">Física</option>
+      <option value="História">História</option>
+      <option value="Geografia">Geografia</option>
+    </select>
 
-    <textarea name="descricao" placeholder="Descrição do material..." rows="4" style="padding: 12px 16px; border: none; border-radius: 20px; background-color: #2f3e8c; color: white; font-size: 1rem;" required></textarea>
-
+    <textarea name="descricao" placeholder="Descrição do material..." rows="4" required></textarea>
     <input type="file" name="arquivo" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" required />
 
     <div style="display: flex; justify-content: space-between;">
@@ -47,7 +44,32 @@
       <button type="submit" class="btn-concluir">Adicionar</button>
     </div>
   </form>
+
+  <!-- Lista de materiais já adicionados -->
+  <section style="margin-top: 40px;">
+    <h2>Materiais já adicionados</h2>
+    {% for material in materiais %}
+      <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-top: 10px;">
+        <h3>{{ material[1] }}</h3>  {# título #}
+<p><strong>Matéria:</strong> {{ material[2] }}</p>
+<p>{{ material[3] }}</p>
+<a href="{{ url_for('baixar_material', material_id=material[0]) }}">📎 Ver material</a>
+<form action="{{ url_for('editar_material', material_id=material[0]) }}" method="POST">
+  <input type="text" name="novo_titulo" value="{{ material[1] }}" required />
+  <input type="text" name="nova_descricao" value="{{ material[3] }}" required />
+  <button type="submit">Salvar alterações</button>
+</form>
+<form action="{{ url_for('excluir_material', material_id=material[0]) }}" method="POST">
+  <button type="submit" style="color: red;">Excluir</button>
+</form>
+
+      </div>
+    {% else %}
+      <p>Nenhum material adicionado ainda.</p>
+    {% endfor %}
+  </section>
 </main>
+
 
 </body>
 </html>

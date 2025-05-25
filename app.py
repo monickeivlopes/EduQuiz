@@ -3,6 +3,8 @@ from flask_mysqldb import MySQL
 import hashlib
 import os
 from werkzeug.utils import secure_filename
+from flask import send_from_directory
+
 
 
 app = Flask(__name__)
@@ -140,6 +142,9 @@ def adicionar_materiais():
         flash('Acesso restrito aos professores.', 'danger')
         return redirect(url_for('index'))
 
+    professor_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
     if request.method == 'POST':
         titulo = request.form['titulo']
         materia = request.form['materia']
@@ -152,22 +157,92 @@ def adicionar_materiais():
             arquivo.save(caminho)
 
             url_arquivo = os.path.join('uploads', filename)
-            professor_id = session['usuario_id']
 
-            cursor = mysql.connection.cursor()
             cursor.execute(
-                "INSERT INTO materiais (professor_id, titulo, url) VALUES (%s, %s, %s)",
-                (professor_id, titulo, url_arquivo)
+                "INSERT INTO materiais (professor_id, titulo, materia, descricao, url) VALUES (%s, %s, %s, %s, %s)",
+                (professor_id, titulo, materia, descricao, url_arquivo)
             )
             mysql.connection.commit()
-
             flash('Material adicionado com sucesso!', 'success')
-            return redirect(url_for('index_professor'))
+            return redirect(url_for('adicionar_materiais'))
         else:
             flash('Tipo de arquivo não permitido.', 'danger')
 
-    return render_template('adicionar_materiais.html')
+    # Buscar materiais do professor
+    cursor.execute("SELECT id, titulo, materia, descricao, url FROM materiais WHERE professor_id = %s", (professor_id,))
+    materiais = cursor.fetchall()
 
+    return render_template('adicionar_materiais.html', materiais=materiais)
+
+@app.route('/editar_material/<int:material_id>', methods=['POST'])
+def editar_material(material_id):
+    if 'usuario_id' not in session or session.get('usuario_tipo') != 'professor':
+        flash('Acesso restrito.', 'danger')
+        return redirect(url_for('index'))
+
+    novo_titulo = request.form['novo_titulo']
+    nova_descricao = request.form['nova_descricao']
+
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "UPDATE materiais SET titulo = %s, descricao = %s WHERE id = %s AND professor_id = %s",
+        (novo_titulo, nova_descricao, material_id, session['usuario_id'])
+    )
+    mysql.connection.commit()
+
+    flash('Material atualizado com sucesso!', 'success')
+    return redirect(url_for('adicionar_materiais'))
+
+@app.route('/excluir_material/<int:material_id>', methods=['POST'])
+def excluir_material(material_id):
+    if 'usuario_id' not in session or session.get('usuario_tipo') != 'professor':
+        flash('Acesso restrito.', 'danger')
+        return redirect(url_for('index'))
+
+    cursor = mysql.connection.cursor()
+
+    # Primeiro, buscar o caminho do arquivo para deletar
+    cursor.execute("SELECT url FROM materiais WHERE id = %s AND professor_id = %s", (material_id, session['usuario_id']))
+    resultado = cursor.fetchone()
+
+    if resultado:
+        caminho_arquivo = resultado[0]
+        try:
+            os.remove(caminho_arquivo)
+        except:
+            pass  # se não encontrar, ignora
+
+        cursor.execute("DELETE FROM materiais WHERE id = %s AND professor_id = %s", (material_id, session['usuario_id']))
+        mysql.connection.commit()
+        flash('Material excluído com sucesso.', 'success')
+    else:
+        flash('Material não encontrado ou acesso negado.', 'danger')
+
+    return redirect(url_for('adicionar_materiais'))
+
+@app.route('/baixar_material/<int:material_id>')
+def baixar_material(material_id):
+    if 'usuario_id' not in session:
+        flash('Faça login para acessar o material.', 'danger')
+        return redirect(url_for('index'))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT url FROM materiais WHERE id = %s", (material_id,))
+    resultado = cursor.fetchone()
+
+    if resultado:
+        caminho_relativo = resultado[0]  # Ex: uploads/arquivo.pdf
+        filename = os.path.basename(caminho_relativo)  # Só o nome do arquivo
+        return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+    else:
+        flash('Material não encontrado.', 'danger')
+        return redirect(url_for('adicionar_materiais'))
+
+
+#pasta pública
+@app.route('/uploads/<path:filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 
 if __name__ == '__main__':

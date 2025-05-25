@@ -98,3 +98,7 @@ ALTER TABLE materiais DROP FOREIGN KEY materiais_ibfk_1;
 ALTER TABLE materiais
   ADD CONSTRAINT fk_materiais_usuarios
   FOREIGN KEY (professor_id) REFERENCES usuarios(id);
+
+ALTER TABLE materiais
+  ADD COLUMN descricao TEXT,
+  ADD COLUMN materia VARCHAR(100);
