@@ -8,11 +8,10 @@
 </head>
 <body>
   <div class="container">
-    <!-- Lado esquerdo: formulário -->
+
     <div class="form-section">
       <h1><img src="{{ url_for('static', filename='img/beca2.png') }}" class="cadastro-logo" />Cadastro</h1>
       
-      <!-- BLOCO DE MENSAGENS FLASH -->
       {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <div class="flash-messages">
@@ -35,7 +34,7 @@
         </div>
       
         <select name="tipo" required>
-          <option disabled selected >Tipo de usuário</option>
+          <option value="" disabled selected>Tipo de usuário</option>
           <option value="aluno">Aluno</option>
           <option value="professor">Professor</option>
         </select>
@@ -45,7 +44,6 @@
       </form>
     </div>
 
-    <!-- Lado direito: informações adicionais -->
     <div class="info-section">
       <div class="home-icon"><img src="{{ url_for('static', filename='img/casa.png') }}" alt="Home"></div>
       <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="EDUQUIZ Logo" class="eduquiz-logo" />
