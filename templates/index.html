@@ -14,25 +14,24 @@
         </div>
         <nav>
             <button class="login">Login</button>
-            <a href="#">Ajuda</a>
+            <a href="{{ url_for('ajuda') }}">Ajuda</a>
         </nav>
     </header>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="flash-messages">
-      {% for category, message in messages %}
-        <div class="flash flash-{{ category }}">{{ message }}</div>
-      {% endfor %}
-    </div>
-  {% endif %}
-{% endwith %}
-
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-messages">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
     <main>
         <h1>EDUQUIZ, TESTE SEUS LIMITES!</h1>
         <p class="quote">“A mente que se abre a uma nova ideia jamais<br>voltará ao seu tamanho original.”<br><em>- Albert Einstein</em></p>
-        <a href="#" class="start-button">Comece agora</a>
+        <a href="{{ url_for('register') }}" class="start-button">Comece agora</a>
     </main>
 
     <div id="loginModal" class="modal">
@@ -48,9 +47,8 @@
                 </div>
                 <button type="submit">Entrar</button>
             </form>
-            
-            <p>Ainda não tem conta? <a href="{{ url_for('register') }}">Cadastre-se</a></p>
 
+            <p>Ainda não tem conta? <a href="{{ url_for('register') }}">Cadastre-se</a></p>
         </div>
     </div>
 
@@ -58,6 +56,5 @@
 </body>
 
 <script src="static/js/index.js"></script>
-
 
 </html>
