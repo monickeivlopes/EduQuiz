@@ -26,9 +26,10 @@
             <a href="#" class="btn-secundario">
                 <span class="icone"></span> Ver desempenho
             </a>
-            <a href="#" class="btn-secundario">
+            <a href="{{ url_for('materiais') }}" class="btn-secundario">
                 <span class="icone"></span> Materiais de estudo
             </a>
+
         </div>
 
         <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>

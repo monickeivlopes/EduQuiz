@@ -390,3 +390,232 @@ h1 {
   outline: none;
   box-shadow: 0 0 6px #00ff4c;
 }
+
+/* RESET GERAL */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: #eaeef8;
+    font-family: Arial, sans-serif;
+}
+
+/* CABEÇALHO */
+header {
+    background-color: #001f87;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo img {
+    height: 40px;
+}
+
+nav a img {
+    height: 32px;
+    transition: transform 0.2s;
+}
+
+nav a:hover img {
+    transform: scale(1.1);
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 20px;
+}
+
+h1 {
+    font-size: 2.2em;
+    color: #001958;
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #001958;
+    margin-bottom: 15px;
+}
+
+/* FORMULÁRIO DE ADIÇÃO */
+form {
+    background-color: #0a1a62;
+    padding: 25px;
+    border-radius: 25px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form input[type="text"],
+form select,
+form textarea,
+form input[type="file"] {
+    background-color: #2f3e8c;
+    border: none;
+    border-radius: 20px;
+    padding: 12px 16px;
+    color: white;
+    font-size: 1rem;
+}
+
+form input::placeholder,
+form textarea::placeholder {
+    color: #ccc;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus,
+form input[type="file"]:focus {
+    outline: none;
+    background-color: #4355b8;
+    box-shadow: 0 0 8px #00ff4c;
+}
+
+/* BOTÕES DO FORMULÁRIO */
+form button {
+    border: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-voltar {
+    background-color: #cc0000;
+    color: white;
+}
+
+.btn-voltar:hover {
+    background-color: #ff3333;
+}
+
+.btn-concluir {
+    background-color: #00ff4c;
+    color: black;
+}
+
+.btn-concluir:hover {
+    background-color: #00cc3b;
+}
+
+/* LISTA DE MATERIAIS */
+section {
+    margin-top: 50px;
+    max-width: 700px;
+    width: 100%;
+}
+
+.material-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+}
+
+.material-card h3 {
+    color: #0046d9;
+    margin-bottom: 8px;
+}
+
+.material-card p {
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.material-card a {
+    text-decoration: none;
+    color: #001f87;
+    font-weight: bold;
+}
+
+.material-card a:hover {
+    text-decoration: underline;
+}
+
+/* FORMULÁRIO DENTRO DOS CARDS */
+.material-card form {
+    background: none;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.material-card form input[type="text"] {
+    background-color: #e0e0e0;
+    color: black;
+    border-radius: 10px;
+    padding: 6px 12px;
+    border: none;
+    margin-right: 8px;
+}
+
+.material-card form button {
+    background-color: #001f87;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.material-card form button:hover {
+    background-color: #0046d9;
+}
+
+.material-card form button[style*="color: red"] {
+    background-color: #cc0000;
+    color: white;
+}
+
+.material-card form button[style*="color: red"]:hover {
+    background-color: #ff3333;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    form div {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .material-card form input[type="text"] {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+
+    .material-card form {
+        flex-direction: column;
+    }
+}
