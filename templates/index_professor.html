@@ -14,22 +14,14 @@
             <span>EDUQUIZ</span>
         </div>
         <nav>
-            <a href="{{ url_for('logout') }}">
-                <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;">
-            </a>
         </nav>
     </header>
-
 
     <main>
         <h1>Olá, {{ nome }}!</h1>
         <button class="btn-iniciar">Gerenciar questões</button>
 
         <div class="botoes-secundarios">
-            <a href="{{ url_for('adicionar_materiais') }}" class="btn-secundario">
-
-                <span class="icone"></span> Gerenciar Materias
-            </a>
             <a href="#" class="btn-secundario">
                 <span class="icone"></span> Relatório de alunos
             </a>
@@ -38,38 +30,36 @@
         <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
     </main>
 
-<!-- Modal Gerenciar Questões -->
-<div id="modalGerenciar" class="modal">
-  <div class="modal-content">
-    <h2>Gerenciar questões</h2>
+    <div id="modalGerenciar" class="modal">
+      <div class="modal-content">
+        <h2>Gerenciar questões</h2>
 
-    <select>
-      <option disabled selected>Dificuldade</option>
-      <option>Fácil</option>
-      <option>Médio</option>
-      <option>Difícil</option>
-    </select>
+        <select>
+          <option disabled selected>Dificuldade</option>
+          <option>Fácil</option>
+          <option>Médio</option>
+          <option>Difícil</option>
+        </select>
 
-    <select>
-      <option disabled selected>Filtrar por assunto</option>
-    </select>
+        <select>
+          <option disabled selected>Filtrar por assunto</option>
+        </select>
 
-    <input type="text" placeholder="Digite o enunciado da questão...">
-    <input type="text" placeholder="Digite as alternativas...">
+        <input type="text" placeholder="Digite o enunciado da questão...">
+        <input type="text" placeholder="Digite as alternativas...">
 
-    <select>
-      <option disabled selected>Selecione a alternativa correta</option>
-    </select>
+        <select>
+          <option disabled selected>Selecione a alternativa correta</option>
+        </select>
 
-    <button class="btn-editar">Editar</button>
+        <button class="btn-editar">Editar</button>
 
-    <div style="display: flex; justify-content: space-between;">
-      <button class="btn-voltar" onclick="fecharModal()">Voltar</button>
-      <button class="btn-concluir">Concluir</button>
+        <div style="display: flex; justify-content: space-between;">
+          <button class="btn-voltar" onclick="fecharModal()">Voltar</button>
+          <button class="btn-concluir">Concluir</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-
 
 <script src="static/js/quiz.js"></script>
 
