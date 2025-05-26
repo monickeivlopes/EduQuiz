@@ -152,6 +152,7 @@ def logout():
     return redirect(url_for('index'))
 
 # Adicionar materiais
+
 @app.route('/adicionar_materiais', methods=['GET', 'POST'])
 @login_required
 @professor_required
@@ -160,8 +161,9 @@ def adicionar_materiais():
     cursor = mysql.connection.cursor()
 
     if request.method == 'POST':
-        cursor.execute("SELECT id FROM professores WHERE id = %s", (professor_id,))
-        if cursor.fetchone() is None:
+        cursor.execute("SELECT id FROM usuarios WHERE id = %s AND tipo = 'professor'", (professor_id,))
+        resultado = cursor.fetchone()
+        if resultado is None:
             flash('Erro: professor não encontrado no sistema.', 'danger')
             return redirect(url_for('index_professor'))
 
@@ -170,17 +172,23 @@ def adicionar_materiais():
         descricao = request.form['descricao']
         arquivo = request.files['arquivo']
 
+        if arquivo:
+            print(f"Arquivo recebido: {arquivo.filename}")  # DEBUG
+        else:
+            print("Nenhum arquivo recebido")  # DEBUG
+
         if arquivo and allowed_file(arquivo.filename):
             filename = secure_filename(arquivo.filename)
             caminho = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             arquivo.save(caminho)
 
-            url_arquivo = os.path.join('uploads', filename)
+            url_arquivo = f'uploads/{filename}'
 
             cursor.execute(
                 "INSERT INTO materiais (professor_id, titulo, materia, descricao, url) VALUES (%s, %s, %s, %s, %s)",
                 (professor_id, titulo, materia, descricao, url_arquivo)
             )
+
             mysql.connection.commit()
             flash('Material adicionado com sucesso!', 'success')
             return redirect(url_for('adicionar_materiais'))
@@ -194,6 +202,8 @@ def adicionar_materiais():
     materiais = cursor.fetchall()
 
     return render_template('adicionar_materiais.html', materiais=materiais)
+
+
 
 # Editar material (somente professor)
 @app.route('/editar_material/<int:material_id>', methods=['POST'])
@@ -260,6 +270,7 @@ def baixar_material(material_id):
         flash('Material não encontrado.', 'danger')
         return redirect(url_for('index'))
 
+
 # Arquivos públicos
 @app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
@@ -267,8 +278,24 @@ def uploaded_file(filename):
 
 # Página de materiais
 @app.route('/materiais')
+@login_required
+@aluno_required
 def materiais():
-    return render_template('materiais.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        SELECT m.id, m.titulo, m.materia, m.descricao, m.url, u.nome 
+        FROM materiais m
+        JOIN usuarios u ON m.professor_id = u.id
+    """)
+    materiais = cursor.fetchall()
+    return render_template('materiais.html', materiais=materiais)
+
+
+@app.route('/ajuda')
+def ajuda():
+    return render_template('ajuda.html')
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

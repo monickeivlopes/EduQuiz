@@ -17,22 +17,17 @@
     <main>
         <h1>Materiais de Estudo</h1>
 
-        <div class="materiais">
-            <div class="material">
-                <h2>Operações Básicas</h2>
-                <a href="static/materiais/operacoes_basicas.pdf" target="_blank">📄 Baixar PDF</a>
-            </div>
+        <h2>Materiais Disponíveis</h2>
+{% for m in materiais %}
+  <div>
+    <h3>{{ m[1] }} ({{ m[2] }})</h3>
+    <p>{{ m[3] }}</p>
+    <p><strong>Professor:</strong> {{ m[5] }}</p>
+    <a href="{{ url_for('baixar_material', material_id=m[0]) }}">Baixar</a>
+  </div>
+  <hr>
+{% endfor %}
 
-            <div class="material">
-                <h2>Matemática Financeira</h2>
-                <a href="static/materiais/matematica_financeira.pdf" target="_blank">📄 Baixar PDF</a>
-            </div>
-
-            <div class="material">
-                <h2>Trigonometria</h2>
-                <a href="static/materiais/trigonometria.pdf" target="_blank">📄 Baixar PDF</a>
-            </div>
-        </div>
 
         <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
     </main>
