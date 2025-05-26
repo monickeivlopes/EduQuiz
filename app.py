@@ -5,7 +5,6 @@ import os
 from werkzeug.utils import secure_filename
 from functools import wraps
 
-
 app = Flask(__name__)
 
 # Configuração do banco de dados
@@ -13,20 +12,15 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'Eduquiz'
-
-# Chave secreta
 app.secret_key = 'supersecretkey'
 
-# Configuração de upload
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'ppt', 'pptx', 'png', 'jpg', 'jpeg'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-
 mysql = MySQL(app)
 
-
-
+# Decorators
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -35,7 +29,6 @@ def login_required(f):
             return redirect(url_for('index'))
         return f(*args, **kwargs)
     return decorated_function
-
 
 def professor_required(f):
     @wraps(f)
@@ -46,7 +39,6 @@ def professor_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
 def aluno_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -56,17 +48,13 @@ def aluno_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
-# Função auxiliar para verificar tipo de arquivo
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
 
 # Rota da página inicial
 @app.route("/")
 def index():
     return render_template("index.html")
-
 
 # Página inicial do aluno
 @app.route('/index_aluno')
@@ -77,10 +65,8 @@ def index_aluno():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
     usuario = cursor.fetchone()
-
     nome = usuario[0] if usuario else 'Aluno'
     return render_template('index_aluno.html', nome=nome)
-
 
 # Página inicial do professor
 @app.route('/index_professor')
@@ -91,12 +77,10 @@ def index_professor():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
     usuario = cursor.fetchone()
-
     nome = usuario[0] if usuario else 'Professor'
     return render_template('index_professor.html', nome=nome)
 
-
-# Rota de cadastro
+# Cadastro
 @app.route('/Cadastro', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -109,9 +93,16 @@ def register():
             flash('Tipo de usuário inválido.', 'danger')
             return redirect(url_for('register'))
 
+        cursor = mysql.connection.cursor()
+
+        # Verifica se o email já está cadastrado
+        cursor.execute('SELECT id FROM usuarios WHERE email = %s', (email,))
+        if cursor.fetchone():
+            flash('Este e-mail já está cadastrado.', 'danger')
+            return redirect(url_for('register'))
+
         senha_hash = hashlib.sha256(senha.encode()).hexdigest()
 
-        cursor = mysql.connection.cursor()
         cursor.execute(
             'INSERT INTO usuarios (nome, email, senha_hash, tipo) VALUES (%s, %s, %s, %s)',
             (nome, email, senha_hash, tipo)
@@ -123,8 +114,7 @@ def register():
 
     return render_template('register.html')
 
-
-# Rota de login
+# Login
 @app.route('/Login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -150,10 +140,9 @@ def login():
                 return redirect(url_for('index_professor'))
         else:
             flash('Email ou senha inválidos.', 'danger')
-            return redirect(url_for('index'))
+            return redirect(url_for('index', abrir_login=1))  # <-- mantém o modal aberto
 
     return render_template('index.html')
-
 
 # Logout
 @app.route('/logout')
@@ -162,7 +151,7 @@ def logout():
     flash('Você saiu da sua conta.', 'info')
     return redirect(url_for('index'))
 
-
+# Adicionar materiais
 @app.route('/adicionar_materiais', methods=['GET', 'POST'])
 @login_required
 @professor_required
@@ -171,13 +160,11 @@ def adicionar_materiais():
     cursor = mysql.connection.cursor()
 
     if request.method == 'POST':
-        
         cursor.execute("SELECT id FROM professores WHERE id = %s", (professor_id,))
         if cursor.fetchone() is None:
             flash('Erro: professor não encontrado no sistema.', 'danger')
-            return redirect(url_for('index_professor')) 
+            return redirect(url_for('index_professor'))
 
-       
         titulo = request.form['titulo']
         materia = request.form['materia']
         descricao = request.form['descricao']
@@ -200,7 +187,6 @@ def adicionar_materiais():
         else:
             flash('Tipo de arquivo não permitido.', 'danger')
 
-    
     cursor.execute(
         "SELECT id, titulo, materia, descricao, url FROM materiais WHERE professor_id = %s",
         (professor_id,)
@@ -208,7 +194,6 @@ def adicionar_materiais():
     materiais = cursor.fetchall()
 
     return render_template('adicionar_materiais.html', materiais=materiais)
-
 
 # Editar material (somente professor)
 @app.route('/editar_material/<int:material_id>', methods=['POST'])
@@ -227,7 +212,6 @@ def editar_material(material_id):
 
     flash('Material atualizado com sucesso!', 'success')
     return redirect(url_for('adicionar_materiais'))
-
 
 # Excluir material (somente professor)
 @app.route('/excluir_material/<int:material_id>', methods=['POST'])
@@ -260,7 +244,6 @@ def excluir_material(material_id):
 
     return redirect(url_for('adicionar_materiais'))
 
-
 # Baixar material (usuário logado)
 @app.route('/baixar_material/<int:material_id>')
 @login_required
@@ -277,17 +260,15 @@ def baixar_material(material_id):
         flash('Material não encontrado.', 'danger')
         return redirect(url_for('index'))
 
-
-# Pasta pública de uploads
+# Arquivos públicos
 @app.route('/uploads/<path:filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-#Rota pag materiais
+# Página de materiais
 @app.route('/materiais')
 def materiais():
     return render_template('materiais.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
