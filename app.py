@@ -4,6 +4,9 @@ import hashlib
 import os
 from werkzeug.utils import secure_filename
 from functools import wraps
+from datetime import datetime  
+
+data_publicacao = datetime.now()
 
 app = Flask(__name__)
 
@@ -185,9 +188,9 @@ def adicionar_materiais():
             url_arquivo = f'uploads/{filename}'
 
             cursor.execute(
-                "INSERT INTO materiais (professor_id, titulo, materia, descricao, url) VALUES (%s, %s, %s, %s, %s)",
-                (professor_id, titulo, materia, descricao, url_arquivo)
-            )
+    "INSERT INTO materiais (professor_id, titulo, materia, descricao, url, data_publicacao) VALUES (%s, %s, %s, %s, %s, %s)",
+    (professor_id, titulo, materia, descricao, url_arquivo, data_publicacao)
+)
 
             mysql.connection.commit()
             flash('Material adicionado com sucesso!', 'success')
@@ -195,12 +198,14 @@ def adicionar_materiais():
         else:
             flash('Tipo de arquivo não permitido.', 'danger')
 
-    cursor.execute(
-        "SELECT id, titulo, materia, descricao, url FROM materiais WHERE professor_id = %s",
-        (professor_id,)
-    )
-    materiais = cursor.fetchall()
+    cursor.execute("""
+    SELECT m.id, m.titulo, m.materia, m.descricao, m.url, m.professor_id, u.nome, m.data_publicacao
+    FROM materiais m
+    JOIN usuarios u ON m.professor_id = u.id
+    ORDER BY m.data_publicacao DESC
+""")
 
+    materiais = cursor.fetchall()
     return render_template('adicionar_materiais.html', materiais=materiais)
 
 

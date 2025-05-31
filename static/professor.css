@@ -1,621 +1,255 @@
-/* RESET GERAL */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* Estilos gerais que valem para todas as páginas */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: white;
+  color: #001F87;
+  margin: 0;
+  padding: 0;
 }
 
-html, body {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-}
-
-
-/* CABEÇALHO */
+/* Header comum */
 header {
-    background-color: #001f87;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 2px solid #e0e0e0;
+  background-color: #001F87;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+  font-size: 1.5em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
-    height: 40px;
+  height: 40px;
+  margin-right: 10px;
 }
 
-nav a img {
-    height: 32px;
-    transition: transform 0.2s;
+/* Botões comuns */
+button, a.btn-secundario {
+  cursor: pointer;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  border: none;
+  font-size: 16px;
+  padding: 12px 20px;
 }
 
-nav a:hover img {
-    transform: scale(1.1);
+/* Estilos específicos para a página "Adicionar Materiais" */
+body.page-materiais main {
+  padding: 50px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
 }
 
-/* CONTEÚDO PRINCIPAL */
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    gap: 30px;
-}
-
-h1 {
-    font-size: 2.5em;
-    font-weight: bold;
-}
-
-/* BOTÕES PRINCIPAIS */
-.btn-iniciar {
-    background-color: #00ff4c;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    border: none;
-    border-radius: 30px;
-    padding: 15px 40px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-iniciar:hover {
-    background-color: #00cc3b;
-}
-
-/* BOTÕES SECUNDÁRIOS */
-.botoes-secundarios {
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    align-items: center;
-}
-
-.btn-secundario {
-    background-color: #001958;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: background-color 0.3s;
-}
-
-.btn-secundario:hover {
-    background-color: #0c2b8c;
-}
-
-/* BOTÃO SAIR */
-.btn-sair {
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 30px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-sair:hover {
-    background-color: #cc0000;
-}
-
-/* MODAL */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
-    padding: 40px 20px;
-}
-
-/* CONTEÚDO DO MODAL */
-.modal-content {
-    background-color: #091f77;
-    margin: auto;
-    padding: 2rem;
-    border-radius: 25px;
-    width: 90vw;                
-    max-width: 800px;           
-    color: white;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-    overflow-x: hidden;
-}
-
-
-.modal-content input,
-.modal-content select {
-    width: 100%;
-    margin-bottom: 1rem;
-    padding: 12px 16px;
-    border: none;
-    border-radius: 20px;
-    background-color: #2f3e8c;
-    color: white;
-    font-size: 1rem;
-}
-
-.modal-content select {
-    appearance: none;
-}
-
-/* BOTÕES DO MODAL */
-.btn-editar {
-    background-color: black;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 16px;
-    margin: 10px auto;
-    display: block;
-    font-weight: bold;
-    font-size: 1.1rem;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-editar:hover {
-    background-color: #333;
-}
-
-.btn-voltar {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-voltar:hover {
-    background-color: #cc0000;
-}
-
-.btn-concluir {
-    background-color: #00ff4c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-concluir:hover {
-    background-color: #00cc3b;
-}
-
-/* --- Estilos para a seção Adicionar Materiais --- */
-
-/* Container do formulário */
-.form-adicionar {
-  background-color: #0a1a62;  /* tom parecido com o modal para dar destaque */
-  padding: 25px;
-  border-radius: 25px;
+body.page-materiais form {
   max-width: 600px;
-  width: 100%;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-  color: white;
+  margin: 0 auto 60px;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  text-align: left;
 }
 
-/* Inputs, select e textarea do formulário */
-.form-adicionar input[type="text"],
-.form-adicionar select,
-.form-adicionar textarea,
-.form-adicionar input[type="file"] {
-  background-color: #2f3e8c; /* igual ao modal */
-  border: none;
-  border-radius: 20px;
-  padding: 12px 16px;
-  color: white;
-  font-size: 1rem;
-  transition: background-color 0.3s, box-shadow 0.3s;
-  width: 100%;
-  resize: vertical;
+body.page-materiais input, 
+body.page-materiais select, 
+body.page-materiais textarea {
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: inherit;
+  color: #001F87;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease;
 }
 
-.form-adicionar input[type="text"]::placeholder,
-.form-adicionar textarea::placeholder {
-  color: #ccc;
-  font-style: italic;
-}
-
-.form-adicionar input[type="text"]:focus,
-.form-adicionar select:focus,
-.form-adicionar textarea:focus,
-.form-adicionar input[type="file"]:focus {
+body.page-materiais input:focus, 
+body.page-materiais select:focus, 
+body.page-materiais textarea:focus {
+  border-color: #001F87;
   outline: none;
-  background-color: #4355b8;
-  box-shadow: 0 0 8px #00ff4c;
+  background-color: white;
+}
+
+body.page-materiais button.btn-voltar {
+  background-color: #6c757d;
   color: white;
 }
 
-/* Botões "Voltar" e "Adicionar" */
-.botoes {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
+body.page-materiais button.btn-voltar:hover {
+  background-color: #5a6268;
 }
 
-.btn-voltar {
-  background-color: #cc0000;
-  padding: 12px 28px;
-  border-radius: 20px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
+body.page-materiais button.btn-concluir {
+  background-color: #00c26e;
   color: white;
 }
 
-.btn-voltar:hover {
-  background-color: #ff3333;
+body.page-materiais button.btn-concluir:hover {
+  background-color: #009e4f;
 }
 
-.btn-concluir {
-  background-color: #00ff4c;
-  padding: 12px 28px;
-  border-radius: 20px;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  color: black;
-}
-
-.btn-concluir:hover {
-  background-color: #00cc3b;
-}
-
-/* Lista de materiais */
-.materiais {
+/* Estilos específicos para a página "Início do Professor" */
+body.page-inicio main {
   max-width: 700px;
-  width: 100%;
+  margin: 40px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+body.page-inicio h1 {
+  font-size: 2.5em;
+  margin-bottom: 40px;
+}
+
+body.page-inicio .btn-iniciar {
+  background-color: #00c26e;
   color: white;
-}
-
-.materiais h2 {
-  margin-bottom: 20px;
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: #001958;
-}
-
-/* Cartões dos materiais */
-.card-material {
-  background-color: #122270;
-  padding: 15px 20px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 0 10px rgba(0, 255, 76, 0.3);
-}
-
-.card-material h3 {
-  margin-bottom: 6px;
-  color: #0046d9;
-}
-
-.card-material p {
-  margin-bottom: 6px;
-  color: #ccc;
-  font-size: 1rem;
-}
-
-/* Área dos botões dentro dos cards */
-.acoes {
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-/* Botões das ações nos cards */
-.acoes a.btn-ver,
-.acoes button.btn-editar,
-.acoes button.btn-excluir {
-  background-color: #001f87;
   border: none;
-  border-radius: 16px;
-  padding: 8px 15px;
-  color: white;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 40px;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 0.9rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: background-color 0.3s;
-  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
 
-.acoes a.btn-ver:hover {
-  background-color: #0046d9;
+body.page-inicio .btn-iniciar:hover {
+  background-color: #009e4f;
 }
 
-.acoes button.btn-editar:hover {
-  background-color: #008000;
+body.page-inicio .botoes-secundarios {
+  margin-bottom: 20px;
 }
 
-.acoes button.btn-excluir:hover {
-  background-color: #cc0000;
-}
-
-/* Inputs para editar no card */
-.form-editar input[type="text"] {
-  background-color: #2f3e8c;
-  border: none;
-  border-radius: 20px;
-  padding: 6px 12px;
+body.page-inicio a.btn-secundario {
+  background-color: #4C5FFF;
   color: white;
-  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+}
+
+body.page-inicio a.btn-secundario:hover {
+  background-color: #3b4ccc;
+}
+
+body.page-inicio .btn-sair {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 25px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+body.page-inicio .btn-sair:hover {
+  background-color: #5a6268;
+}
+
+/* Modal estilos para página inicio */
+body.page-inicio .modal {
+  display: none; /* oculto por padrão */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+body.page-inicio .modal-content {
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 500px;
+  width: 90%;
+  text-align: left;
+}
+
+body.page-inicio .modal-content select,
+body.page-inicio .modal-content input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+body.page-inicio .modal-content button {
+  min-width: 100px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
   margin-right: 10px;
-  width: auto;
-  min-width: 140px;
-  transition: background-color 0.3s;
 }
 
-.form-editar input[type="text"]:focus {
-  background-color: #4355b8;
-  outline: none;
-  box-shadow: 0 0 6px #00ff4c;
+body.page-inicio .btn-editar {
+  background-color: #00c26e;
+  color: white;
 }
 
-/* RESET GERAL */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body.page-inicio .btn-editar:hover {
+  background-color: #009e4f;
 }
 
-html, body {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-    background-color: #eaeef8;
-    font-family: Arial, sans-serif;
+body.page-inicio .btn-voltar {
+  background-color: #6c757d;
+  color: white;
 }
 
-/* CABEÇALHO */
-header {
-    background-color: #001f87;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 2px solid #e0e0e0;
+body.page-inicio .btn-voltar:hover {
+  background-color: #5a6268;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+body.page-inicio .btn-concluir {
+  background-color: #00c26e;
+  color: white;
 }
 
-.logo img {
-    height: 40px;
+body.page-inicio .btn-concluir:hover {
+  background-color: #009e4f;
 }
 
-nav a img {
-    height: 32px;
-    transition: transform 0.2s;
-}
+/* Responsividade para ambas */
+@media (max-width: 700px) {
+  header {
+    padding: 15px 20px;
+  }
 
-nav a:hover img {
-    transform: scale(1.1);
-}
+  body.page-materiais form,
+  body.page-inicio main {
+    max-width: 100%;
+  }
 
-/* CONTEÚDO PRINCIPAL */
-main {
-    display: flex;
+  body.page-materiais form > div,
+  body.page-inicio .modal-content {
     flex-direction: column;
-    align-items: center;
-    padding: 50px 20px;
-}
+  }
 
-h1 {
-    font-size: 2.2em;
-    color: #001958;
-    margin-bottom: 30px;
-}
-
-h2 {
-    color: #001958;
-    margin-bottom: 15px;
-}
-
-/* FORMULÁRIO DE ADIÇÃO */
-form {
-    background-color: #0a1a62;
-    padding: 25px;
-    border-radius: 25px;
-    max-width: 600px;
+  body.page-materiais button,
+  body.page-inicio button {
     width: 100%;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-form input[type="text"],
-form select,
-form textarea,
-form input[type="file"] {
-    background-color: #2f3e8c;
-    border: none;
-    border-radius: 20px;
-    padding: 12px 16px;
-    color: white;
-    font-size: 1rem;
-}
-
-form input::placeholder,
-form textarea::placeholder {
-    color: #ccc;
-}
-
-form input:focus,
-form select:focus,
-form textarea:focus,
-form input[type="file"]:focus {
-    outline: none;
-    background-color: #4355b8;
-    box-shadow: 0 0 8px #00ff4c;
-}
-
-/* BOTÕES DO FORMULÁRIO */
-form button {
-    border: none;
-    padding: 10px 24px;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-voltar {
-    background-color: #cc0000;
-    color: white;
-}
-
-.btn-voltar:hover {
-    background-color: #ff3333;
-}
-
-.btn-concluir {
-    background-color: #00ff4c;
-    color: black;
-}
-
-.btn-concluir:hover {
-    background-color: #00cc3b;
-}
-
-/* LISTA DE MATERIAIS */
-section {
-    margin-top: 50px;
-    max-width: 700px;
-    width: 100%;
-}
-
-.material-card {
-    background-color: white;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-}
-
-.material-card h3 {
-    color: #0046d9;
-    margin-bottom: 8px;
-}
-
-.material-card p {
-    margin-bottom: 6px;
-    color: #444;
-}
-
-.material-card a {
-    text-decoration: none;
-    color: #001f87;
-    font-weight: bold;
-}
-
-.material-card a:hover {
-    text-decoration: underline;
-}
-
-/* FORMULÁRIO DENTRO DOS CARDS */
-.material-card form {
-    background: none;
-    box-shadow: none;
-    padding: 0;
-    margin-top: 10px;
-}
-
-.material-card form input[type="text"] {
-    background-color: #e0e0e0;
-    color: black;
-    border-radius: 10px;
-    padding: 6px 12px;
-    border: none;
-    margin-right: 8px;
-}
-
-.material-card form button {
-    background-color: #001f87;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 10px;
-    margin-top: 5px;
-}
-
-.material-card form button:hover {
-    background-color: #0046d9;
-}
-
-.material-card form button[style*="color: red"] {
-    background-color: #cc0000;
-    color: white;
-}
-
-.material-card form button[style*="color: red"]:hover {
-    background-color: #ff3333;
-}
-
-/* RESPONSIVO */
-@media (max-width: 600px) {
-    header {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    form div {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .material-card form input[type="text"] {
-        width: 100%;
-        margin-bottom: 8px;
-    }
-
-    .material-card form {
-        flex-direction: column;
-    }
+  }
 }

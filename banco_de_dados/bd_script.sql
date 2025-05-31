@@ -102,3 +102,6 @@ ALTER TABLE materiais
 ALTER TABLE materiais
   ADD COLUMN descricao TEXT,
   ADD COLUMN materia VARCHAR(100);
+
+  ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP;
+
