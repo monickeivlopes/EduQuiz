@@ -14,7 +14,7 @@
     <span>EDUQUIZ</span>
   </div>
   <nav>
-    <a href="{{ url_for('logout') }}">
+    <a href="{{ url_for('index_professor') }}">
       <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;" />
     </a>
   </nav>
@@ -40,39 +40,60 @@
     <input type="file" name="arquivo" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" required />
 
     <div style="display: flex; justify-content: space-between;">
-      <button type="button" class="btn-voltar" onclick="window.history.back()">Voltar</button>
       <button type="submit" class="btn-concluir">Adicionar</button>
     </div>
   </form>
 
   <!-- Lista de materiais já adicionados -->
-  <section style="margin-top: 40px;">
+  <section class="material-card" style="margin-top: 40px;">
     <h2>Materiais já adicionados</h2>
     {% for material in materiais %}
-      <div style="background: #f0f0f0; padding: 15px; border-radius: 10px; margin-top: 10px;">
-        <h3>{{ material[1] }}</h3> <!-- Título -->
+      <div class="card-material">
+        <h3>{{ material[1] }}</h3>
         <p><strong>Matéria:</strong> {{ material[2] }}</p>
-        <p>{{ material[3] }}</p> <!-- Descrição -->
+        <p>{{ material[3] }}</p>
         <p><strong>Professor:</strong> {{ material[6] }}</p>
         <p><strong>Publicado em:</strong> {{ material[7].strftime('%d/%m/%Y %H:%M') }}</p>
         <a href="{{ url_for('baixar_material', material_id=material[0]) }}">📎 Ver material</a>
 
         {% if material[5] == session['usuario_id'] %}
-        <form action="{{ url_for('editar_material', material_id=material[0]) }}" method="POST">
-          <input type="text" name="novo_titulo" value="{{ material[1] }}" required />
-          <input type="text" name="nova_descricao" value="{{ material[3] }}" required />
-          <button type="submit">Salvar alterações</button>
-        </form>
-        <form action="{{ url_for('excluir_material', material_id=material[0]) }}" method="POST">
-          <button type="submit" style="color: red;">Excluir</button>
-        </form>
+          <div class="botoes-acoes">     
+            <form action="{{ url_for('excluir_material', material_id=material[0]) }}" method="POST" >
+              <button type="button" class="editar" onclick="mostrarFormulario({{ material[0] }})">Editar</button>
+              <button type="submit" class="excluir">Excluir Material</button>
+            </form>
+          </div>
+
+          <!-- Formulário oculto para edição -->
+          <form id="form-editar-{{ material[0] }}" class="form-editar" action="{{ url_for('editar_material', material_id=material[0]) }}" method="POST" style="display: none;">
+            <input type="text" name="novo_titulo" value="{{ material[1] }}" required />
+            <input type="text" name="nova_descricao" value="{{ material[3] }}" required />
+
+            <div class="botoes-acoes">
+              <button type="submit" class="salvar">Salvar</button>
+              <button type="button" class="cancelar" onclick="esconderFormulario({{ material[0] }})">Cancelar</button>
+            </div>
+          </form>
         {% endif %}
       </div>
+
     {% else %}
       <p>Nenhum material adicionado ainda.</p>
     {% endfor %}
   </section>
 </main>
+
+
+<script>
+function mostrarFormulario(id) {
+  document.getElementById(`form-editar-${id}`).style.display = 'block';
+}
+
+function esconderFormulario(id) {
+  document.getElementById(`form-editar-${id}`).style.display = 'none';
+}
+</script>
+
 
 </body>
 </html>

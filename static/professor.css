@@ -80,14 +80,6 @@ body.page-materiais textarea:focus {
   background-color: white;
 }
 
-body.page-materiais button.btn-voltar {
-  background-color: #6c757d;
-  color: white;
-}
-
-body.page-materiais button.btn-voltar:hover {
-  background-color: #5a6268;
-}
 
 body.page-materiais button.btn-concluir {
   background-color: #00c26e;
@@ -164,7 +156,7 @@ body.page-inicio .btn-sair:hover {
 
 /* Modal estilos para página inicio */
 body.page-inicio .modal {
-  display: none; /* oculto por padrão */
+  display: none; 
   position: fixed;
   top: 0;
   left: 0;
@@ -214,15 +206,6 @@ body.page-inicio .btn-editar:hover {
   background-color: #009e4f;
 }
 
-body.page-inicio .btn-voltar {
-  background-color: #6c757d;
-  color: white;
-}
-
-body.page-inicio .btn-voltar:hover {
-  background-color: #5a6268;
-}
-
 body.page-inicio .btn-concluir {
   background-color: #00c26e;
   color: white;
@@ -232,24 +215,149 @@ body.page-inicio .btn-concluir:hover {
   background-color: #009e4f;
 }
 
-/* Responsividade para ambas */
-@media (max-width: 700px) {
-  header {
-    padding: 15px 20px;
-  }
+/* Títulos */
+body.page-materiais section h2 {
+  text-align: left;
+  color: #001F87;
+  margin-bottom: 20px;
+}
 
-  body.page-materiais form,
-  body.page-inicio main {
-    max-width: 100%;
-  }
+/* Cards de materiais */
+body.page-materiais .card-material  {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-top: 20px;
+  text-align: justify;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: left;
+}
 
-  body.page-materiais form > div,
-  body.page-inicio .modal-content {
-    flex-direction: column;
-  }
 
-  body.page-materiais button,
-  body.page-inicio button {
-    width: 100%;
-  }
+body.page-materiais .card-material h3 {
+  color: #001F87;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+body.page-materiais .card-material p {
+  margin: 4px 0;
+  color: #333;
+  font-size: 15px;
+}
+
+body.page-materiais .card-material a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #4C5FFF;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+body.page-materiais .card-material a:hover {
+  color: #001F87;
+  text-decoration: underline;
+}
+
+/* Formulários de edição */
+body.page-materiais .card-material form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+body.page-materiais .card-material input[type="text"],
+body.page-materiais .card-material textarea,
+body.page-materiais .card-material select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  color: #001F87;
+}
+
+body.page-materiais .card-material input[type="text"]:focus,
+body.page-materiais .card-material textarea:focus,
+body.page-materiais .card-material select:focus {
+  border-color: #001F87;
+  background-color: white;
+  outline: none;
+}
+
+/* Área dos botões */
+body.page-materiais .card-material  .botoes-acoes {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Espaço entre botões e inputs */
+body.page-materiais .card-material form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+  justify-items: flex-start;
+}
+
+/* Espaçamento entre botões */
+.botoes-acoes {
+  display: flex;
+  margin-top: 10px;
+  justify-content: flex-start;
+}
+
+/* Estilo geral dos botões */
+body.page-materiais .card-material button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Botão EDITAR */
+body.page-materiais .card-material button.editar {
+  background-color: #4C5FFF;
+  color: white;
+}
+
+body.page-materiais .card-material button.editar:hover {
+  background-color: #001F87;
+}
+
+/* Botão SALVAR */
+body.page-materiais .card-material button.salvar {
+  background-color: #00c26e;
+  color: white;
+}
+
+body.page-materiais .card-material button.salvar:hover {
+  background-color: #009e4f;
+}
+
+/* Botão CANCELAR */
+body.page-materiais .card-material button.cancelar {
+  background-color: #ccc;
+  color: #333;
+}
+
+body.page-materiais .card-material button.cancelar:hover {
+  background-color: #999;
+}
+
+/* Botão EXCLUIR */
+body.page-materiais .card-material button.excluir {
+  background-color: #dc3545;
+  color: white;
+}
+
+body.page-materiais .card-material button.excluir:hover {
+  background-color: #a71d2a;
 }
