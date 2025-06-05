@@ -16,7 +16,15 @@
       </h1>
 
       <div class="flash-messages">
-        <!-- Mensagens flash inseridas dinamicamente -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-messages">
+              {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
       </div>
 
       <form method="POST" action="/register">
@@ -26,7 +34,6 @@
         <div class="password-container">
           <input type="password" id="password" name="senha" placeholder="Senha" required />
           <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha">
-            <img src="static/img/eye-closed.png" id="eye-icon" alt="Olho Branco Aberto" />
           </span>
         </div>
 
