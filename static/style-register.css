@@ -1,218 +1,216 @@
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Arial', sans-serif;
-}
+ /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
 
-body {
-  height: 100vh;
-  background-color: #ffffff;
-}
+    body {
+      height: 100vh;
+      background-color: #ffffff;
+    }
 
-.container {
-  display: flex;
-  height: 100vh;
-  width: 100%;
-}
+    .container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
 
-/* Seção do formulário esquerda */
-.form-section {
-  background-color: #011f66;
-  width: 50%;
-  padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: white;
-}
+    /* Seção do formulário esquerda */
+    .form-section {
+      background-color: #011f66;
+      width: 50%;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: white;
+    }
 
-.form-section h1 {
-  font-size: 40px;
-  margin-bottom: 40px;
-  display: flex;
-  align-items: center;
-}
+    .form-section h1 {
+      font-size: 40px;
+      margin-bottom: 40px;
+      display: flex;
+      align-items: center;
+    }
 
-.cadastro-logo {
-  height: 40px;
-  margin-right: 10px;
-}
+    .cadastro-logo {
+      height: 40px;
+      margin-right: 10px;
+    }
 
-form input,
-form select {
-  width: 80%;
-  padding: 15px;
-  margin-bottom: 20px;
-  border-radius: 25px;
-  border: none;
-  background-color: #4b5488;
-  color: white;
-  font-size: 16px;
-}
+    form input,
+    form select {
+      width: 80%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 25px;
+      border: none;
+      background-color: #4b5488;
+      color: white;
+      font-size: 16px;
+    }
 
-form input::placeholder,
-form select {
-  color: #ccc;
-}
+    form input::placeholder,
+    form select {
+      color: #ccc;
+    }
 
-form select {
-  appearance: none;
-  background-image: url('static/img/seta-select.png'); 
-  background-repeat: no-repeat;
-  background-position: right 15px center;
-  background-size: 16px;
-}
+    form select {
+      appearance: none;
+      background-image: url('static/img/seta-select.png'); 
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+    }
 
-form button {
-  width: 50%;
-  padding: 15px;
-  border: none;
-  border-radius: 25px;
-  background-color: #00c264;
-  color: white;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  align-self: center;
-  transition: background-color 0.3s ease;
-}
+    form button {
+      width: 50%;
+      padding: 15px;
+      border: none;
+      border-radius: 25px;
+      background-color: #00c264;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      align-self: center;
+      transition: background-color 0.3s ease;
+    }
 
-form button:hover {
-  background-color: #00a653;
-}
+    form button:hover {
+      background-color: #00a653;
+    }
 
+    .info-section {
+      background-color: white;
+      width: 50%;
+      padding: 40px;
+      position: relative;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      color: #011f66;
+    }
 
-.info-section {
-  background-color: white;
-  width: 50%;
-  padding: 40px;
-  position: relative;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #011f66;
-}
+    .eduquiz-logo {
+      height: 50px;
+      margin: 20px auto;
+    }
 
-.eduquiz-logo {
-  height: 50px;
-  margin: 20px auto;
-}
+    .info-section p {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 30px 0;
+    }
 
-.info-section p {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 30px 0;
-}
+    .arrow-img {
+      width: 60px;
+      margin: 0 auto;
+    }
 
-.arrow-img {
-  width: 60px;
-  margin: 0 auto;
-}
+    .page-number {
+      position: absolute;
+      bottom: 10px;
+      right: 20px;
+      font-size: 14px;
+      color: #000;
+    }
 
-.page-number {
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  font-size: 14px;
-  color: #000;
-}
+    .home-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
 
-.home-icon {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
+    .home-icon img {
+      width: 25px;
+      height: 25px;
+      cursor: pointer;
+    }
 
-.home-icon img {
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-}
+    .password-container {
+      position: relative;
+      width: 80%;
+    }
 
-.password-container {
-  position: relative;
-  width: 80%;
-}
+    .password-container input {
+      width: 100%;
+      padding-right: 45px;
+      padding-left: 15px;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      border-radius: 25px;
+      border: none;
+      background-color: #4b5488;
+      color: white;
+      font-size: 16px;
+    }
 
-.password-container input {
-  width: 100%;
-  padding-right: 45px;
-  padding-left: 15px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 25px;
-  border: none;
-  background-color: #4b5488;
-  color: white;
-  font-size: 16px;
-}
+    .password-container .show-password {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
 
-.password-container .show-password {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
+    .password-container img {
+      width: 25px;
+      height: 25px;
+      margin-bottom: 2px;
+    }
 
-.password-container img {
-  width: 25px;
-  height: 25px;
-  margin-bottom: 2px;
-}
+    form p {
+      margin-top: 15px;
+      margin-left: 5px;
+      font-size: 14px;
+      color: #ffffff;
+    }
 
-form p {
-  margin-top: 15px;
-  margin-left: 5px;
-  font-size: 14px;
-  color: #ffffff;
-  
-}
+    form p a {
+      text-decoration: underline;
+      color: whitesmoke;
+      margin-left: 5px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
 
-form p a {
-  text-decoration:underline;
-  color: whitesmoke;
-  margin-left: 5px;
-  font-weight: bold;
-  transition: color 0.3s ease;
-}
+    form p a:hover {
+      color: #4b5488;
+    }
 
-form p a:hover {
-  color: #4b5488
-}
+    .flash-messages {
+      margin: 20px auto;
+      width: 80%;
+      max-width: 600px;
+      text-align: center;
+    }
 
-.flash-messages {
-  margin: 20px auto;
-  width: 80%;
-  max-width: 600px;
-  text-align: center;
-}
+    .flash {
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 16px;
+      color: white;
+    }
 
-.flash {
-  padding: 15px;
-  border-radius: 10px;
-  font-weight: bold;
-  margin-bottom: 15px;
-  font-size: 16px;
-  color: white;
-}
+    .flash-success {
+      background-color: #28a745; /* verde */
+    }
 
-.flash-success {
-  background-color: #28a745; /* verde */
-}
+    .flash-danger {
+      background-color: #dc3545; /* vermelho */
+    }
 
-.flash-danger {
-  background-color: #dc3545; /* vermelho */
-}
+    .flash-info {
+      background-color: #17a2b8; /* azul claro */
+    }
 
-.flash-info {
-  background-color: #17a2b8; /* azul claro */
-}
-
-.flash-warning {
-  background-color: #ffc107; /* amarelo */
-  color: black;
-}
+    .flash-warning {
+      background-color: #ffc107; /* amarelo */
+      color: black;
+    }
