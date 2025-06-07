@@ -4,60 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ajuda - EduQuiz</title>
-    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/Ajuda.css">
 </head>
 <body>
     <header>
-    <div class="logo">
-      <img src="static/img/Logo.png" alt="Logo EduQuiz" />
-      <span>EDUQUIZ</span>
-    </div>
-    <nav>
-      <a href="index.html" class="home-button" title="Página inicial">
-        <a href="{{ url_for('index') }}" class="home-icon">
-          <img src="static/img/casa.png" alt="Ícone casa" />
-        </a>
-      </a>
-    </nav>
-  </header>
-
-  <main>
-    <h1>Comece sem dúvidas</h1>
-    <p>Aqui você encontra respostas sobre como usar o sistema, realizar quizzes e acompanhar seu desempenho.</p>
-    
-    <div class="faq">
-      <div class="faq-item">
-        <button class="faq-toggle">Como fazer um quiz?<span class="arrow">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>Para fazer um quiz, acesse a seção de quizzes, escolha um tema e clique em "Iniciar Quiz".</p>
+        <div class="logo">
+            <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+            <span>EDUQUIZ</span>
         </div>
-      </div>
+        <nav>
+            <a href="{{ url_for('index') }}" class="home-icon">
+                <img src="static/img/casa.png" alt="Ícone casa" />
+            </a>
+        </nav>
+    </header>
 
-      <div class="faq-item">
-        <button class="faq-toggle">Como ver minha evolução?<span class="arrow">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>Vá até "Meu Desempenho" para ver estatísticas detalhadas sobre suas respostas.</p>
+    <main class="container mt-5">
+        <h1 class="text-center mb-4">Comece sem dúvidas</h1>
+        <p class="text-center mb-5">Aqui você encontra respostas sobre como usar o sistema, realizar quizzes e acompanhar seu desempenho.</p>
+        
+        <div class="row">
+            <!-- Coluna 1 -->
+            <div class="col-md-6">
+                <div class="btn-group dropdown-faq w-100 mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
+                        Como fazer um quiz?
+                    </button>
+                    <div class="dropdown-menu w-100">
+                        <p class="dropdown-item">Para fazer um quiz, acesse a seção de quizzes, escolha um tema e clique em "Iniciar Quiz".</p>
+                    </div>
+                </div>
+
+                <div class="btn-group dropdown-faq w-100 mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
+                        Como ver minha evolução?
+                    </button>
+                    <div class="dropdown-menu w-100">
+                        <p class="dropdown-item">Vá até "Meu Desempenho" para ver estatísticas detalhadas sobre suas respostas.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Coluna 2 -->
+            <div class="col-md-6">
+                <div class="btn-group dropdown-faq w-100 mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
+                        Como professores gerenciam questões?
+                    </button>
+                    <div class="dropdown-menu w-100">
+                        <p class="dropdown-item">Na área de gerenciamento, professores podem criar, editar e excluir perguntas.</p>
+                    </div>
+                </div>
+
+                <div class="btn-group dropdown-faq w-100 mb-3">
+                    <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
+                        Como acessar os materiais de estudo?
+                    </button>
+                    <div class="dropdown-menu w-100">
+                        <p class="dropdown-item">Vá até a seção "Materiais" para acessar conteúdos organizados por tema.</p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </main>
 
-      <div class="faq-item">
-        <button class="faq-toggle">Como professores gerenciam questões?<span class="arrow">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>Na área de gerenciamento, professores podem criar, editar e excluir perguntas.</p>
-        </div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-toggle">Como acessar os materiais de estudo?<span class="arrow">&#9662;</span></button>
-        <div class="faq-answer">
-          <p>Vá até a seção "Materiais" para acessar conteúdos organizados por tema.</p>
-        </div>
-      </div>
-    </div>
-  </main>
-    
- <script src="ajuda.js"></script>
-
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
