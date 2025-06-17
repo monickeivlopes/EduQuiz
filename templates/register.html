@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style-register.css') }}" />
 </head>
 <body>
- <div class="container">
+  <div class="container">
 
     <div class="form-section">
       <h1>
-        <img src="static/img/beca2.png" class="cadastro-logo" alt="Logo" />
+        <img src="{{ url_for('static', filename='img/beca2.png') }}" class="cadastro-logo" alt="Logo" />
         Cadastro
       </h1>
 
@@ -27,14 +27,13 @@
         {% endwith %}
       </div>
 
-      <form method="POST" action="/register">
+      <form method="POST" action="/Cadastro">
         <input type="text" name="nome" placeholder="Nome" required />
         <input type="email" name="email" placeholder="Email" required />
 
         <div class="password-container">
           <input type="password" id="password" name="senha" placeholder="Senha" required />
-          <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha">
-          </span>
+          <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha"></span>
         </div>
 
         <select name="tipo" required>
@@ -44,15 +43,17 @@
         </select>
 
         <button type="submit">Registrar</button>
-        <p>Já tem cadastro?<a href="/">Voltar</a></p>
+        <p>Já tem cadastro? <a href="{{ url_for('index') }}">Voltar</a></p>
       </form>
     </div>
 
     <div class="info-section">
-      <div class="home-icon"><img src="static/img/casa.png" alt="Home"></div>
-      <img src="static/img/logo2.png" alt="EDUQUIZ Logo" class="eduquiz-logo" />
+      <div class="home-icon">
+        <img src="{{ url_for('static', filename='img/casa.png') }}" alt="Home" />
+      </div>
+      <img src="{{ url_for('static', filename='img/logo2.png') }}" alt="EDUQUIZ Logo" class="eduquiz-logo" />
       <p><strong>Dê o primeiro passo no seu aprendizado.</strong><br />Conecte-se e aprenda no seu ritmo!</p>
-      <img src="static/img/seta.png" alt="Seta" class="arrow-img" />
+      <img src="{{ url_for('static', filename='img/seta.png') }}" alt="Seta" class="arrow-img" />
       <span class="page-number">4</span>
     </div>
   </div>
