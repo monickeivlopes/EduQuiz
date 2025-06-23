@@ -40,10 +40,8 @@
             <form method="POST" action="{{ url_for('login') }}">
                 <input type="email" name="email" placeholder="Email" required>
                 <div class="password-container">
-                    <input type="password" id="password" name="senha" placeholder="Senha" required>
-                    <span id="toggle-password" class="show-password">
-                        <img src="static/img/eye-closed.png" id="eye-icon" />
-                    </span>
+                    <input type="password" id="password" name="senha" placeholder="Senha" required />
+                    <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha"></span>
                 </div>
                 <button type="submit">Entrar</button>
             </form>
