@@ -143,7 +143,7 @@ def login():
                 return redirect(url_for('index_professor'))
         else:
             flash('Email ou senha inválidos.', 'danger')
-            return redirect(url_for('index', abrir_login=1))  # <-- mantém o modal aberto
+            return redirect(url_for('index', abrir_login=1)) 
 
     return render_template('index.html')
 
