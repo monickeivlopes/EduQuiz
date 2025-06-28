@@ -300,6 +300,99 @@ def materiais():
 def ajuda():
     return render_template('ajuda.html')
 
+#primeira tentativa para o quiz
+@app.route('/quiz', methods=['GET', 'POST'])
+@login_required
+@aluno_required
+def quiz():
+    cursor = mysql.connection.cursor()
+    
+    if request.method == 'POST':
+        respostas = request.form.to_dict()
+        aluno_id = session['usuario_id']
+        nivel_id = int(respostas.pop('nivel_id'))
+        
+        cursor.execute("INSERT INTO tentativas_quiz (aluno_id, nivel_id) VALUES (%s, %s)", (aluno_id, nivel_id))
+        tentativa_id = cursor.lastrowid
+
+        for questao_id_str, alternativa_id in respostas.items():
+            questao_id = int(questao_id_str)
+            cursor.execute("SELECT correta FROM alternativas WHERE id = %s", (alternativa_id,))
+            correta = cursor.fetchone()[0]
+            cursor.execute("""
+                INSERT INTO respostas_alunos (tentativa_id, questao_id, alternativa_id, correta)
+                VALUES (%s, %s, %s, %s)
+            """, (tentativa_id, questao_id, alternativa_id, correta))
+
+        mysql.connection.commit()
+        flash("Respostas enviadas com sucesso!", "success")
+        return redirect(url_for('index_aluno'))
+
+    # GET: exibe quiz
+    nivel_id = 1  # pode vir de um formulário ou ser aleatório
+    cursor.execute("""
+        SELECT q.id, q.enunciado FROM questoes q
+        WHERE q.nivel_id = %s
+        ORDER BY RAND() LIMIT 5
+    """, (nivel_id,))
+    questoes = cursor.fetchall()
+
+    questoes_com_alternativas = []
+    for questao in questoes:
+        cursor.execute("SELECT id, texto FROM alternativas WHERE questao_id = %s", (questao[0],))
+        alternativas = cursor.fetchall()
+        questoes_com_alternativas.append({
+            'id': questao[0],
+            'enunciado': questao[1],
+            'alternativas': alternativas
+        })
+
+    return render_template('quiz.html', questoes=questoes_com_alternativas, nivel_id=nivel_id)
+
+
+#rota para enviar questões no bd
+@app.route('/gerenciar_questoes')
+@login_required
+@professor_required
+def gerenciar_questoes():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
+    niveis = cursor.fetchall()
+    cursor.execute("SELECT id, nome FROM assuntos")
+    assuntos = cursor.fetchall()
+    return render_template('index_professor.html', nome=session['usuario_nome'], niveis=niveis, assuntos=assuntos)
+
+@app.route('/adicionar_questao', methods=['POST'])
+@login_required
+@professor_required
+def adicionar_questao():
+    cursor = mysql.connection.cursor()
+    autor_id = session['usuario_id']
+    nivel_id = request.form.get('nivel_id')
+    assunto_id = request.form.get('assunto_id')
+    enunciado = request.form.get('enunciado')
+    alternativas = request.form.getlist('alternativas')
+    correta_index = int(request.form.get('correta_index')) - 1
+
+
+    # Inserir questão
+    cursor.execute("""
+        INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+        VALUES (%s, %s, %s, %s)
+    """, (enunciado, nivel_id, assunto_id, autor_id))
+    questao_id = cursor.lastrowid
+
+    # Inserir alternativas
+    for i, texto in enumerate(alternativas):
+        correta = 1 if i == correta_index else 0
+        cursor.execute("""
+            INSERT INTO alternativas (questao_id, texto, correta)
+            VALUES (%s, %s, %s)
+        """, (questao_id, texto, correta))
+
+    mysql.connection.commit()
+    flash("Questão adicionada com sucesso!", "success")
+    return redirect(url_for('gerenciar_questoes'))
 
 
 if __name__ == '__main__':

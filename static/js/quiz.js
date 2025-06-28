@@ -1,39 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const modal = document.getElementById("modal-quiz");
-  const btnIniciar = document.querySelector(".btn-iniciar");
-  const btnFechar = document.getElementById("fechar-modal");
+  // Modal do quiz (se existir)
+  const modalQuiz = document.getElementById("modal-quiz");
+  const btnIniciarQuiz = document.querySelector(".btn-iniciar");
 
-  btnIniciar.addEventListener("click", () => {
-    modal.style.display = "flex";
-  });
+  if (modalQuiz && btnIniciarQuiz) {
+    const btnFecharQuiz = document.getElementById("fechar-modal");
 
-  btnFechar.addEventListener("click", () => {
-    modal.style.display = "none";
-  });
+    btnIniciarQuiz.addEventListener("click", () => {
+      modalQuiz.style.display = "flex";
+    });
 
-  window.onclick = function (event) {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
+    btnFecharQuiz?.addEventListener("click", () => {
+      modalQuiz.style.display = "none";
+    });
+
+    window.addEventListener("click", function (event) {
+      if (event.target == modalQuiz) {
+        modalQuiz.style.display = "none";
+      }
+    });
+  }
+
+  // Modal de gerenciar questões (professor)
+  const modalGerenciar = document.getElementById("modalGerenciar");
+
+  if (modalGerenciar && btnIniciarQuiz) {
+    btnIniciarQuiz.addEventListener("click", () => {
+      modalGerenciar.style.display = "block";
+    });
+
+    window.addEventListener("click", function (event) {
+      if (event.target === modalGerenciar) {
+        modalGerenciar.style.display = "none";
+      }
+    });
+  }
 });
 
-/* Script prof */
-
+// Tornar a função global
+function fecharModal() {
   const modal = document.getElementById("modalGerenciar");
-  const botaoAbrir = document.querySelector(".btn-iniciar");
-
-  botaoAbrir.addEventListener("click", () => {
-    modal.style.display = "block";
-  });
-
-  function fecharModal() {
-    modal.style.display = "none";
-  }
-
-  window.onclick = function(event) {
-    if (event.target === modal) {
-      modal.style.display = "none";
-    }
-  }
-
+  if (modal) modal.style.display = "none";
+}
