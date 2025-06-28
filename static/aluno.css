@@ -361,3 +361,15 @@ main h1 {
         font-size: 1.8rem;
     }
 }
+/* Ajuste - Fixar header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+main {
+    padding-top: 80px; /* altura aproximada do header */
+}
