@@ -361,3 +361,15 @@ body.page-materiais .card-material button.excluir {
 body.page-materiais .card-material button.excluir:hover {
   background-color: #a71d2a;
 }
+/* Ajuste- Fixar header */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+body.page-inicio main {
+    padding-top: 80px; /* altura aproximada do header */
+}
