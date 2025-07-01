@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Materiais</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='professor.css') }}">
+</head>
+<body class="page-materiais">
+  <header>
+    <div class="logo">Eduquiz - Administração</div>
+    <a href="{{ url_for('index_adm') }}" class="btn-secundario">Voltar</a>
+  </header>
+
+  <main>
+    <h1>Gerenciar Materiais</h1>
+    <section>
+      {% for m in materiais %}
+      <div class="card-material">
+        <form action="{{ url_for('editar_material_adm', material_id=m[0]) }}" method="post">
+          <label>Título:</label>
+          <input type="text" name="titulo" value="{{ m[1] }}">
+
+          <label>Descrição:</label>
+          <textarea name="descricao">{{ m[3] }}</textarea>
+
+          <p><strong>Matéria:</strong> {{ m[2] }}</p>
+          <p><strong>Professor:</strong> {{ m[5] }}</p>
+
+          <div class="botoes-acoes">
+            <button type="submit" class="salvar">Salvar</button>
+        </form>
+        <form action="{{ url_for('excluir_material_adm', material_id=m[0]) }}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este material?')">
+            <button type="submit" class="excluir">Excluir</button>
+        </form>
+          </div>
+      </div>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>

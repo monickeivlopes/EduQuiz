@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Usuários</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='professor.css') }}">
+</head>
+<body class="page-materiais">
+  <header>
+    <div class="logo">Eduquiz - Administração</div>
+    <a href="{{ url_for('index_adm') }}" class="btn-secundario">Voltar</a>
+  </header>
+
+  <main>
+    <h1>Gerenciar Usuários</h1>
+    <section>
+      {% for usuario in usuarios %}
+      <div class="card-material">
+        <form action="{{ url_for('editar_usuario', usuario_id=usuario[0]) }}" method="post">
+          <label>Nome:</label>
+          <input type="text" name="nome" value="{{ usuario[1] }}">
+
+          <label>Email:</label>
+          <input type="email" name="email" value="{{ usuario[2] }}">
+
+          <label>Tipo:</label>
+          <select name="tipo">
+            <option value="aluno" {% if usuario[3] == 'aluno' %}selected{% endif %}>Aluno</option>
+            <option value="professor" {% if usuario[3] == 'professor' %}selected{% endif %}>Professor</option>
+            <option value="adm" {% if usuario[3] == 'adm' %}selected{% endif %}>ADM</option>
+          </select>
+
+          <div class="botoes-acoes">
+            <button type="submit" class="salvar">Salvar</button>
+        </form>
+        <form action="{{ url_for('excluir_usuario', usuario_id=usuario[0]) }}" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')">
+            <button type="submit" class="excluir">Excluir</button>
+        </form>
+          </div>
+      </div>
+      {% endfor %}
+    </section>
+  </main>
+</body>
+</html>

@@ -6,7 +6,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo ENUM('aluno', 'professor') NOT NULL
+    tipo ENUM('aluno', 'professor', 'adm') NOT NULL
 );
 
 -- CURSOS
@@ -104,4 +104,7 @@ ALTER TABLE materiais
   ADD COLUMN materia VARCHAR(100);
 
   ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+INSERT INTO usuarios (nome, email, senha_hash, tipo)
+VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm@eduquiz', 256), 'adm');
 

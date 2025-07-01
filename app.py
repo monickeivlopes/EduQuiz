@@ -23,7 +23,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 mysql = MySQL(app)
 
-# Decorators
+# Decoradores
+def adm_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get('usuario_tipo') != 'adm':
+            flash('Acesso restrito aos administradores.', 'danger')
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -83,6 +93,113 @@ def index_professor():
     nome = usuario[0] if usuario else 'Professor'
     return render_template('index_professor.html', nome=nome)
 
+#Página ADMINITRADOR
+@app.route('/index_adm')
+@login_required
+@adm_required
+def index_adm():
+    return render_template('index_adm.html', nome=session.get('usuario_nome'))
+
+#GERENCIAR USUARIOS - ADM
+@app.route('/gerenciar_usuarios')
+@login_required
+@adm_required
+def gerenciar_usuarios():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT id, nome, email, tipo FROM usuarios")
+    usuarios = cursor.fetchall()
+    return render_template('gerenciar_usuarios.html', usuarios=usuarios)
+
+#GERENCIAR MATERIAIS -  ADM
+@app.route('/gerenciar_materiais')
+@login_required
+@adm_required
+def gerenciar_materiais():
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        SELECT m.id, m.titulo, m.materia, m.descricao, m.url, u.nome 
+        FROM materiais m
+        JOIN usuarios u ON m.professor_id = u.id
+    """)
+    materiais = cursor.fetchall()
+    return render_template('gerenciar_materiais.html', materiais=materiais)
+
+#Editar Usuário
+@app.route('/editar_usuario/<int:usuario_id>', methods=['POST'])
+@login_required
+@adm_required
+def editar_usuario(usuario_id):
+    nome = request.form.get('nome')
+    email = request.form.get('email')
+    tipo = request.form.get('tipo')
+
+    if tipo not in ['aluno', 'professor', 'adm']:
+        flash("Tipo inválido.", "danger")
+        return redirect(url_for('gerenciar_usuarios'))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        UPDATE usuarios SET nome = %s, email = %s, tipo = %s WHERE id = %s
+    """, (nome, email, tipo, usuario_id))
+    mysql.connection.commit()
+
+    flash("Usuário atualizado com sucesso.", "success")
+    return redirect(url_for('gerenciar_usuarios'))
+
+#Excluir Usuário
+@app.route('/excluir_usuario/<int:usuario_id>', methods=['POST'])
+@login_required
+@adm_required
+def excluir_usuario(usuario_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM usuarios WHERE id = %s", (usuario_id,))
+    mysql.connection.commit()
+
+    flash("Usuário excluído com sucesso.", "success")
+    return redirect(url_for('gerenciar_usuarios'))
+
+#Editar Materiais
+@app.route('/editar_material_adm/<int:material_id>', methods=['POST'])
+@login_required
+@adm_required
+def editar_material_adm(material_id):
+    novo_titulo = request.form.get('titulo')
+    nova_descricao = request.form.get('descricao')
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        UPDATE materiais SET titulo = %s, descricao = %s WHERE id = %s
+    """, (novo_titulo, nova_descricao, material_id))
+    mysql.connection.commit()
+
+    flash("Material atualizado com sucesso.", "success")
+    return redirect(url_for('gerenciar_materiais'))
+
+#Excluir Materiais
+@app.route('/excluir_material_adm/<int:material_id>', methods=['POST'])
+@login_required
+@adm_required
+def excluir_material_adm(material_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT url FROM materiais WHERE id = %s", (material_id,))
+    resultado = cursor.fetchone()
+
+    if resultado:
+        caminho_arquivo = resultado[0]
+        try:
+            os.remove(caminho_arquivo)
+        except:
+            pass
+
+        cursor.execute("DELETE FROM materiais WHERE id = %s", (material_id,))
+        mysql.connection.commit()
+        flash('Material excluído com sucesso.', 'success')
+    else:
+        flash('Material não encontrado.', 'danger')
+
+    return redirect(url_for('gerenciar_materiais'))
+
+
 # Cadastro
 @app.route('/Cadastro', methods=['GET', 'POST'])
 def register():
@@ -92,7 +209,7 @@ def register():
         senha = request.form['senha']
         tipo = request.form['tipo']
 
-        if tipo not in ['aluno', 'professor']:
+        if tipo not in ['aluno', 'professor', 'adm']:
             flash('Tipo de usuário inválido.', 'danger')
             return redirect(url_for('register'))
 
@@ -141,6 +258,9 @@ def login():
                 return redirect(url_for('index_aluno'))
             elif usuario[4] == 'professor':
                 return redirect(url_for('index_professor'))
+            elif usuario[4] == 'adm':
+                return redirect(url_for('index_adm'))
+
         else:
             flash('Email ou senha inválidos.', 'danger')
             return redirect(url_for('index', abrir_login=1)) 

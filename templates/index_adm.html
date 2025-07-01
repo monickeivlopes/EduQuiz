@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Área do Administrador</title>
+</head>
+<body>
+    <h1>Bem-vindo, {{ nome }} (ADM)</h1>
+    <ul>
+        <li><a href="{{ url_for('gerenciar_usuarios') }}">Gerenciar Usuários</a></li>
+        <li><a href="{{ url_for('gerenciar_materiais') }}">Gerenciar Materiais</a></li>
+    </ul>
+</body>
+</html>
