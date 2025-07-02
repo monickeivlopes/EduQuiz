@@ -160,3 +160,27 @@ body.page-inicio .btn-concluir:hover,
 body.page-inicio .btn-editar:hover {
   background-color: #009e4f;
 }
+.modal {
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+  margin: auto;
+}

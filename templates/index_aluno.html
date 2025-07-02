@@ -31,33 +31,30 @@
         <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
     </main>
 
-    <div id="modal-quiz" class="modal">
-        <div class="modal-content">
-            <h2>Escolher Tema e Dificuldade</h2>
-            <select>
-                <option disabled selected>Filtrar por tema</option>
-                <option>Operações Básicas</option>
-                <option>Matemática Financeira</option>
-                <option>Trigonometria</option>
-            </select>
+   <form method="GET" action="{{ url_for('quiz') }}">
+  <div id="modal-quiz" class="modal">
+    <div class="modal-content">
+      <h2>Escolher Dificuldade</h2>
 
-            <div class="dificuldade">
-                <input type="radio" name="nivel" value="facil" id="facil">
-                <label for="facil">Fácil</label>
+      <div class="dificuldade">
+        <input type="radio" name="nivel_id" value="1" id="facil" required>
+        <label for="facil">Fácil</label>
 
-                <input type="radio" name="nivel" value="medio" id="medio">
-                <label for="medio">Médio</label>
+        <input type="radio" name="nivel_id" value="2" id="medio">
+        <label for="medio">Médio</label>
 
-                <input type="radio" name="nivel" value="dificil" id="dificil">
-                <label for="dificil">Difícil</label>
-            </div>
+        <input type="radio" name="nivel_id" value="3" id="dificil">
+        <label for="dificil">Difícil</label>
+      </div>
 
-            <div class="botoes-modal">
-                <button class="btn-iniciar">Iniciar Quiz</button>
-                <button class="btn-voltar" id="fechar-modal">Voltar</button>
-            </div>
-        </div>
+      <div class="botoes-modal">
+        <button type="submit" class="btn-iniciar">Iniciar Quiz</button>
+        <button type="button" class="btn-voltar" id="fechar-modal">Voltar</button>
+      </div>
     </div>
+  </div>
+</form>
+
 
 <script src="static/js/quiz.js"></script>
 </body>

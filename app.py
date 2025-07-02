@@ -223,16 +223,35 @@ def register():
 
         senha_hash = hashlib.sha256(senha.encode()).hexdigest()
 
+        # Inserir usuário
         cursor.execute(
             'INSERT INTO usuarios (nome, email, senha_hash, tipo) VALUES (%s, %s, %s, %s)',
             (nome, email, senha_hash, tipo)
         )
         mysql.connection.commit()
 
+        # Recuperar o ID recém-criado
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        usuario_id = cursor.fetchone()[0]
+
+        # Inserir em professores ou alunos
+        if tipo == 'professor':
+            cursor.execute("INSERT INTO professores (id) VALUES (%s)", (usuario_id,))
+        elif tipo == 'aluno':
+            # Só insere se tiver cursos já disponíveis
+            cursor.execute("SELECT id FROM cursos LIMIT 1")
+            curso = cursor.fetchone()
+            if curso:
+                cursor.execute("INSERT INTO alunos (id, curso_id) VALUES (%s, %s)", (usuario_id, curso[0]))
+
+        mysql.connection.commit()
+
         flash('Cadastro realizado com sucesso!', 'success')
         return redirect(url_for('index'))
 
     return render_template('register.html')
+
+
 
 # Login
 @app.route('/Login', methods=['GET', 'POST'])
@@ -421,17 +440,18 @@ def ajuda():
     return render_template('ajuda.html')
 
 #primeira tentativa para o quiz
+
 @app.route('/quiz', methods=['GET', 'POST'])
 @login_required
 @aluno_required
 def quiz():
     cursor = mysql.connection.cursor()
-    
+
     if request.method == 'POST':
         respostas = request.form.to_dict()
         aluno_id = session['usuario_id']
         nivel_id = int(respostas.pop('nivel_id'))
-        
+
         cursor.execute("INSERT INTO tentativas_quiz (aluno_id, nivel_id) VALUES (%s, %s)", (aluno_id, nivel_id))
         tentativa_id = cursor.lastrowid
 
@@ -449,7 +469,13 @@ def quiz():
         return redirect(url_for('index_aluno'))
 
     # GET: exibe quiz
-    nivel_id = 1  # pode vir de um formulário ou ser aleatório
+    if 'nivel_id' not in request.args:
+        cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
+        niveis = cursor.fetchall()
+        return render_template('quiz_inicio.html', niveis=niveis)
+
+    nivel_id = int(request.args['nivel_id'])
+
     cursor.execute("""
         SELECT q.id, q.enunciado FROM questoes q
         WHERE q.nivel_id = %s
@@ -468,6 +494,8 @@ def quiz():
         })
 
     return render_template('quiz.html', questoes=questoes_com_alternativas, nivel_id=nivel_id)
+
+
 
 
 #rota para enviar questões no bd
