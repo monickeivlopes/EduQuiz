@@ -1,4 +1,4 @@
-/* Estilos gerais que valem para todas as páginas */
+/* Reset e estilo global */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: white;
@@ -7,7 +7,7 @@ body {
   padding: 0;
 }
 
-/* Header comum */
+/* Header fixo */
 header {
   background-color: #001F87;
   color: white;
@@ -17,6 +17,11 @@ header {
   padding: 15px 30px;
   flex-wrap: wrap;
   gap: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .logo {
@@ -31,71 +36,17 @@ header {
   margin-right: 10px;
 }
 
-/* Botões comuns */
-button, a.btn-secundario {
-  cursor: pointer;
-  border-radius: 30px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  border: none;
-  font-size: 16px;
-  padding: 12px 20px;
-}
-
-/* Estilos específicos para a página "Adicionar Materiais" */
-body.page-materiais main {
-  padding: 50px 20px;
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-body.page-materiais form {
-  max-width: 600px;
-  margin: 0 auto 60px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  text-align: left;
-}
-
-body.page-materiais input, 
-body.page-materiais select, 
-body.page-materiais textarea {
-  padding: 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  font-size: 16px;
-  font-family: inherit;
-  color: #001F87;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease;
-}
-
-body.page-materiais input:focus, 
-body.page-materiais select:focus, 
-body.page-materiais textarea:focus {
-  border-color: #001F87;
-  outline: none;
-  background-color: white;
-}
-
-
-body.page-materiais button.btn-concluir {
-  background-color: #00c26e;
-  color: white;
-}
-
-body.page-materiais button.btn-concluir:hover {
-  background-color: #009e4f;
-}
-
-/* Estilos específicos para a página "Início do Professor" */
+/* Estilo da página de início */
 body.page-inicio main {
   max-width: 700px;
-  margin: 40px auto;
+  margin: 0 auto;
+  padding-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
   text-align: center;
-  padding: 0 20px;
 }
 
 body.page-inicio h1 {
@@ -103,16 +54,16 @@ body.page-inicio h1 {
   margin-bottom: 40px;
 }
 
+/* Botão principal */
 body.page-inicio .btn-iniciar {
   background-color: #00c26e;
   color: white;
-  border: none;
   padding: 15px 30px;
   border-radius: 30px;
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 40px;
-  cursor: pointer;
+  text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
@@ -120,6 +71,7 @@ body.page-inicio .btn-iniciar:hover {
   background-color: #009e4f;
 }
 
+/* Botões secundários */
 body.page-inicio .botoes-secundarios {
   margin-bottom: 20px;
 }
@@ -139,6 +91,7 @@ body.page-inicio a.btn-secundario:hover {
   background-color: #3b4ccc;
 }
 
+/* Botão sair */
 body.page-inicio .btn-sair {
   background-color: #6c757d;
   color: white;
@@ -154,14 +107,12 @@ body.page-inicio .btn-sair:hover {
   background-color: #5a6268;
 }
 
-/* Modal estilos para página inicio */
+/* Modal */
 body.page-inicio .modal {
-  display: none; 
+  display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background-color: rgba(0,0,0,0.5);
   justify-content: center;
   align-items: center;
@@ -178,7 +129,8 @@ body.page-inicio .modal-content {
 }
 
 body.page-inicio .modal-content select,
-body.page-inicio .modal-content input {
+body.page-inicio .modal-content input,
+body.page-inicio .modal-content textarea {
   width: 100%;
   margin-bottom: 15px;
   padding: 10px;
@@ -187,6 +139,7 @@ body.page-inicio .modal-content input {
   font-size: 16px;
 }
 
+/* Botões do modal */
 body.page-inicio .modal-content button {
   min-width: 100px;
   padding: 12px 20px;
@@ -197,179 +150,13 @@ body.page-inicio .modal-content button {
   margin-right: 10px;
 }
 
+body.page-inicio .btn-concluir,
 body.page-inicio .btn-editar {
   background-color: #00c26e;
   color: white;
 }
 
+body.page-inicio .btn-concluir:hover,
 body.page-inicio .btn-editar:hover {
   background-color: #009e4f;
-}
-
-body.page-inicio .btn-concluir {
-  background-color: #00c26e;
-  color: white;
-}
-
-body.page-inicio .btn-concluir:hover {
-  background-color: #009e4f;
-}
-
-/* Títulos */
-body.page-materiais section h2 {
-  text-align: left;
-  color: #001F87;
-  margin-bottom: 20px;
-}
-
-/* Cards de materiais */
-body.page-materiais .card-material  {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 16px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  margin-top: 20px;
-  text-align: justify;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  justify-content: left;
-}
-
-
-body.page-materiais .card-material h3 {
-  color: #001F87;
-  margin-bottom: 8px;
-  font-size: 20px;
-}
-
-body.page-materiais .card-material p {
-  margin: 4px 0;
-  color: #333;
-  font-size: 15px;
-}
-
-body.page-materiais .card-material a {
-  display: inline-block;
-  margin-top: 10px;
-  color: #4C5FFF;
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s;
-}
-
-body.page-materiais .card-material a:hover {
-  color: #001F87;
-  text-decoration: underline;
-}
-
-/* Formulários de edição */
-body.page-materiais .card-material form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-body.page-materiais .card-material input[type="text"],
-body.page-materiais .card-material textarea,
-body.page-materiais .card-material select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 14px;
-  background-color: #f9f9f9;
-  color: #001F87;
-}
-
-body.page-materiais .card-material input[type="text"]:focus,
-body.page-materiais .card-material textarea:focus,
-body.page-materiais .card-material select:focus {
-  border-color: #001F87;
-  background-color: white;
-  outline: none;
-}
-
-/* Área dos botões */
-body.page-materiais .card-material  .botoes-acoes {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-/* Espaço entre botões e inputs */
-body.page-materiais .card-material form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-  justify-items: flex-start;
-}
-
-/* Espaçamento entre botões */
-.botoes-acoes {
-  display: flex;
-  margin-top: 10px;
-  justify-content: flex-start;
-}
-
-/* Estilo geral dos botões */
-body.page-materiais .card-material button {
-  padding: 8px 20px;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-/* Botão EDITAR */
-body.page-materiais .card-material button.editar {
-  background-color: #4C5FFF;
-  color: white;
-}
-
-body.page-materiais .card-material button.editar:hover {
-  background-color: #001F87;
-}
-
-/* Botão SALVAR */
-body.page-materiais .card-material button.salvar {
-  background-color: #00c26e;
-  color: white;
-}
-
-body.page-materiais .card-material button.salvar:hover {
-  background-color: #009e4f;
-}
-
-/* Botão CANCELAR */
-body.page-materiais .card-material button.cancelar {
-  background-color: #ccc;
-  color: #333;
-}
-
-body.page-materiais .card-material button.cancelar:hover {
-  background-color: #999;
-}
-
-/* Botão EXCLUIR */
-body.page-materiais .card-material button.excluir {
-  background-color: #dc3545;
-  color: white;
-}
-
-body.page-materiais .card-material button.excluir:hover {
-  background-color: #a71d2a;
-}
-/* Ajuste- Fixar header */
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-body.page-inicio main {
-    padding-top: 80px; /* altura aproximada do header */
 }
