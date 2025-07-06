@@ -108,3 +108,92 @@ ALTER TABLE materiais
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
 VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm@eduquiz', 256), 'adm');
 
+alter table cursos
+modify column nome ENUM('Eletro', 'Info', 'Vestuário', 'Têxtil') NOT NULL;
+
+
+INSERT INTO cursos (nome) VALUES 
+('Eletro'),
+('Info'),
+('Vestuário'),
+('Têxtil');
+
+ALTER TABLE alunos DROP FOREIGN KEY alunos_ibfk_1;
+ALTER TABLE alunos DROP FOREIGN KEY alunos_ibfk_2;
+
+ALTER TABLE professores DROP FOREIGN KEY professores_ibfk_1;
+
+ALTER TABLE questoes DROP FOREIGN KEY questoes_ibfk_1;
+ALTER TABLE questoes DROP FOREIGN KEY questoes_ibfk_2;
+ALTER TABLE questoes DROP FOREIGN KEY questoes_ibfk_3;
+
+ALTER TABLE alternativas DROP FOREIGN KEY alternativas_ibfk_1;
+
+ALTER TABLE tentativas_quiz DROP FOREIGN KEY tentativas_quiz_ibfk_1;
+ALTER TABLE tentativas_quiz DROP FOREIGN KEY tentativas_quiz_ibfk_2;
+
+ALTER TABLE respostas_alunos DROP FOREIGN KEY respostas_alunos_ibfk_1;
+ALTER TABLE respostas_alunos DROP FOREIGN KEY respostas_alunos_ibfk_2;
+ALTER TABLE respostas_alunos DROP FOREIGN KEY respostas_alunos_ibfk_3;
+
+ALTER TABLE materiais DROP FOREIGN KEY fk_materiais_usuarios;
+
+
+-- ALUNOS
+ALTER TABLE alunos
+ADD CONSTRAINT fk_alunos_usuarios
+FOREIGN KEY (id) REFERENCES usuarios(id) ON DELETE CASCADE;
+
+ALTER TABLE alunos
+ADD CONSTRAINT fk_alunos_cursos
+FOREIGN KEY (curso_id) REFERENCES cursos(id) ON DELETE CASCADE;
+
+-- PROFESSORES
+ALTER TABLE professores
+ADD CONSTRAINT fk_professores_usuarios
+FOREIGN KEY (id) REFERENCES usuarios(id) ON DELETE CASCADE;
+
+-- QUESTOES
+ALTER TABLE questoes
+ADD CONSTRAINT fk_questoes_nivel
+FOREIGN KEY (nivel_id) REFERENCES niveis_dificuldade(id) ON DELETE CASCADE;
+
+ALTER TABLE questoes
+ADD CONSTRAINT fk_questoes_assunto
+FOREIGN KEY (assunto_id) REFERENCES assuntos(id) ON DELETE CASCADE;
+
+ALTER TABLE questoes
+ADD CONSTRAINT fk_questoes_professor
+FOREIGN KEY (autor_id) REFERENCES professores(id) ON DELETE CASCADE;
+
+-- ALTERNATIVAS
+ALTER TABLE alternativas
+ADD CONSTRAINT fk_alternativas_questao
+FOREIGN KEY (questao_id) REFERENCES questoes(id) ON DELETE CASCADE;
+
+-- TENTATIVAS DE QUIZ
+ALTER TABLE tentativas_quiz
+ADD CONSTRAINT fk_tentativa_aluno
+FOREIGN KEY (aluno_id) REFERENCES alunos(id) ON DELETE CASCADE;
+
+ALTER TABLE tentativas_quiz
+ADD CONSTRAINT fk_tentativa_nivel
+FOREIGN KEY (nivel_id) REFERENCES niveis_dificuldade(id) ON DELETE CASCADE;
+
+-- RESPOSTAS DOS ALUNOS
+ALTER TABLE respostas_alunos
+ADD CONSTRAINT fk_resposta_tentativa
+FOREIGN KEY (tentativa_id) REFERENCES tentativas_quiz(id) ON DELETE CASCADE;
+
+ALTER TABLE respostas_alunos
+ADD CONSTRAINT fk_resposta_questao
+FOREIGN KEY (questao_id) REFERENCES questoes(id) ON DELETE CASCADE;
+
+ALTER TABLE respostas_alunos
+ADD CONSTRAINT fk_resposta_alternativa
+FOREIGN KEY (alternativa_id) REFERENCES alternativas(id) ON DELETE SET NULL;
+
+-- MATERIAIS
+ALTER TABLE materiais
+ADD CONSTRAINT fk_materiais_professor
+FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE;

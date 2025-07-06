@@ -152,6 +152,24 @@ def editar_usuario(usuario_id):
 @adm_required
 def excluir_usuario(usuario_id):
     cursor = mysql.connection.cursor()
+
+    # Descobrir o tipo do usuário
+    cursor.execute("SELECT tipo FROM usuarios WHERE id = %s", (usuario_id,))
+    resultado = cursor.fetchone()
+
+    if not resultado:
+        flash("Usuário não encontrado.", "danger")
+        return redirect(url_for('gerenciar_usuarios'))
+
+    tipo = resultado[0]
+
+    # Apagar da tabela relacionada
+    if tipo == 'aluno':
+        cursor.execute("DELETE FROM alunos WHERE id = %s", (usuario_id,))
+    elif tipo == 'professor':
+        cursor.execute("DELETE FROM professores WHERE id = %s", (usuario_id,))
+
+    # Agora apagar da tabela usuarios
     cursor.execute("DELETE FROM usuarios WHERE id = %s", (usuario_id,))
     mysql.connection.commit()
 
@@ -208,6 +226,7 @@ def register():
         email = request.form['email']
         senha = request.form['senha']
         tipo = request.form['tipo']
+        curso_nome = request.form.get('curso')
 
         if tipo not in ['aluno', 'professor', 'adm']:
             flash('Tipo de usuário inválido.', 'danger')
@@ -237,12 +256,23 @@ def register():
         # Inserir em professores ou alunos
         if tipo == 'professor':
             cursor.execute("INSERT INTO professores (id) VALUES (%s)", (usuario_id,))
+        
         elif tipo == 'aluno':
-            # Só insere se tiver cursos já disponíveis
-            cursor.execute("SELECT id FROM cursos LIMIT 1")
+            # Verifica se o curso foi selecionado
+            if not curso_nome:
+                flash('Você precisa selecionar um curso.', 'danger')
+                return redirect(url_for('register'))
+
+            # Verifica se o curso existe no banco
+            cursor.execute("SELECT id FROM cursos WHERE nome = %s", (curso_nome,))
             curso = cursor.fetchone()
-            if curso:
-                cursor.execute("INSERT INTO alunos (id, curso_id) VALUES (%s, %s)", (usuario_id, curso[0]))
+
+            if not curso:
+                flash('Curso inválido ou não encontrado.', 'danger')
+                return redirect(url_for('register'))
+
+            curso_id = curso[0]
+            cursor.execute("INSERT INTO alunos (id, curso_id) VALUES (%s, %s)", (usuario_id, curso_id))
 
         mysql.connection.commit()
 
@@ -250,6 +280,8 @@ def register():
         return redirect(url_for('index'))
 
     return render_template('register.html')
+
+
 
 
 
