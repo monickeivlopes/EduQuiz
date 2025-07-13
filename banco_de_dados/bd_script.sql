@@ -105,6 +105,7 @@ ALTER TABLE materiais
 
   ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP;
 
+-- USUARIO ADM
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
 VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm@eduquiz', 256), 'adm');
 

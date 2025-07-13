@@ -4,7 +4,167 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Materiais de Estudo</title>
-    <link rel="stylesheet" href="static/aluno.css">
+    <style>
+       /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #004aad;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(255,255,255,0.12)'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(255,255,255,0.08)'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(255,255,255,0.06)'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(255,255,255,0.10)'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(255,255,255,0.12)' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-position: center;
+      background-size: 160px 160px;
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: #001f87;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+
+    .logo img {
+      height: 40px;
+      width: auto;
+    }
+
+
+
+    header nav a {
+      margin-left: 20px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    header nav a:hover {
+      opacity: 0.8;
+    }
+
+    main {
+      flex: 1;
+      padding: 100px 20px 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    main h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      color: white;
+    }
+
+    .materiais {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .material {
+      background-color: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .material:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .material h2 {
+      margin-bottom: 10px;
+      font-size: 1.25rem;
+      color: #001f87;
+    }
+
+    .material p {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    .material a {
+      align-self: flex-start;
+      background-color: #004aad;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background-color 0.2s ease;
+    }
+
+    .material a:hover {
+      background-color: #00337a;
+    }
+
+    .btn-voltar {
+      margin-top: 50px;
+      background-color: #e0e0e0;
+      color: #333;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-voltar:hover {
+      background-color: #cccccc;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      header nav {
+        margin-top: 10px;
+      }
+
+      main h1 {
+        font-size: 1.8rem;
+      }
+    }
+    </style>
 </head>
 <body>
 
