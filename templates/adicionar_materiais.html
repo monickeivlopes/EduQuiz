@@ -42,8 +42,7 @@
 
     input[type="text"],
     select,
-    textarea,
-    input[type="file"] {
+    textarea {
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -55,6 +54,39 @@
     textarea {
       resize: vertical;
       font-family: Arial, sans-serif;
+    }
+
+    .custom-file-input {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.95rem;
+    }
+
+    .custom-file-input label {
+      background-color: #e5e7eb;
+      color: #374151;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border: 1px solid #d1d5db;
+      transition: background-color 0.2s ease;
+    }
+
+    .custom-file-input label:hover {
+      background-color: #d1d5db;
+    }
+
+    .custom-file-input input[type="file"] {
+      display: none;
+    }
+
+    .custom-file-input span {
+      color: #6b7280;
+      font-style: italic;
+      font-size: 0.9rem;
     }
 
     .btn-concluir {
@@ -210,7 +242,12 @@
     </select>
 
     <textarea name="descricao" placeholder="Descrição do material..." rows="4" required></textarea>
-    <input type="file" name="arquivo" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" required />
+
+    <div class="custom-file-input">
+      <label for="arquivo">📁 Escolher arquivo</label>
+      <input type="file" id="arquivo" name="arquivo" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" required />
+      <span id="file-chosen">Nenhum arquivo selecionado</span>
+    </div>
 
     <div style="display: flex; justify-content: flex-end;">
       <button type="submit" class="btn-concluir">Adicionar</button>
@@ -261,6 +298,11 @@ function mostrarFormulario(id) {
 function esconderFormulario(id) {
   document.getElementById(`form-editar-${id}`).style.display = 'none';
 }
+
+document.getElementById("arquivo").addEventListener("change", function () {
+  const fileName = this.files[0] ? this.files[0].name : "Nenhum arquivo selecionado";
+  document.getElementById("file-chosen").textContent = fileName;
+});
 </script>
 
 </body>
