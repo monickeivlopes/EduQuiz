@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Materiais de Estudo</title>
-    <style>
-       /* Reset básico */
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Materiais de Estudo</title>
+  <style>
+    /* Reset básico */
     * {
       margin: 0;
       padding: 0;
@@ -14,12 +14,9 @@
 
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #004aad;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(255,255,255,0.12)'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(255,255,255,0.08)'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(255,255,255,0.06)'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(255,255,255,0.10)'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(255,255,255,0.12)' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
-      background-repeat: repeat;
-      background-position: center;
-      background-size: 160px 160px;
-      color: white;
+      background-color: #ffffff; 
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(0,0,0,0.08)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(0,0,0,0.06)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(0,0,0,0.10)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
+      color: #333333;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -54,8 +51,6 @@
       width: auto;
     }
 
-
-
     header nav a {
       margin-left: 20px;
       color: white;
@@ -74,23 +69,30 @@
       max-width: 1000px;
       margin: 0 auto;
       text-align: center;
+      background-color: white;
     }
 
     main h1 {
       font-size: 2.2rem;
       font-weight: 700;
-      margin-bottom: 40px;
-      color: white;
+      margin-bottom: 20px;
+      color: #001f87;
     }
 
-    .materiais {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
+    main h2 {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      color: #001f87;
+    }
+
+    main h3 {
+      color: #001f87; /* nomes dos materiais em azul */
+      font-size: 1.2rem;
+      margin-bottom: 8px;
     }
 
     .material {
-      background-color: white;
+      background-color: #ffffff;
       border-radius: 12px;
       padding: 25px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -100,6 +102,7 @@
       flex-direction: column;
       gap: 12px;
       align-items: flex-start;
+      margin-bottom: 30px;
     }
 
     .material:hover {
@@ -107,15 +110,10 @@
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
     }
 
-    .material h2 {
-      margin-bottom: 10px;
-      font-size: 1.25rem;
-      color: #001f87;
-    }
-
     .material p {
       font-size: 0.95rem;
       color: #555;
+      text-align: left;
     }
 
     .material a {
@@ -134,22 +132,6 @@
       background-color: #00337a;
     }
 
-    .btn-voltar {
-      margin-top: 50px;
-      background-color: #e0e0e0;
-      color: #333;
-      border: none;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-    }
-
-    .btn-voltar:hover {
-      background-color: #cccccc;
-    }
-
     @media (max-width: 700px) {
       header {
         flex-direction: column;
@@ -164,39 +146,35 @@
         font-size: 1.8rem;
       }
     }
-    </style>
+  </style>
 </head>
 <body>
 
-    <header>
-      <div class="logo">
-        <img src="static/img/Logo.png" alt="Logo EduQuiz" />
-        <span>EDUQUIZ</span>
+  <header>
+    <div class="logo">
+      <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+      <span>EDUQUIZ</span>
+    </div>
+    <nav>
+      <a href="{{ url_for('index_aluno') }}">
+        <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;" />
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Materiais de Estudo</h1>
+    <h2>Materiais Disponíveis</h2>
+
+    {% for m in materiais %}
+      <div class="material">
+        <h3>{{ m[1] }} ({{ m[2] }})</h3>
+        <p>{{ m[3] }}</p>
+        <p><strong>Professor:</strong> {{ m[5] }}</p>
+        <a href="{{ url_for('baixar_material', material_id=m[0]) }}">Baixar</a>
       </div>
-      <nav>
-        <a href="{{ url_for('index_aluno') }}">
-          <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;" />
-        </a>
-      </nav>
-    </header>
+    {% endfor %}
+  </main>
 
-
-    <main>
-        <h1>Materiais de Estudo</h1>
-
-        <h2>Materiais Disponíveis</h2>
-{% for m in materiais %}
-  <div>
-    <h3>{{ m[1] }} ({{ m[2] }})</h3>
-    <p>{{ m[3] }}</p>
-    <p><strong>Professor:</strong> {{ m[5] }}</p>
-    <a href="{{ url_for('baixar_material', material_id=m[0]) }}">Baixar</a>
-  </div>
-  <hr>
-{% endfor %}
-
-
-        <button class="btn-voltar" onclick="window.history.back()">Voltar</button>
-    </main>
 </body>
 </html>
