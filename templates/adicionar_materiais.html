@@ -104,6 +104,28 @@
       background-color: #059669;
     }
 
+    .btn-voltar {
+      background-color: #ef4444;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn-voltar:hover {
+      background-color: #dc2626;
+    }
+
+    .botoes-formulario {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
     .material-card {
       margin-top: 50px;
     }
@@ -209,6 +231,15 @@
       .botoes-acoes {
         flex-direction: column;
       }
+
+      .botoes-formulario {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-voltar {
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
@@ -249,7 +280,8 @@
       <span id="file-chosen">Nenhum arquivo selecionado</span>
     </div>
 
-    <div style="display: flex; justify-content: flex-end;">
+    <div class="botoes-formulario">
+      <a href="{{ url_for('index_professor') }}" class="btn-voltar">Voltar</a>
       <button type="submit" class="btn-concluir">Adicionar</button>
     </div>
   </form>
