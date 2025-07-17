@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h2>Resultado do Quiz</h2>
+
+<p><strong>Total de questões:</strong> {{ total }}</p>
+<p><strong>Acertos:</strong> {{ acertos }}</p>
+<p><strong>Erros:</strong> {{ erros }}</p>
+
+<hr>
+
+<!-- Botão para ver gabarito -->
+<button onclick="toggleGabarito()" style="margin-top: 10px;">Ver Gabarito</button>
+
+<!-- Div oculta com o gabarito -->
+<div id="gabarito" style="display: none; margin-top: 20px;">
+  <h3>Gabarito</h3>
+  {% for enunciado, resposta_marcada, resposta_correta, correta in resultados %}
+    <div style="margin-bottom: 15px;">
+      <strong>Pergunta:</strong> {{ enunciado }}<br>
+      <strong>Sua resposta:</strong> {{ resposta_marcada }}<br>
+      <strong>Resposta correta:</strong> {{ resposta_correta }}<br>
+      {% if correta %}
+        <span style="color: green;">✔️ Acertou</span>
+      {% else %}
+        <span style="color: red;">❌ Errou</span>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<script src="{{ url_for('static', filename='js/gabarito.js') }}"></script>
+
+
+ <button><a href="{{ url_for('index_aluno') }}">Voltar</a></button>
+</body>
+</html>

@@ -497,8 +497,8 @@ def quiz():
             """, (tentativa_id, questao_id, alternativa_id, correta))
 
         mysql.connection.commit()
-        flash("Respostas enviadas com sucesso!", "success")
-        return redirect(url_for('index_aluno'))
+        return redirect(url_for('quiz_resultado', tentativa_id=tentativa_id))
+
 
     # GET: exibe quiz
     if 'nivel_id' not in request.args:
@@ -573,6 +573,35 @@ def adicionar_questao():
     mysql.connection.commit()
     flash("Questão adicionada com sucesso!", "success")
     return redirect(url_for('gerenciar_questoes'))
+
+
+@app.route('/quiz_resultado/<int:tentativa_id>')
+@login_required
+@aluno_required
+def quiz_resultado(tentativa_id):
+    aluno_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT id FROM tentativas_quiz WHERE id = %s AND aluno_id = %s", (tentativa_id, aluno_id))
+    if not cursor.fetchone():
+        flash("Tentativa inválida ou acesso negado.", "danger")
+        return redirect(url_for('index_aluno'))
+
+    cursor.execute("""
+        SELECT q.enunciado, a.texto AS resposta_marcada, alt.texto AS resposta_correta, ra.correta
+        FROM respostas_alunos ra
+        JOIN questoes q ON ra.questao_id = q.id
+        JOIN alternativas a ON ra.alternativa_id = a.id
+        JOIN alternativas alt ON alt.questao_id = q.id AND alt.correta = 1
+        WHERE ra.tentativa_id = %s
+    """, (tentativa_id,))
+    resultados = cursor.fetchall()
+
+    total = len(resultados)
+    acertos = sum(1 for r in resultados if r[3] == 1)
+    erros = total - acertos
+
+    return render_template("quiz_resultado.html", total=total, acertos=acertos, erros=erros, resultados=resultados)
 
 
 if __name__ == '__main__':
