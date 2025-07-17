@@ -1,25 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Materiais de Estudo</title>
   <style>
-    /* Reset básico */
-    * {
+    body {
+      font-family: "Segoe UI", sans-serif;
+      background-color: #f4f6f9;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #ffffff; 
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(0,0,0,0.08)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(0,0,0,0.06)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(0,0,0,0.10)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
-      color: #333333;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
     }
 
     header {
@@ -27,100 +17,74 @@
       color: white;
       padding: 15px 30px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      flex-wrap: wrap;
+      align-items: center;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: bold;
     }
 
     .logo img {
       height: 40px;
-      width: auto;
     }
 
-    header nav a {
-      margin-left: 20px;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      transition: opacity 0.2s;
-    }
-
-    header nav a:hover {
-      opacity: 0.8;
+    header nav a img {
+      width: 30px;
     }
 
     main {
-      flex: 1;
-      padding: 100px 20px 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-      text-align: center;
-      background-color: white;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
     }
 
-    main h1 {
+    h1 {
       font-size: 2.2rem;
-      font-weight: 700;
       margin-bottom: 20px;
-      color: #001f87;
+      text-align: center;
+      color: #012588;
     }
 
-    main h2 {
+    h2 {
       font-size: 1.5rem;
       margin-bottom: 30px;
-      color: #001f87;
+      text-align: left;
+      color: #14348a;
     }
 
-    main h3 {
-      color: #001f87; /* nomes dos materiais em azul */
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-    }
-
-    .material {
-      background-color: #ffffff;
+    .card-material {
+      background-color: white;
       border-radius: 12px;
-      padding: 25px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      color: #333;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 30px;
+      gap: 10px;
     }
 
-    .material:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    .card-material h3 {
+      margin: 0;
+      color: #001f87;
+      font-size: 1.2rem;
     }
 
-    .material p {
+    .card-material p {
+      margin: 4px 0;
       font-size: 0.95rem;
-      color: #555;
-      text-align: left;
+      color: #333;
     }
 
-    .material a {
-      align-self: flex-start;
-      background-color: #004aad;
+    .card-material a {
+      align-self: center;
+      background-color: #00ff3c;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 25px;
       border-radius: 30px;
       text-decoration: none;
       font-weight: 600;
@@ -128,53 +92,49 @@
       transition: background-color 0.2s ease;
     }
 
-    .material a:hover {
-      background-color: #00337a;
+    .card-material a:hover {
+      background-color: #02cc32;
     }
 
-    @media (max-width: 700px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
+    @media (max-width: 600px) {
+      h1, h2 {
+        text-align: center;
       }
 
-      header nav {
-        margin-top: 10px;
-      }
-
-      main h1 {
-        font-size: 1.8rem;
+      main {
+        padding: 30px 15px;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">
-      <img src="static/img/Logo.png" alt="Logo EduQuiz" />
-      <span>EDUQUIZ</span>
+<header>
+  <div class="logo">
+    <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+    <span>EDUQUIZ</span>
+  </div>
+  <nav>
+    <a href="{{ url_for('index_aluno') }}">
+      <img src="static/img/casa.png" alt="Ícone de home" />
+    </a>
+  </nav>
+</header>
+
+<main>
+  <h1>Materiais de Estudo</h1>
+  <h2>Materiais Disponíveis:</h2>
+
+  {% for m in materiais %}
+    <div class="card-material">
+      <h3>{{ m[1] }}</h3>
+      <p><strong>Matéria:</strong> {{ m[2] }}</p>
+      <p>{{ m[3] }}</p>
+      <p><strong>Professor:</strong> {{ m[5] }}</p>
+      <a href="{{ url_for('baixar_material', material_id=m[0]) }}">Baixar</a>
     </div>
-    <nav>
-      <a href="{{ url_for('index_aluno') }}">
-        <img src="static/img/casa.png" alt="Ícone de logout" style="width: 30px;" />
-      </a>
-    </nav>
-  </header>
-
-  <main>
-    <h1>Materiais de Estudo</h1>
-    <h2>Materiais Disponíveis</h2>
-
-    {% for m in materiais %}
-      <div class="material">
-        <h3>{{ m[1] }} ({{ m[2] }})</h3>
-        <p>{{ m[3] }}</p>
-        <p><strong>Professor:</strong> {{ m[5] }}</p>
-        <a href="{{ url_for('baixar_material', material_id=m[0]) }}">Baixar</a>
-      </div>
-    {% endfor %}
-  </main>
+  {% endfor %}
+</main>
 
 </body>
 </html>
