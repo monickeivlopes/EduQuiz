@@ -471,6 +471,14 @@ def materiais():
 def ajuda():
     return render_template('ajuda.html')
 
+@app.route('/ajudaAluno')
+def ajudaAluno():
+    return render_template('ajudaAluno.html')
+
+@app.route('/ajudaProf')
+def ajudaProf():
+    return render_template('ajudaProf.html')
+
 #primeira tentativa para o quiz
 
 @app.route('/quiz', methods=['GET', 'POST'])
