@@ -611,6 +611,57 @@ def quiz_resultado(tentativa_id):
 
     return render_template("quiz_resultado.html", total=total, acertos=acertos, erros=erros, resultados=resultados)
 
+@app.route('/desempenho')
+@login_required
+@aluno_required
+def desempenho():
+    aluno_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
+    # Total geral
+    cursor.execute("""
+        SELECT 
+            COUNT(*) AS total_questoes,
+            SUM(CASE WHEN correta = 1 THEN 1 ELSE 0 END) AS acertos,
+            SUM(CASE WHEN correta = 0 THEN 1 ELSE 0 END) AS erros
+        FROM respostas_alunos ra
+        JOIN tentativas_quiz tq ON ra.tentativa_id = tq.id
+        WHERE tq.aluno_id = %s
+    """, (aluno_id,))
+    resultados = cursor.fetchone()
+
+    total_questoes = resultados[0] or 0
+    acertos = resultados[1] or 0
+    erros = resultados[2] or 0
+
+    # Pegando acertos por tentativa
+    cursor.execute("""
+        SELECT 
+            tq.id,
+            DATE_FORMAT(tq.data_hora, '%%d/%%m/%%Y') AS data,
+            DATE_FORMAT(tq.data_hora, '%%H:%%i') AS hora,
+            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) AS acertos
+        FROM tentativas_quiz tq
+        LEFT JOIN respostas_alunos ra ON ra.tentativa_id = tq.id
+        WHERE tq.aluno_id = %s
+        GROUP BY tq.id, data, hora
+        ORDER BY tq.data_hora
+    """, (aluno_id,))
+    tentativas = cursor.fetchall()
+
+    labels = [f"{r[1]} {r[2]}" for r in tentativas]  # data + hora
+    data = [r[3] for r in tentativas]  # acertos por tentativa
+
+    return render_template('desempenho.html',
+                           total=total_questoes,
+                           acertos=acertos,
+                           erros=erros,
+                           tentativas=tentativas,
+                           labels=labels,
+                           data=data)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

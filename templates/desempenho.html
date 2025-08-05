@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Desempenho do Aluno</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Desempenho</h2>
+
+    <p><strong>Total de questões respondidas:</strong> {{ total }}</p>
+    <p><strong>Acertos:</strong> {{ acertos }}</p>
+    <p><strong>Erros:</strong> {{ erros }}</p>
+
+    <h3>Gráfico:</h3>
+    <canvas id="graficoDesempenho" width="300" height="200"></canvas>
+
+    <h3>Histórico de Tentativas:</h3>
+    <ul>
+        {% for tentativa in tentativas %}
+            <li>Quiz ID {{ tentativa[0] }} - {{ tentativa[1] }} às {{ tentativa[2] }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <script>
+  const Labels = {{ labels | tojson }};
+  const Data = {{ data | tojson }};
+  </script>
+  
+    <script src="{{ url_for('static', filename='js/desempenho.js') }}"></script>
+</body>
+</html>
+
+
+

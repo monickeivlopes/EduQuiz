@@ -198,3 +198,6 @@ FOREIGN KEY (alternativa_id) REFERENCES alternativas(id) ON DELETE SET NULL;
 ALTER TABLE materiais
 ADD CONSTRAINT fk_materiais_professor
 FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE;
+
+ALTER TABLE tentativas_quiz
+ADD COLUMN data_hora DATETIME DEFAULT CURRENT_TIMESTAMP;
