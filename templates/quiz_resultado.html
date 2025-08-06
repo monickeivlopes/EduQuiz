@@ -39,6 +39,10 @@
 
  <button><a href="{{ url_for('index_aluno') }}">Voltar</a></button>
 
+ <button onclick="window.location.href='{{ url_for('quiz') }}?nivel_id={{ nivel_id }}'">
+    Refazer este Quiz
+  </button>
+  
  <button><a href="{{ url_for('quiz') }}">Fazer Novo Quiz</a></button>
 </body>
 </html>

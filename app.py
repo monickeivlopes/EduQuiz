@@ -88,10 +88,23 @@ def index_aluno():
 def index_professor():
     usuario_id = session.get('usuario_id')
     cursor = mysql.connection.cursor()
+
     cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
     usuario = cursor.fetchone()
     nome = usuario[0] if usuario else 'Professor'
-    return render_template('index_professor.html', nome=nome)
+
+    # Buscar questões criadas pelo professor
+    cursor.execute("""
+        SELECT q.id, q.enunciado, n.descricao AS nivel, a.nome AS assunto
+        FROM questoes q
+        JOIN niveis_dificuldade n ON q.nivel_id = n.id
+        JOIN assuntos a ON q.assunto_id = a.id
+        WHERE q.autor_id = %s
+    """, (usuario_id,))
+    questoes = cursor.fetchall()
+
+    return render_template('index_professor.html', nome=nome, questoes=questoes)
+
 
 #Página ADMINITRADOR
 @app.route('/index_adm')
@@ -590,10 +603,13 @@ def quiz_resultado(tentativa_id):
     aluno_id = session['usuario_id']
     cursor = mysql.connection.cursor()
 
-    cursor.execute("SELECT id FROM tentativas_quiz WHERE id = %s AND aluno_id = %s", (tentativa_id, aluno_id))
-    if not cursor.fetchone():
+    cursor.execute("SELECT nivel_id FROM tentativas_quiz WHERE id = %s AND aluno_id = %s", (tentativa_id, aluno_id))
+    tentativa = cursor.fetchone()
+    if not tentativa:
         flash("Tentativa inválida ou acesso negado.", "danger")
         return redirect(url_for('index_aluno'))
+    
+    nivel_id = tentativa[0]  
 
     cursor.execute("""
         SELECT q.enunciado, a.texto AS resposta_marcada, alt.texto AS resposta_correta, ra.correta
@@ -609,7 +625,12 @@ def quiz_resultado(tentativa_id):
     acertos = sum(1 for r in resultados if r[3] == 1)
     erros = total - acertos
 
-    return render_template("quiz_resultado.html", total=total, acertos=acertos, erros=erros, resultados=resultados)
+    return render_template("quiz_resultado.html",
+                           total=total,
+                           acertos=acertos,
+                           erros=erros,
+                           resultados=resultados,
+                           nivel_id=nivel_id)  
 
 @app.route('/desempenho')
 @login_required
@@ -660,6 +681,81 @@ def desempenho():
                            labels=labels,
                            data=data)
 
+#EDITAR QUESTÕES - EXCLUIR
+
+@app.route('/editar_questao/<int:questao_id>', methods=['GET', 'POST'])
+@login_required
+@professor_required
+def editar_questao(questao_id):
+    professor_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT enunciado, nivel_id, assunto_id FROM questoes WHERE id = %s AND autor_id = %s", (questao_id, professor_id))
+    questao = cursor.fetchone()
+    if not questao:
+        flash("Questão não encontrada ou acesso negado.", "danger")
+        return redirect(url_for('gerenciar_questoes'))
+
+    if request.method == 'POST':
+        novo_enunciado = request.form.get('enunciado')
+        nivel_id = request.form.get('nivel_id')
+        assunto_id = request.form.get('assunto_id')
+        alternativas = request.form.getlist('alternativas')
+        correta_index = int(request.form.get('correta_index')) - 1
+
+        cursor.execute("""
+            UPDATE questoes SET enunciado = %s, nivel_id = %s, assunto_id = %s WHERE id = %s
+        """, (novo_enunciado, nivel_id, assunto_id, questao_id))
+
+        cursor.execute("DELETE FROM alternativas WHERE questao_id = %s", (questao_id,))
+
+
+        for i, texto in enumerate(alternativas):
+            correta = 1 if i == correta_index else 0
+            cursor.execute("""
+                INSERT INTO alternativas (questao_id, texto, correta)
+                VALUES (%s, %s, %s)
+            """, (questao_id, texto, correta))
+
+        mysql.connection.commit()
+        flash("Questão atualizada com sucesso!", "success")
+        return redirect(url_for('gerenciar_questoes'))
+
+    cursor.execute("SELECT descricao, id FROM niveis_dificuldade")
+    niveis = cursor.fetchall()
+    cursor.execute("SELECT nome, id FROM assuntos")
+    assuntos = cursor.fetchall()
+    cursor.execute("SELECT id, texto, correta FROM alternativas WHERE questao_id = %s", (questao_id,))
+    alternativas = cursor.fetchall()
+
+    return render_template('editar_questao.html',
+                           questao_id=questao_id,
+                           questao=questao,
+                           alternativas=alternativas,
+                           niveis=niveis,
+                           assuntos=assuntos)
+
+@app.route('/excluir_questao/<int:questao_id>', methods=['POST'])
+@login_required
+@professor_required
+def excluir_questao(questao_id):
+    professor_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
+    cursor.execute("SELECT id FROM questoes WHERE id = %s AND autor_id = %s", (questao_id, professor_id))
+    questao = cursor.fetchone()
+
+    if not questao:
+        flash("Questão não encontrada ou acesso negado.", "danger")
+        return redirect(url_for('gerenciar_questoes'))
+
+
+    cursor.execute("DELETE FROM alternativas WHERE questao_id = %s", (questao_id,))
+    cursor.execute("DELETE FROM questoes WHERE id = %s", (questao_id,))
+    mysql.connection.commit()
+
+    flash("Questão excluída com sucesso.", "success")
+    return redirect(url_for('gerenciar_questoes'))
 
 
 

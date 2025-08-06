@@ -34,6 +34,19 @@
       <a href="{{ url_for('adicionar_materiais') }}" class="btn-secundario">Gerenciar materiais</a>
     </div>
 
+    <h2>Minhas Questões</h2>
+      {% for questao in questoes %}
+          <div>
+              <p><strong>{{ questao[1] }}</strong> ({{ questao[2] }} - {{ questao[3] }})</p>
+              <a href="{{ url_for('editar_questao', questao_id=questao[0]) }}">
+                  <button>Editar</button>
+              </a>
+          </div>
+      {% else %}
+          <p>Você ainda não adicionou nenhuma questão.</p>
+      {% endfor %}
+
+
     <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
   </main>
 
