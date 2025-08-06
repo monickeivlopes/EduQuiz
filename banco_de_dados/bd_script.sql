@@ -6,7 +6,7 @@ CREATE TABLE usuarios (
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     senha_hash VARCHAR(255) NOT NULL,
-    tipo ENUM('aluno', 'professor', 'adm') NOT NULL
+    tipo ENUM('aluno', 'professor') NOT NULL
 );
 
 -- CURSOS
@@ -92,32 +92,49 @@ CREATE TABLE materiais (
     FOREIGN KEY (professor_id) REFERENCES professores(id)
 );
 
+-- Primeiro remova a chave estrangeira antiga
 ALTER TABLE materiais DROP FOREIGN KEY materiais_ibfk_1;
 
 -- Agora adicione uma nova foreign key apontando para a tabela usuarios
 ALTER TABLE materiais
   ADD CONSTRAINT fk_materiais_usuarios
   FOREIGN KEY (professor_id) REFERENCES usuarios(id);
-
+  
+  
 ALTER TABLE materiais
-  ADD COLUMN descricao TEXT,
-  ADD COLUMN materia VARCHAR(100);
+ADD COLUMN descricao TEXT,
+ADD COLUMN materia VARCHAR(100);
 
-  ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMESTAMP;
 
--- USUARIO ADM
+INSERT INTO niveis_dificuldade (descricao) VALUES ('Fácil'), ('Médio'), ('Difícil');
+INSERT INTO assuntos (nome) VALUES ('Matemática'), ('História'), ('Química');
+
+
+INSERT INTO niveis_dificuldade (descricao)
+VALUES ('Fácil'), ('Médio'), ('Difícil');
+
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
 VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm@eduquiz', 256), 'adm');
 
+INSERT INTO usuarios (nome, email, senha_hash, tipo)
+VALUES ('Administrador', 'adm@adm', SHA2('123', 256), 'adm');
+
+ALTER TABLE usuarios
+MODIFY COLUMN tipo ENUM('aluno', 'professor', 'adm') NOT NULL;
+
+
 alter table cursos
 modify column nome ENUM('Eletro', 'Info', 'Vestuário', 'Têxtil') NOT NULL;
-
 
 INSERT INTO cursos (nome) VALUES 
 ('Eletro'),
 ('Info'),
 ('Vestuário'),
 ('Têxtil');
+
+
+
 
 ALTER TABLE alunos DROP FOREIGN KEY alunos_ibfk_1;
 ALTER TABLE alunos DROP FOREIGN KEY alunos_ibfk_2;
@@ -199,5 +216,13 @@ ALTER TABLE materiais
 ADD CONSTRAINT fk_materiais_professor
 FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE;
 
-ALTER TABLE tentativas_quiz
-ADD COLUMN data_hora DATETIME DEFAULT CURRENT_TIMESTAMP;
+SELECT * FROM alternativas;
+select * from alunos;
+select * from cursos;
+SELECT * FROM niveis_dificuldade;
+SELECT * FROM assuntos;
+select * from usuarios;
+select * from professores;
+select * from tentativas_quiz;
+select * from respostas_alunos;
+select * from questoes;
