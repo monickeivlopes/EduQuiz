@@ -6,8 +6,26 @@
     <title>Início do Aluno</title>
     <link rel="stylesheet" href="static/aluno.css"/>
     <link rel="stylesheet" href="static/style.css">
+    <style>
+        /* Estilo para o select de assuntos */
+        .assunto-container {
+            margin: 20px 0;
+        }
+        .assunto-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .assunto-container select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+    </style>
 </head>
 <body>
+    <!-- Cabeçalho mantido igual -->
     <header>
         <div class="logo">
             <img src="static/img/Logo.png" alt="Logo EduQuiz">
@@ -17,7 +35,6 @@
             <button class="login">
               <a href="{{ url_for('ajudaAluno') }}">Ajuda</a>
             </button>
-            
         </nav>
     </header>
 
@@ -37,31 +54,41 @@
         <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
     </main>
 
-   <form method="GET" action="{{ url_for('quiz') }}">
-  <div id="modal-quiz" class="modal">
-    <div class="modal-content">
-      <h2>Escolher Dificuldade</h2>
+    <form method="GET" action="{{ url_for('quiz') }}">
+        <div id="modal-quiz" class="modal">
+            <div class="modal-content">
+                <h2>Configurar Quiz</h2>
 
-      <div class="dificuldade">
-        <input type="radio" name="nivel_id" value="1" id="facil" required>
-        <label for="facil">Fácil</label>
+                <div class="dificuldade">
+                    <h3>Dificuldade:</h3>
+                    <input type="radio" name="nivel_id" value="1" id="facil" required>
+                    <label for="facil">Fácil</label>
 
-        <input type="radio" name="nivel_id" value="2" id="medio">
-        <label for="medio">Médio</label>
+                    <input type="radio" name="nivel_id" value="2" id="medio">
+                    <label for="medio">Médio</label>
 
-        <input type="radio" name="nivel_id" value="3" id="dificil">
-        <label for="dificil">Difícil</label>
-      </div>
+                    <input type="radio" name="nivel_id" value="3" id="dificil">
+                    <label for="dificil">Difícil</label>
+                </div>
 
-      <div class="botoes-modal">
-        <button type="submit" class="btn-iniciar">Iniciar Quiz</button>
-        <button type="button" class="btn-voltar" id="fechar-modal">Voltar</button>
-      </div>
-    </div>
-  </div>
-</form>
+                <div class="assunto-container">
+                    <label for="assunto_id">Assunto:</label>
+                    <select name="assunto_id" id="assunto_id" required>
+    <option value="todos">Todos os assuntos</option>
+    {% for assunto in assuntos %}
+        <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
+    {% endfor %}
+</select>
+                </div>
 
+                <div class="botoes-modal">
+                    <button type="submit" class="btn-iniciar">Iniciar Quiz</button>
+                    <button type="button" class="btn-voltar" id="fechar-modal">Voltar</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
-<script src="static/js/quiz.js"></script>
+    <script src="static/js/quiz.js"></script>
 </body>
 </html>

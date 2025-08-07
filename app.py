@@ -76,10 +76,17 @@ def index():
 def index_aluno():
     usuario_id = session.get('usuario_id')
     cursor = mysql.connection.cursor()
+    
+    # Busca nome do usuário
     cursor.execute('SELECT nome FROM usuarios WHERE id = %s', (usuario_id,))
     usuario = cursor.fetchone()
     nome = usuario[0] if usuario else 'Aluno'
-    return render_template('index_aluno.html', nome=nome)
+    
+    # Busca todos os assuntos cadastrados
+    cursor.execute("SELECT id, nome FROM assuntos")
+    assuntos = cursor.fetchall()
+    
+    return render_template('index_aluno.html', nome=nome, assuntos=assuntos)
 
 # Página inicial do professor
 @app.route('/index_professor')
@@ -501,41 +508,104 @@ def quiz():
     cursor = mysql.connection.cursor()
 
     if request.method == 'POST':
-        respostas = request.form.to_dict()
-        aluno_id = session['usuario_id']
-        nivel_id = int(respostas.pop('nivel_id'))
+        try:
+            # Obter dados do formulário
+            respostas = request.form.to_dict()
+            aluno_id = session.get('usuario_id')
+            nivel_id = int(respostas.pop('nivel_id'))
+            assunto_id = respostas.pop('assunto_id', 'todos').strip()  # Remove espaços em branco
 
-        cursor.execute("INSERT INTO tentativas_quiz (aluno_id, nivel_id) VALUES (%s, %s)", (aluno_id, nivel_id))
-        tentativa_id = cursor.lastrowid
+            # Tratamento seguro do assunto_id
+            if assunto_id == 'todos' or assunto_id == '':
+                assunto_id_value = None
+            else:
+                try:
+                    assunto_id_value = int(assunto_id)
+                    # Verifica se o assunto existe
+                    cursor.execute("SELECT id FROM assuntos WHERE id = %s", (assunto_id_value,))
+                    if not cursor.fetchone():
+                        flash('Assunto selecionado não existe', 'danger')
+                        return redirect(url_for('index_aluno'))
+                except ValueError:
+                    assunto_id_value = None
+                    flash('Valor de assunto inválido', 'danger')
+                    return redirect(url_for('index_aluno'))
 
-        for questao_id_str, alternativa_id in respostas.items():
-            questao_id = int(questao_id_str)
-            cursor.execute("SELECT correta FROM alternativas WHERE id = %s", (alternativa_id,))
-            correta = cursor.fetchone()[0]
+            # Verificar se o aluno existe
+            cursor.execute("SELECT id FROM alunos WHERE id = %s", (aluno_id,))
+            if not cursor.fetchone():
+                flash('Aluno não encontrado', 'danger')
+                return redirect(url_for('index_aluno'))
+
+            # Inserir tentativa
             cursor.execute("""
-                INSERT INTO respostas_alunos (tentativa_id, questao_id, alternativa_id, correta)
-                VALUES (%s, %s, %s, %s)
-            """, (tentativa_id, questao_id, alternativa_id, correta))
+                INSERT INTO tentativas_quiz (aluno_id, nivel_id, assunto_id)
+                VALUES (%s, %s, %s)
+            """, (aluno_id, nivel_id, assunto_id_value))
 
-        mysql.connection.commit()
-        return redirect(url_for('quiz_resultado', tentativa_id=tentativa_id))
+            tentativa_id = cursor.lastrowid
 
+            # Processar respostas
+            for questao_id_str, alternativa_id in respostas.items():
+                if questao_id_str in ['nivel_id', 'assunto_id']:
+                    continue
+                    
+                questao_id = int(questao_id_str)
+                cursor.execute("SELECT correta FROM alternativas WHERE id = %s", (alternativa_id,))
+                correta = cursor.fetchone()[0]
+                cursor.execute("""
+                    INSERT INTO respostas_alunos (tentativa_id, questao_id, alternativa_id, correta)
+                    VALUES (%s, %s, %s, %s)
+                """, (tentativa_id, questao_id, alternativa_id, correta))
 
+            mysql.connection.commit()
+            return redirect(url_for('quiz_resultado', tentativa_id=tentativa_id))
+
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f'Erro ao processar quiz: {str(e)}', 'danger')
+            return redirect(url_for('index_aluno'))
+    # Código GET permanece o mesmo...
     # GET: exibe quiz
     if 'nivel_id' not in request.args:
         cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
         niveis = cursor.fetchall()
-        return render_template('quiz_inicio.html', niveis=niveis)
+        cursor.execute("SELECT id, nome FROM assuntos")
+        assuntos = cursor.fetchall()
+        return render_template('quiz_inicio.html', niveis=niveis, assuntos=assuntos)
 
     nivel_id = int(request.args['nivel_id'])
+    assunto_id = request.args.get('assunto_id', 'todos')
 
-    cursor.execute("""
-        SELECT q.id, q.enunciado FROM questoes q
+    # Obter nome do assunto para exibição
+    assunto_nome = 'Todos os assuntos'
+    if assunto_id != 'todos':
+        cursor.execute("SELECT nome FROM assuntos WHERE id = %s", (assunto_id,))
+        resultado = cursor.fetchone()
+        if resultado:
+            assunto_nome = resultado[0]
+
+    # Query para obter questões filtradas
+    query = """
+        SELECT q.id, q.enunciado 
+        FROM questoes q
         WHERE q.nivel_id = %s
-        ORDER BY RAND() LIMIT 5
-    """, (nivel_id,))
+    """
+    params = [nivel_id]
+
+    if assunto_id != 'todos':
+        query += " AND q.assunto_id = %s"
+        params.append(assunto_id)
+
+    query += " ORDER BY RAND() LIMIT 5"
+    cursor.execute(query, tuple(params))
     questoes = cursor.fetchall()
 
+    if not questoes:
+        flash('Não há questões disponíveis para esta combinação.', 'warning')
+        return redirect(url_for('quiz'))
+
+    # Obter alternativas
     questoes_com_alternativas = []
     for questao in questoes:
         cursor.execute("SELECT id, texto FROM alternativas WHERE questao_id = %s", (questao[0],))
@@ -546,8 +616,10 @@ def quiz():
             'alternativas': alternativas
         })
 
-    return render_template('quiz.html', questoes=questoes_com_alternativas, nivel_id=nivel_id)
-
+    return render_template('quiz.html',
+                         questoes=questoes_com_alternativas,
+                         nivel_id=nivel_id,
+                         assunto_nome=assunto_nome)
 
 
 

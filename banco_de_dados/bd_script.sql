@@ -216,6 +216,42 @@ ALTER TABLE materiais
 ADD CONSTRAINT fk_materiais_professor
 FOREIGN KEY (professor_id) REFERENCES professores(id) ON DELETE CASCADE;
 
+ALTER TABLE tentativas_quiz
+ADD COLUMN data_hora DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+INSERT INTO assuntos (nome) VALUES 
+('Números e Operações'),
+('Geometria e Medidas'),
+('Estatística e Probabilidade'),
+('Álgebra e Funções'),
+('Matemática Financeira e Aplicada');
+
+delete from assuntos where id = 1;
+delete from assuntos where id = 2;
+delete from assuntos where id = 3;
+
+ALTER TABLE tentativas_quiz ADD COLUMN assunto_id INT NULL AFTER nivel_id;
+ALTER TABLE tentativas_quiz ADD CONSTRAINT fk_tentativa_assunto 
+FOREIGN KEY (assunto_id) REFERENCES assuntos(id) ON DELETE SET NULL;
+
+ALTER TABLE tentativas_quiz 
+DROP FOREIGN KEY fk_tentativa_assunto;
+
+ALTER TABLE tentativas_quiz 
+ADD CONSTRAINT fk_tentativa_assunto 
+FOREIGN KEY (assunto_id) REFERENCES assuntos(id) 
+ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- Verifique se a coluna assunto_id permite NULL
+SELECT IS_NULLABLE 
+FROM INFORMATION_SCHEMA.COLUMNS 
+WHERE TABLE_NAME = 'tentativas_quiz' AND COLUMN_NAME = 'assunto_id';
+
+-- Verifique as constraints atuais
+SELECT TABLE_NAME, COLUMN_NAME, CONSTRAINT_NAME, REFERENCED_TABLE_NAME, REFERENCED_COLUMN_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE TABLE_NAME = 'tentativas_quiz' AND COLUMN_NAME = 'assunto_id';
+
 SELECT * FROM alternativas;
 select * from alunos;
 select * from cursos;

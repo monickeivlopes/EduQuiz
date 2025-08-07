@@ -1,18 +1,24 @@
-<!-- templates/quiz.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <title>Quiz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Quiz - Nível {{ nivel_id }}</h1>
+    <h1>Quiz</h1>
+    <p>Nível: 
+        {% if nivel_id == 1 %}Fácil{% endif %}
+        {% if nivel_id == 2 %}Médio{% endif %}
+        {% if nivel_id == 3 %}Difícil{% endif %}
+    </p>
+    <p>Assunto: {{ assunto_nome }}</p>
+    
     <form method="POST">
         <input type="hidden" name="nivel_id" value="{{ nivel_id }}">
+        <input type="hidden" name="assunto_id" value="{{ assunto_id }}">
         
         {% for questao in questoes %}
-            <div class="questao">
+            <div>
                 <p><strong>{{ loop.index }}. {{ questao.enunciado }}</strong></p>
                 {% for alternativa in questao.alternativas %}
                     <label>
@@ -23,7 +29,7 @@
             </div>
             <hr>
         {% endfor %}
-
+        
         <button type="submit">Enviar Respostas</button>
     </form>
 </body>

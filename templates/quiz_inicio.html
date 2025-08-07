@@ -1,22 +1,33 @@
-<!-- templates/quiz_inicio.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Escolher Nível</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Configurar Quiz</title>
 </head>
 <body>
-    <h1>Escolha o Nível de Dificuldade</h1>
-
+    <h1>Configurações do Quiz</h1>
+    
     <form method="GET" action="{{ url_for('quiz') }}">
-        <label for="nivel_id">Nível:</label>
-        <select name="nivel_id" required>
-            <option disabled selected>Selecione um nível</option>
-            {% for nivel in niveis %}
-                <option value="{{ nivel[0] }}">{{ nivel[1] }}</option>
-            {% endfor %}
-        </select>
+        <div>
+            <label for="nivel_id">Nível:</label>
+            <select name="nivel_id" id="nivel_id" required>
+                <option value="" disabled selected>Selecione</option>
+                {% for nivel in niveis %}
+                    <option value="{{ nivel[0] }}">{{ nivel[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div>
+            <label for="assunto_id">Assunto:</label>
+            <select name="assunto_id" id="assunto_id">
+                <option value="todos">Todos os assuntos</option>
+                {% for assunto in assuntos %}
+                    <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
         <button type="submit">Iniciar Quiz</button>
     </form>
 </body>
