@@ -1,0 +1,240 @@
+/* Estilos exclusivos do adicionar_materiais.html */
+
+body.page-materiais {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+main {
+  padding: 40px 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+  color: #1e3a8a;
+}
+
+form {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: auto;
+}
+
+input[type="text"],
+select,
+textarea {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: vertical;
+  font-family: Arial, sans-serif;
+}
+
+.custom-file-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+
+.custom-file-input label {
+  background-color: #e5e7eb;
+  color: #374151;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid #d1d5db;
+  transition: background-color 0.2s ease;
+}
+
+.custom-file-input label:hover {
+  background-color: #d1d5db;
+}
+
+.custom-file-input input[type="file"] {
+  display: none;
+}
+
+.custom-file-input span {
+  color: #6b7280;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.btn-concluir {
+  background-color: #10b981;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-concluir:hover {
+  background-color: #059669;
+}
+
+.btn-voltar {
+  background-color: #ef4444;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-voltar:hover {
+  background-color: #dc2626;
+}
+
+.botoes-formulario {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.material-card {
+  margin-top: 50px;
+}
+
+.material-card h2 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.card-material {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.card-material h3 {
+  margin-top: 0;
+  color: #2563eb;
+}
+
+.card-material p {
+  margin: 8px 0;
+}
+
+.card-material a {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  color: #1d4ed8;
+  font-weight: bold;
+}
+
+.botoes-acoes {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.botoes-acoes button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.editar {
+  background-color: #facc15;
+  color: #000;
+}
+
+.editar:hover {
+  background-color: #eab308;
+}
+
+.excluir {
+  background-color: #ef4444;
+  color: white;
+}
+
+.excluir:hover {
+  background-color: #dc2626;
+}
+
+.salvar {
+  background-color: #10b981;
+  color: white;
+}
+
+.salvar:hover {
+  background-color: #059669;
+}
+
+.cancelar {
+  background-color: #9ca3af;
+  color: white;
+}
+
+.cancelar:hover {
+  background-color: #6b7280;
+}
+
+.form-editar {
+  background-color: #f9fafb;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  form {
+    padding: 20px 15px;
+  }
+
+  .botoes-acoes {
+    flex-direction: column;
+  }
+
+  .botoes-formulario {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-voltar {
+    margin-bottom: 10px;
+  }
+}
+
+/* --- Estilos herdados de professor.css (sem conflitos) --- */
+/* ... Estilos do header, modal, etc ... (mesclados onde não houve sobreposição) */
