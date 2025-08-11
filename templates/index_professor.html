@@ -14,10 +14,8 @@
       <span>EDUQUIZ</span>
     </div>
     <nav>
-        <button class="login">
-          <a href="{{ url_for('ajudaProf') }}">Ajuda</a>
-        </button>
-      </nav>
+      <a href="{{ url_for('ajudaProf') }}" class="btn-ajuda">Ajuda</a>
+    </nav>
   </header>
 
   <main>
@@ -49,48 +47,48 @@
 
     <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
   </main>
+<!-- Modal de Gerenciar Questões -->
+{% if niveis and assuntos %}
+<div id="modalGerenciar" class="modal" style="display: flex;">
+  <div class="modal-content">
+    <h2 class="modal-titulo">Gerenciar Questões</h2>
 
-  <!-- Modal de Gerenciar Questões -->
-  {% if niveis and assuntos %}
-  <div id="modalGerenciar" class="modal" style="display: block;">
-    <div class="modal-content">
-      <h2>Adicionar nova questão</h2>
-      <form method="POST" action="{{ url_for('adicionar_questao') }}">
-        <label>Dificuldade:</label>
-        <select name="nivel_id" required>
-          <option value="" disabled selected>Selecione</option>
-          {% for nivel in niveis %}
-          <option value="{{ nivel[0] }}">{{ nivel[1] }}</option>
-          {% endfor %}
-        </select>
-
-        <label>Assunto:</label>
-        <select name="assunto_id" required>
-          <option value="" disabled selected>Selecione</option>
-          {% for assunto in assuntos %}
-          <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
-          {% endfor %}
-        </select>
-
-        <label>Enunciado:</label>
-        <textarea name="enunciado" placeholder="Digite o enunciado..." required></textarea>
-
-        <label>Alternativas:</label>
-        {% for i in range(4) %}
-        <input type="text" name="alternativas" placeholder="Alternativa {{ i+1 }}" required>
+    <form method="POST" action="{{ url_for('adicionar_questao') }}">
+      <label for="nivel_id" class="label-filtro">Nível de dificuldade:</label>
+      <select name="nivel_id" id="nivel_id" required>
+        <option value="" disabled selected>Selecione</option>
+        {% for nivel in niveis %}
+        <option value="{{ nivel[0] }}">{{ nivel[1] }}</option>
         {% endfor %}
+      </select>
 
-        <label>Índice da correta (1 a 4):</label>
-        <input type="number" name="correta_index" min="1" max="4" required>
+      <label for="assunto_id" class="label-filtro">Assunto:</label>
+      <select name="assunto_id" id="assunto_id" required>
+        <option value="" disabled selected>Selecione</option>
+        {% for assunto in assuntos %}
+        <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
+        {% endfor %}
+      </select>
 
-        <div style="display: flex; justify-content: space-between;">
-          <button type="button" onclick="fecharModal()">Voltar</button>
-          <button type="submit">Concluir</button>
-        </div>
-      </form>
-    </div>
+      <label for="enunciado" class="label-filtro">Enunciado:</label>
+      <textarea name="enunciado" id="enunciado" placeholder="Digite o enunciado..." required></textarea>
+
+      <label class="label-filtro">Alternativas:</label>
+      {% for i in range(4) %}
+      <input type="text" name="alternativas" placeholder="Alternativa {{ i+1 }}" required>
+      {% endfor %}
+
+      <label for="correta_index" class="label-filtro">Índice da correta (1 a 4):</label>
+      <input type="number" name="correta_index" id="correta_index" min="1" max="4" required>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <button type="button" onclick="fecharModal()">Voltar</button>
+        <button type="submit" class="btn-concluir">Concluir</button>
+      </div>
+    </form>
   </div>
-  {% endif %}
+</div>
+{% endif %}
 
   <script>
     function fecharModal() {
