@@ -6,26 +6,8 @@
     <title>Início do Aluno</title>
     <link rel="stylesheet" href="static/aluno.css"/>
     <link rel="stylesheet" href="static/style.css">
-    <style>
-        /* Estilo para o select de assuntos */
-        .assunto-container {
-            margin: 20px 0;
-        }
-        .assunto-container label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        .assunto-container select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-        }
-    </style>
 </head>
 <body>
-    <!-- Cabeçalho mantido igual -->
     <header>
         <div class="logo">
             <img src="static/img/Logo.png" alt="Logo EduQuiz">
@@ -60,25 +42,27 @@
                 <h2>Configurar Quiz</h2>
 
                 <div class="dificuldade">
-                    <h3>Dificuldade:</h3>
-                    <input type="radio" name="nivel_id" value="1" id="facil" required>
-                    <label for="facil">Fácil</label>
+                    <span class="dificuldade-titulo">Dificuldade:</span>
+                    <div class="dificuldade-buttons">
+                        <input type="radio" name="nivel_id" value="1" id="facil" required>
+                        <label for="facil">Fácil</label>
 
-                    <input type="radio" name="nivel_id" value="2" id="medio">
-                    <label for="medio">Médio</label>
+                        <input type="radio" name="nivel_id" value="2" id="medio">
+                        <label for="medio">Médio</label>
 
-                    <input type="radio" name="nivel_id" value="3" id="dificil">
-                    <label for="dificil">Difícil</label>
+                        <input type="radio" name="nivel_id" value="3" id="dificil">
+                        <label for="dificil">Difícil</label>
+                    </div>
                 </div>
 
                 <div class="assunto-container">
                     <label for="assunto_id">Assunto:</label>
                     <select name="assunto_id" id="assunto_id" required>
-    <option value="todos">Todos os assuntos</option>
-    {% for assunto in assuntos %}
-        <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
-    {% endfor %}
-</select>
+                        <option value="todos">Todos os assuntos</option>
+                        {% for assunto in assuntos %}
+                            <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
 
                 <div class="botoes-modal">
