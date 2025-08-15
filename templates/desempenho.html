@@ -1,36 +1,68 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>Desempenho do Aluno</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <title>Desempenho do Aluno</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .grafico-wrap { max-width: 640px; height: 320px; }
+    .filtros { display:flex; gap:12px; flex-wrap:wrap; margin:12px 0; }
+    .filtros label { font-weight:600; }
+  </style>
 </head>
 <body>
-    <h2>Desempenho</h2>
+  <h2>Desempenho</h2>
 
-    <p><strong>Total de questões respondidas:</strong> {{ total }}</p>
-    <p><strong>Acertos:</strong> {{ acertos }}</p>
-    <p><strong>Erros:</strong> {{ erros }}</p>
-
-    <h3>Gráfico:</h3>
-    <canvas id="graficoDesempenho" width="300" height="200"></canvas>
-
-    <h3>Histórico de Tentativas:</h3>
-    <ul>
-        {% for tentativa in tentativas %}
-            <li>Quiz ID {{ tentativa[0] }} - {{ tentativa[1] }} às {{ tentativa[2] }}</li>
+  <form method="get" class="filtros">
+    <div>
+      <label for="assunto">Assunto:</label>
+      <select name="assunto" id="assunto">
+        <option value="todos" {{ 'selected' if filtro_assunto=='todos' else '' }}>Todos</option>
+        {% for a in assuntos %}
+          <option value="{{ a[0] }}" {{ 'selected' if filtro_assunto==a[0]|string else '' }}>
+            {{ a[1] }}
+          </option>
         {% endfor %}
-    </ul>
+      </select>
+    </div>
+    <div>
+      <label for="inicio">De:</label>
+      <input type="date" id="inicio" name="inicio" value="{{ filtro_inicio }}">
+    </div>
+    <div>
+      <label for="fim">Até:</label>
+      <input type="date" id="fim" name="fim" value="{{ filtro_fim }}">
+    </div>
+    <div>
+      <button type="submit">Filtrar</button>
+    </div>
+  </form>
 
+  <p><strong>Total de questões respondidas:</strong> {{ total }}</p>
+  <p><strong>Acertos:</strong> {{ acertos }}</p>
+  <p><strong>Erros:</strong> {{ erros }}</p>
 
-    <script>
-  const Labels = {{ labels | tojson }};
-  const Data = {{ data | tojson }};
+  <h3>Gráfico</h3>
+  <div class="grafico-wrap">
+    <canvas id="graficoDesempenho"></canvas>
+  </div>
+
+  <h3>Histórico de Tentativas</h3>
+  <ul>
+    {% for t in tentativas %}
+      {% set seg = t[4] if t[4] is not none else 0 %}
+      <li>
+        Quiz ID {{ t[0] }} — {{ t[1] }} às {{ t[2] }} —
+        Acertos: {{ t[3] or 0 }} —
+        Tempo: {{ (seg // 60) }}min {{ (seg % 60) }}s
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    const Labels = {{ labels | tojson }};
+    const Data = {{ data | tojson }};
   </script>
-  
-    <script src="{{ url_for('static', filename='js/desempenho.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/desempenho.js') }}"></script>
 </body>
 </html>
-
-
-

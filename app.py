@@ -513,43 +513,39 @@ def quiz():
             respostas = request.form.to_dict()
             aluno_id = session.get('usuario_id')
             nivel_id = int(respostas.pop('nivel_id'))
-            assunto_id = respostas.pop('assunto_id', 'todos').strip()  # Remove espaços em branco
+            assunto_id = respostas.pop('assunto_id', 'todos').strip()
 
-            # Tratamento seguro do assunto_id
+            # assunto_id pode ser 'todos' (NULL)
             if assunto_id == 'todos' or assunto_id == '':
                 assunto_id_value = None
             else:
                 try:
                     assunto_id_value = int(assunto_id)
-                    # Verifica se o assunto existe
                     cursor.execute("SELECT id FROM assuntos WHERE id = %s", (assunto_id_value,))
                     if not cursor.fetchone():
                         flash('Assunto selecionado não existe', 'danger')
                         return redirect(url_for('index_aluno'))
                 except ValueError:
-                    assunto_id_value = None
                     flash('Valor de assunto inválido', 'danger')
                     return redirect(url_for('index_aluno'))
 
-            # Verificar se o aluno existe
+            # Verificar aluno
             cursor.execute("SELECT id FROM alunos WHERE id = %s", (aluno_id,))
             if not cursor.fetchone():
                 flash('Aluno não encontrado', 'danger')
                 return redirect(url_for('index_aluno'))
 
-            # Inserir tentativa
+            # Inserir tentativa (data_hora tem DEFAULT CURRENT_TIMESTAMP)
             cursor.execute("""
                 INSERT INTO tentativas_quiz (aluno_id, nivel_id, assunto_id)
                 VALUES (%s, %s, %s)
             """, (aluno_id, nivel_id, assunto_id_value))
-
             tentativa_id = cursor.lastrowid
 
             # Processar respostas
             for questao_id_str, alternativa_id in respostas.items():
                 if questao_id_str in ['nivel_id', 'assunto_id']:
                     continue
-                    
                 questao_id = int(questao_id_str)
                 cursor.execute("SELECT correta FROM alternativas WHERE id = %s", (alternativa_id,))
                 correta = cursor.fetchone()[0]
@@ -558,6 +554,36 @@ def quiz():
                     VALUES (%s, %s, %s, %s)
                 """, (tentativa_id, questao_id, alternativa_id, correta))
 
+            # === NEW: calcular tempo_gasto ===
+            from datetime import datetime
+            fim_quiz = datetime.now()
+            inicio_quiz = session.pop('inicio_quiz', None)
+
+            tempo_gasto = None
+            if inicio_quiz:
+                try:
+                    # inicio_quiz veio como datetime; se vier string, converta
+                    if isinstance(inicio_quiz, str):
+                        # fallback seguro caso o servidor serialize
+                        from datetime import datetime
+                        # tente formatos comuns
+                        for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"):
+                            try:
+                                inicio_quiz = datetime.strptime(inicio_quiz, fmt)
+                                break
+                            except:
+                                pass
+                    tempo_gasto = int((fim_quiz - inicio_quiz).total_seconds())
+                except Exception:
+                    tempo_gasto = None
+
+            if tempo_gasto is not None:
+                cursor.execute("""
+                    UPDATE tentativas_quiz
+                    SET tempo_gasto = %s
+                    WHERE id = %s
+                """, (tempo_gasto, tentativa_id))
+
             mysql.connection.commit()
             return redirect(url_for('quiz_resultado', tentativa_id=tentativa_id))
 
@@ -565,8 +591,8 @@ def quiz():
             mysql.connection.rollback()
             flash(f'Erro ao processar quiz: {str(e)}', 'danger')
             return redirect(url_for('index_aluno'))
-    # Código GET permanece o mesmo...
-    # GET: exibe quiz
+
+    # ===== GET: exibe quiz =====
     if 'nivel_id' not in request.args:
         cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
         niveis = cursor.fetchall()
@@ -577,7 +603,7 @@ def quiz():
     nivel_id = int(request.args['nivel_id'])
     assunto_id = request.args.get('assunto_id', 'todos')
 
-    # Obter nome do assunto para exibição
+    # Nome do assunto para exibição
     assunto_nome = 'Todos os assuntos'
     if assunto_id != 'todos':
         cursor.execute("SELECT nome FROM assuntos WHERE id = %s", (assunto_id,))
@@ -585,18 +611,16 @@ def quiz():
         if resultado:
             assunto_nome = resultado[0]
 
-    # Query para obter questões filtradas
+    # Buscar questões
     query = """
         SELECT q.id, q.enunciado 
         FROM questoes q
         WHERE q.nivel_id = %s
     """
     params = [nivel_id]
-
     if assunto_id != 'todos':
         query += " AND q.assunto_id = %s"
         params.append(assunto_id)
-
     query += " ORDER BY RAND() LIMIT 5"
     cursor.execute(query, tuple(params))
     questoes = cursor.fetchall()
@@ -605,21 +629,26 @@ def quiz():
         flash('Não há questões disponíveis para esta combinação.', 'warning')
         return redirect(url_for('quiz'))
 
-    # Obter alternativas
+    # Alternativas
     questoes_com_alternativas = []
-    for questao in questoes:
-        cursor.execute("SELECT id, texto FROM alternativas WHERE questao_id = %s", (questao[0],))
+    for q in questoes:
+        cursor.execute("SELECT id, texto FROM alternativas WHERE questao_id = %s", (q[0],))
         alternativas = cursor.fetchall()
         questoes_com_alternativas.append({
-            'id': questao[0],
-            'enunciado': questao[1],
+            'id': q[0],
+            'enunciado': q[1],
             'alternativas': alternativas
         })
 
+    # === NEW: marcar início do quiz para cronometrar ===
+    from datetime import datetime
+    session['inicio_quiz'] = datetime.now()
+
     return render_template('quiz.html',
-                         questoes=questoes_com_alternativas,
-                         nivel_id=nivel_id,
-                         assunto_nome=assunto_nome)
+                           questoes=questoes_com_alternativas,
+                           nivel_id=nivel_id,
+                           assunto_nome=assunto_nome)
+
 
 
 
@@ -711,39 +740,65 @@ def desempenho():
     aluno_id = session['usuario_id']
     cursor = mysql.connection.cursor()
 
-    # Total geral
-    cursor.execute("""
+    # Parâmetros (querystring ?assunto=...&inicio=YYYY-MM-DD&fim=YYYY-MM-DD)
+    assunto = request.args.get('assunto')      # id ou "todos"
+    data_inicio = request.args.get('inicio')   # 'YYYY-MM-DD'
+    data_fim = request.args.get('fim')         # 'YYYY-MM-DD'
+
+    filtros = "WHERE tq.aluno_id = %s"
+    params = [aluno_id]
+
+    if assunto and assunto != "todos":
+        filtros += " AND tq.assunto_id = %s"
+        params.append(assunto)
+
+    if data_inicio:
+        filtros += " AND tq.data_hora >= %s"
+        params.append(f"{data_inicio} 00:00:00")
+
+    if data_fim:
+        # fim inclusivo
+        filtros += " AND tq.data_hora < DATE_ADD(%s, INTERVAL 1 DAY)"
+        params.append(data_fim)
+
+    # Totais
+    cursor.execute(f"""
         SELECT 
             COUNT(*) AS total_questoes,
-            SUM(CASE WHEN correta = 1 THEN 1 ELSE 0 END) AS acertos,
-            SUM(CASE WHEN correta = 0 THEN 1 ELSE 0 END) AS erros
+            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) AS acertos,
+            SUM(CASE WHEN ra.correta = 0 THEN 1 ELSE 0 END) AS erros
         FROM respostas_alunos ra
         JOIN tentativas_quiz tq ON ra.tentativa_id = tq.id
-        WHERE tq.aluno_id = %s
-    """, (aluno_id,))
-    resultados = cursor.fetchone()
+        {filtros}
+    """, params)
+    resultados = cursor.fetchone() or (0, 0, 0)
 
     total_questoes = resultados[0] or 0
     acertos = resultados[1] or 0
     erros = resultados[2] or 0
 
-    # Pegando acertos por tentativa
-    cursor.execute("""
+    # Tentativas (com tempo_gasto)
+    cursor.execute(f"""
         SELECT 
             tq.id,
             DATE_FORMAT(tq.data_hora, '%%d/%%m/%%Y') AS data,
             DATE_FORMAT(tq.data_hora, '%%H:%%i') AS hora,
-            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) AS acertos
+            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) AS acertos,
+            tq.tempo_gasto
         FROM tentativas_quiz tq
         LEFT JOIN respostas_alunos ra ON ra.tentativa_id = tq.id
-        WHERE tq.aluno_id = %s
-        GROUP BY tq.id, data, hora
+        {filtros}
+        GROUP BY tq.id, data, hora, tq.tempo_gasto
         ORDER BY tq.data_hora
-    """, (aluno_id,))
+    """, params)
     tentativas = cursor.fetchall()
 
-    labels = [f"{r[1]} {r[2]}" for r in tentativas]  # data + hora
-    data = [r[3] for r in tentativas]  # acertos por tentativa
+    labels = [f"{r[1]} {r[2]}" for r in tentativas]
+    data = [int(r[3] or 0) for r in tentativas]
+
+    # Assuntos para o <select>
+    cursor.execute("SELECT id, nome FROM assuntos ORDER BY nome")
+    assuntos = cursor.fetchall()
 
     return render_template('desempenho.html',
                            total=total_questoes,
@@ -751,7 +806,82 @@ def desempenho():
                            erros=erros,
                            tentativas=tentativas,
                            labels=labels,
-                           data=data)
+                           data=data,
+                           assuntos=assuntos,
+                           filtro_assunto=(assunto or "todos"),
+                           filtro_inicio=(data_inicio or ""),
+                           filtro_fim=(data_fim or ""))
+
+    aluno_id = session['usuario_id']
+    cursor = mysql.connection.cursor()
+
+    # Parâmetros de filtro
+    tema = request.args.get('tema')
+    data_inicio = request.args.get('inicio')
+    data_fim = request.args.get('fim')
+
+    filtros = "WHERE tq.aluno_id = %s"
+    params = [aluno_id]
+
+    if tema and tema != "todos":
+        filtros += " AND tq.tema_id = %s"
+        params.append(tema)
+
+    if data_inicio:
+        filtros += " AND tq.data_hora >= %s"
+        params.append(data_inicio)
+
+    if data_fim:
+        filtros += " AND tq.data_hora <= %s"
+        params.append(data_fim)
+
+    # Total geral filtrado
+    cursor.execute(f"""
+        SELECT 
+            COUNT(*) AS total_questoes,
+            SUM(CASE WHEN correta = 1 THEN 1 ELSE 0 END) AS acertos,
+            SUM(CASE WHEN correta = 0 THEN 1 ELSE 0 END) AS erros
+        FROM respostas_alunos ra
+        JOIN tentativas_quiz tq ON ra.tentativa_id = tq.id
+        {filtros}
+    """, params)
+    resultados = cursor.fetchone()
+
+    total_questoes = resultados[0] or 0
+    acertos = resultados[1] or 0
+    erros = resultados[2] or 0
+
+    # Lista de tentativas com tempo
+    cursor.execute(f"""
+        SELECT 
+            tq.id,
+            DATE_FORMAT(tq.data_hora, '%%d/%%m/%%Y') AS data,
+            DATE_FORMAT(tq.data_hora, '%%H:%%i') AS hora,
+            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) AS acertos,
+            tq.tempo_gasto
+        FROM tentativas_quiz tq
+        LEFT JOIN respostas_alunos ra ON ra.tentativa_id = tq.id
+        {filtros}
+        GROUP BY tq.id, data, hora, tq.tempo_gasto
+        ORDER BY tq.data_hora
+    """, params)
+    tentativas = cursor.fetchall()
+
+    labels = [f"{r[1]} {r[2]}" for r in tentativas]
+    data = [r[3] for r in tentativas]
+
+    # Lista de temas para o select
+    cursor.execute("SELECT id, nome FROM temas")
+    temas = cursor.fetchall()
+
+    return render_template('desempenho.html',
+                           total=total_questoes,
+                           acertos=acertos,
+                           erros=erros,
+                           tentativas=tentativas,
+                           labels=labels,
+                           data=data,
+                           temas=temas)
 
 #EDITAR QUESTÕES - EXCLUIR
 

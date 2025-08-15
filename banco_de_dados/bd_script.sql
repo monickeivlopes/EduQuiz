@@ -262,3 +262,5 @@ select * from professores;
 select * from tentativas_quiz;
 select * from respostas_alunos;
 select * from questoes;
+
+ALTER TABLE tentativas_quiz ADD COLUMN tempo_gasto INT; -- segundos

@@ -1,39 +1,47 @@
 document.addEventListener("DOMContentLoaded", function () {
     const ctx = document.getElementById("graficoDesempenho").getContext("2d");
 
-    const grafico = new Chart(ctx, {
-        type: "bar", // Pode trocar para 'line' se preferir
+    new Chart(ctx, {
+        type: "bar",
         data: {
             labels: Labels,
             datasets: [{
-                label: "Acertos por Tentativa",
+                label: "Acertos",
                 data: Data,
-                borderWidth: 1,
-                backgroundColor: "rgba(54, 162, 235, 0.5)", // azul claro
-                borderColor: "rgba(54, 162, 235, 1)"
+                backgroundColor: "rgba(54, 162, 235, 0.5)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // permite controlar altura via CSS
             scales: {
                 y: {
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Acertos'
+                        text: "Quantidade de Acertos"
                     }
                 },
                 x: {
                     title: {
                         display: true,
-                        text: 'Data e Hora da Tentativa'
+                        text: "Data e Hora da Tentativa"
                     }
                 }
             },
             plugins: {
                 title: {
                     display: true,
-                    text: 'Histórico de Acertos'
+                    text: "Histórico de Acertos por Tentativa"
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return `Acertos: ${context.parsed.y}`;
+                        }
+                    }
                 },
                 legend: {
                     display: false
