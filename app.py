@@ -472,19 +472,46 @@ def baixar_material(material_id):
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-# Página de materiais
+# Página de materiais (VIZUALIZAR)
 @app.route('/materiais')
 @login_required
 @aluno_required
 def materiais():
+    data_filtro = request.args.get('data')  # formato YYYY-MM-DD
+    ordem = request.args.get('ordem', 'desc')  # 'asc' ou 'desc'
+
     cursor = mysql.connection.cursor()
-    cursor.execute("""
-        SELECT m.id, m.titulo, m.materia, m.descricao, m.url, u.nome 
+    query = """
+        SELECT m.id, m.titulo, m.materia, m.descricao, m.url, u.nome,
+               DATE_FORMAT(m.data_publicacao, '%%Y-%%m-%%d')
         FROM materiais m
         JOIN usuarios u ON m.professor_id = u.id
-    """)
+    """
+    params = []
+    where_clauses = []
+
+    if data_filtro:
+        where_clauses.append("DATE(m.data_publicacao) = %s")
+        params.append(data_filtro)
+
+    if where_clauses:
+        query += " WHERE " + " AND ".join(where_clauses)
+
+    if ordem.lower() == 'asc':
+        query += " ORDER BY m.data_publicacao ASC"
+    else:
+        query += " ORDER BY m.data_publicacao DESC"
+
+    cursor.execute(query, tuple(params))
     materiais = cursor.fetchall()
-    return render_template('materiais.html', materiais=materiais)
+
+    return render_template(
+        'materiais.html',
+        materiais=materiais,
+        data_filtro=data_filtro,
+        ordem=ordem
+    )
+
 
 
 @app.route('/ajuda')
