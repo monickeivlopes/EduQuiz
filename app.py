@@ -152,19 +152,29 @@ def editar_usuario(usuario_id):
     nome = request.form.get('nome')
     email = request.form.get('email')
     tipo = request.form.get('tipo')
+    senha = request.form.get('senha') 
 
     if tipo not in ['aluno', 'professor', 'adm']:
         flash("Tipo inválido.", "danger")
         return redirect(url_for('gerenciar_usuarios'))
 
     cursor = mysql.connection.cursor()
-    cursor.execute("""
-        UPDATE usuarios SET nome = %s, email = %s, tipo = %s WHERE id = %s
-    """, (nome, email, tipo, usuario_id))
+
+    if senha:  # Se ADM digitou nova senha
+        senha_hash = hashlib.sha256(senha.encode()).hexdigest()
+        cursor.execute("""
+            UPDATE usuarios SET nome = %s, email = %s, tipo = %s, senha_hash = %s WHERE id = %s
+        """, (nome, email, tipo, senha_hash, usuario_id))
+    else:
+        cursor.execute("""
+            UPDATE usuarios SET nome = %s, email = %s, tipo = %s WHERE id = %s
+        """, (nome, email, tipo, usuario_id))
+
     mysql.connection.commit()
 
     flash("Usuário atualizado com sucesso.", "success")
     return redirect(url_for('gerenciar_usuarios'))
+
 
 #Excluir Usuário
 @app.route('/excluir_usuario/<int:usuario_id>', methods=['POST'])
