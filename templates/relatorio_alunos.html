@@ -1,0 +1,28 @@
+<h1>Relatório Geral da Turma</h1>
+
+<h3>Médias Gerais</h3>
+<p>Média de Acertos: {{ medias[0]|round(2) }}%</p>
+<p>Média de Erros: {{ medias[1]|round(2) }}%</p>
+<p>Tempo Médio: {{ medias[2]|round(2) }} segundos</p>
+
+<h3>Desempenho por Aluno</h3>
+<table border="1">
+    <tr>
+        <th>Aluno</th>
+        <th>Total de Quizzes</th>
+        <th>Média de Acertos (%)</th>
+        <th>Média de Erros (%)</th>
+        <th>Tempo Médio (s)</th>
+        <th>Ações</th>
+    </tr>
+    {% for aluno in alunos %}
+    <tr>
+        <td>{{ aluno[1] }}</td>
+        <td>{{ aluno[2] }}</td>
+        <td>{{ aluno[3] }}</td>
+        <td>{{ aluno[4] }}</td>
+        <td>{{ aluno[5] }}</td>
+        <td><a href="{{ url_for('relatorio_aluno', aluno_id=aluno[0]) }}">Ver Detalhes</a></td>
+    </tr>
+    {% endfor %}
+</table>

@@ -7,7 +7,9 @@
   <style>
     .grafico-wrap { max-width: 640px; height: 320px; }
     .filtros { display:flex; gap:12px; flex-wrap:wrap; margin:12px 0; }
+    .filtros > div { display:flex; flex-direction:column; gap:4px; }
     .filtros label { font-weight:600; }
+    .filtros input[type="number"] { width: 80px; }
   </style>
 </head>
 <body>
@@ -25,22 +27,48 @@
         {% endfor %}
       </select>
     </div>
+    
+    <div>
+      <label for="nivel">Dificuldade:</label>
+      <select name="nivel" id="nivel">
+        <option value="todos" {{ 'selected' if filtro_nivel=='todos' else '' }}>Todos</option>
+        {% for n in niveis %}
+          <option value="{{ n[0] }}" {{ 'selected' if filtro_nivel==n[0]|string else '' }}>
+            {{ n[1] }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+    
+    <div>
+      <label for="tempo_min">Tempo mínimo (min):</label>
+      <input type="number" id="tempo_min" name="tempo_min" min="0" value="{{ filtro_tempo_min }}">
+    </div>
+    
+    <div>
+      <label for="tempo_max">Tempo máximo (min):</label>
+      <input type="number" id="tempo_max" name="tempo_max" min="0" value="{{ filtro_tempo_max }}">
+    </div>
+    
     <div>
       <label for="inicio">De:</label>
       <input type="date" id="inicio" name="inicio" value="{{ filtro_inicio }}">
     </div>
+    
     <div>
       <label for="fim">Até:</label>
       <input type="date" id="fim" name="fim" value="{{ filtro_fim }}">
     </div>
+    
     <div>
       <button type="submit">Filtrar</button>
+      <a href="{{ url_for('desempenho') }}" style="margin-left: 10px;">Limpar</a>
     </div>
   </form>
 
   <p><strong>Total de questões respondidas:</strong> {{ total }}</p>
-  <p><strong>Acertos:</strong> {{ acertos }}</p>
-  <p><strong>Erros:</strong> {{ erros }}</p>
+  <p><strong>Acertos:</strong> {{ acertos }} ({{ (acertos/total*100)|round(1) if total > 0 else 0 }}%)</p>
+  <p><strong>Erros:</strong> {{ erros }} ({{ (erros/total*100)|round(1) if total > 0 else 0 }}%)</p>
 
   <h3>Gráfico</h3>
   <div class="grafico-wrap">
@@ -50,11 +78,11 @@
   <h3>Histórico de Tentativas</h3>
   <ul>
     {% for t in tentativas %}
-      {% set seg = t[4] if t[4] is not none else 0 %}
       <li>
         Quiz ID {{ t[0] }} — {{ t[1] }} às {{ t[2] }} —
+        Nível: {{ t[5] }} —
         Acertos: {{ t[3] or 0 }} —
-        Tempo: {{ (seg // 60) }}min {{ (seg % 60) }}s
+        Tempo: {{ (t[4] // 60) if t[4] is not none else 0 }}min {{ (t[4] % 60) if t[4] is not none else 0 }}s
       </li>
     {% endfor %}
   </ul>
