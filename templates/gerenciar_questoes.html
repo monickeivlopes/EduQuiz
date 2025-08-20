@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Questões</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Ajustes só para esta página - bora meu povo do front*/
+    .questoes-container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 40px auto;
+      text-align: left;
+    }
+
+    .questoes-container h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #001F87;
+    }
+
+    .questoes-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .questoes-table th, .questoes-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .questoes-table th {
+      background: #001F87;
+      color: white;
+    }
+
+    .questoes-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .btn-green {
+      background-color: #00C264;
+      color: white;
+    }
+
+    .btn-red {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-blue {
+      background-color: #4C5FFF;
+      color: white;
+    }
+
+    .btn-green:hover { background-color: #00994d; }
+    .btn-red:hover { background-color: #a71d2a; }
+    .btn-blue:hover { background-color: #003fdd; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo EduQuiz">
+      EDUQUIZ
+    </div>
+    <nav>
+      <a href="{{ url_for('index_professor') }}">Início</a>
+      <a href="{{ url_for('logout') }}" class="login">Sair</a>
+    </nav>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="questoes-container">
+    <h1>Gerenciar Questões</h1>
+
+    <!-- Mensagens -->
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Botão abrir modal -->
+    <button id="openModalBtn" class="btn-small btn-blue">Criar Nova Questão</button>
+
+    <!-- Tabela -->
+    {% if questoes %}
+      <table class="questoes-table">
+        <tr>
+          <th>Enunciado</th>
+          <th>Nível</th>
+          <th>Assunto</th>
+          <th>Ações</th>
+        </tr>
+        {% for q in questoes %}
+        <tr>
+          <td>{{ q[1] }}</td>
+          <td>{{ q[2] }}</td>
+          <td>{{ q[3] }}</td>
+          <td>
+            <a href="{{ url_for('editar_questao', questao_id=q[0]) }}">
+              <button class="btn-small btn-green">Editar</button>
+            </a>
+            <form action="{{ url_for('excluir_questao', questao_id=q[0]) }}" method="post" style="display:inline;">
+              <button type="submit" class="btn-small btn-red" onclick="return confirm('Excluir esta questão?')">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p class="quote">Você ainda não cadastrou nenhuma questão.</p>
+    {% endif %}
+  </main>
+
+  <!-- Modal -->
+  <div id="questaoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModalBtn">&times;</span>
+      <h2>Criar Nova Questão</h2>
+      
+      <form action="{{ url_for('adicionar_questao') }}" method="post">
+        <input type="text" name="enunciado" placeholder="Digite o enunciado" required>
+
+        <select name="nivel_id" required>
+          <option value="" disabled selected>Selecione o nível</option>
+          {% for nivel in niveis %}
+          <option value="{{ nivel[0] }}">{{ nivel[1] }}</option>
+          {% endfor %}
+        </select>
+
+        <select name="assunto_id" required>
+          <option value="" disabled selected>Selecione o assunto</option>
+          {% for assunto in assuntos %}
+          <option value="{{ assunto[0] }}">{{ assunto[1] }}</option>
+          {% endfor %}
+        </select>
+
+        {% for i in range(1,5) %}
+          <input type="text" name="alternativas" placeholder="Alternativa {{ i }}" required>
+        {% endfor %}
+
+        <input type="number" name="correta_index" min="1" max="4" placeholder="Número da correta (1 a 4)" required>
+
+        <button type="submit" class="btn-green">Salvar</button>
+      </form>
+    </div>
+  </div>
+
+  
+  <script>
+    var modal = document.getElementById("questaoModal");
+    var btn = document.getElementById("openModalBtn");
+    var span = document.getElementById("closeModalBtn");
+
+    btn.onclick = function() { modal.style.display = "flex"; }
+    span.onclick = function() { modal.style.display = "none"; }
+    window.onclick = function(event) {
+      if (event.target == modal) { modal.style.display = "none"; }
+    }
+  </script>
+</body>
+</html>

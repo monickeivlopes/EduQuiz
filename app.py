@@ -100,17 +100,8 @@ def index_professor():
     usuario = cursor.fetchone()
     nome = usuario[0] if usuario else 'Professor'
 
-    # Buscar questões criadas pelo professor
-    cursor.execute("""
-        SELECT q.id, q.enunciado, n.descricao AS nivel, a.nome AS assunto
-        FROM questoes q
-        JOIN niveis_dificuldade n ON q.nivel_id = n.id
-        JOIN assuntos a ON q.assunto_id = a.id
-        WHERE q.autor_id = %s
-    """, (usuario_id,))
-    questoes = cursor.fetchall()
+    return render_template('index_professor.html', nome=nome)
 
-    return render_template('index_professor.html', nome=nome, questoes=questoes)
 
 
 #Página ADMINITRADOR
@@ -663,12 +654,32 @@ def quiz():
 @login_required
 @professor_required
 def gerenciar_questoes():
+    professor_id = session.get('usuario_id')
     cursor = mysql.connection.cursor()
+
+    # Questões do professor
+    cursor.execute("""
+        SELECT q.id, q.enunciado, n.descricao AS nivel, a.nome AS assunto
+        FROM questoes q
+        JOIN niveis_dificuldade n ON q.nivel_id = n.id
+        JOIN assuntos a ON q.assunto_id = a.id
+        WHERE q.autor_id = %s
+    """, (professor_id,))
+    questoes = cursor.fetchall()
+
+    # Carregar listas para o modal
     cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
     niveis = cursor.fetchall()
     cursor.execute("SELECT id, nome FROM assuntos")
     assuntos = cursor.fetchall()
-    return render_template('index_professor.html', nome=session['usuario_nome'], niveis=niveis, assuntos=assuntos)
+
+    return render_template('gerenciar_questoes.html',
+                           nome=session['usuario_nome'],
+                           questoes=questoes,
+                           niveis=niveis,
+                           assuntos=assuntos)
+
+
 
 @app.route('/adicionar_questao', methods=['POST'])
 @login_required
@@ -1122,6 +1133,8 @@ def relatorio_aluno(aluno_id):
                          estatisticas_assuntos=estatisticas_assuntos,
                          melhores_assuntos=melhores_assuntos,
                          piores_assuntos=piores_assuntos)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

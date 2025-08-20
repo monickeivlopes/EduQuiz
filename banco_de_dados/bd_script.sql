@@ -110,15 +110,9 @@ ALTER TABLE materiais ADD COLUMN data_publicacao DATETIME DEFAULT CURRENT_TIMEST
 INSERT INTO niveis_dificuldade (descricao) VALUES ('Fácil'), ('Médio'), ('Difícil');
 INSERT INTO assuntos (nome) VALUES ('Matemática'), ('História'), ('Química');
 
-
-INSERT INTO niveis_dificuldade (descricao)
-VALUES ('Fácil'), ('Médio'), ('Difícil');
-
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
-VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm@eduquiz', 256), 'adm');
+VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm', 256), 'adm');
 
-INSERT INTO usuarios (nome, email, senha_hash, tipo)
-VALUES ('Administrador', 'adm@adm', SHA2('123', 256), 'adm');
 
 ALTER TABLE usuarios
 MODIFY COLUMN tipo ENUM('aluno', 'professor', 'adm') NOT NULL;
@@ -264,3 +258,6 @@ select * from respostas_alunos;
 select * from questoes;
 
 ALTER TABLE tentativas_quiz ADD COLUMN tempo_gasto INT; -- segundos
+
+
+

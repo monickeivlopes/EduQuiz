@@ -22,7 +22,7 @@
     <h1>Olá, {{ nome }}!</h1>
 
     <!-- Botão vira link para rota que carrega os selects -->
-    <a href="{{ url_for('gerenciar_questoes') }}" class="btn-iniciar">Criar questão</a>
+    <a href="{{ url_for('gerenciar_questoes') }}" class="btn-iniciar">Gerenciar Questões</a>
 
     <div class="botoes-secundarios">
       <a href="{{ url_for('relatorio_alunos') }}" class="btn-secundario">Relatório de alunos</a>
@@ -32,22 +32,8 @@
       <a href="{{ url_for('adicionar_materiais') }}" class="btn-secundario">Gerenciar materiais</a>
     </div>
 
-    <h2>Minhas Questões</h2>
-      {% for questao in questoes %}
-          <div>
-              <p><strong>{{ questao[1] }}</strong> ({{ questao[2] }} - {{ questao[3] }})</p>
-              <a href="{{ url_for('editar_questao', questao_id=questao[0]) }}">
-                  <button>Editar</button>
-              </a>
-          </div>
-      {% else %}
-          <p>Você ainda não adicionou nenhuma questão.</p>
-      {% endfor %}
 
-
-    <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
-  </main>
-<!-- Modal de Gerenciar Questões -->
+  <!-- Modal de Gerenciar Questões -->
 {% if niveis and assuntos %}
 <div id="modalGerenciar" class="modal" style="display: flex;">
   <div class="modal-content">
@@ -80,8 +66,7 @@
 
       <label for="correta_index" class="label-filtro">Índice da correta (1 a 4):</label>
       <input type="number" name="correta_index" id="correta_index" min="1" max="4" required>
-
-      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
         <button type="button" onclick="fecharModal()">Voltar</button>
         <button type="submit" class="btn-concluir">Concluir</button>
       </div>
@@ -89,6 +74,7 @@
   </div>
 </div>
 {% endif %}
+
 
   <script>
     function fecharModal() {
