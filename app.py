@@ -474,12 +474,15 @@ def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 # Página de materiais (VIZUALIZAR)
+# Página de materiais (VIZUALIZAR) - ATUALIZADA
+# Página de materiais (VIZUALIZAR) - ATUALIZADA
 @app.route('/materiais')
 @login_required
 @aluno_required
 def materiais():
     data_filtro = request.args.get('data')  # formato YYYY-MM-DD
     ordem = request.args.get('ordem', 'desc')  # 'asc' ou 'desc'
+    assunto_filtro = request.args.get('assunto', 'todos')  # Novo filtro por assunto
 
     cursor = mysql.connection.cursor()
     query = """
@@ -495,6 +498,10 @@ def materiais():
         where_clauses.append("DATE(m.data_publicacao) = %s")
         params.append(data_filtro)
 
+    if assunto_filtro != 'todos':
+        where_clauses.append("m.materia = %s")
+        params.append(assunto_filtro)
+
     if where_clauses:
         query += " WHERE " + " AND ".join(where_clauses)
 
@@ -506,11 +513,22 @@ def materiais():
     cursor.execute(query, tuple(params))
     materiais = cursor.fetchall()
 
+    # Assuntos fixos conforme definido no formulário (usando os VALUES)
+    assuntos_disponiveis = [
+        "Números e Operações",
+        "Geometria e Medidas", 
+        "Estatística e Probabilidade",
+        "Álgebra e Funções",
+        "Matemática Financeira e Aplicada"
+    ]
+
     return render_template(
         'materiais.html',
         materiais=materiais,
         data_filtro=data_filtro,
-        ordem=ordem
+        ordem=ordem,
+        assunto_filtro=assunto_filtro,
+        assuntos_disponiveis=assuntos_disponiveis
     )
 
 
@@ -953,7 +971,7 @@ def excluir_questao(questao_id):
 def relatorio_alunos():
     cur = mysql.connection.cursor()
 
-    # Médias gerais da turma (mantida)
+    # Médias gerais da turma
     cur.execute("""
         SELECT 
             COALESCE(AVG(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) * 100, 0) AS media_acertos_percentual,
@@ -965,7 +983,7 @@ def relatorio_alunos():
     """)
     medias = cur.fetchone() or (0, 0, 0)
 
-    # Desempenho por aluno (mantida)
+    # Desempenho por aluno
     cur.execute("""
         SELECT 
             u.id AS aluno_id,
@@ -986,22 +1004,53 @@ def relatorio_alunos():
     """)
     alunos = cur.fetchall()
 
-    # CONSULTAS SIMPLIFICADAS para evitar erro
-    distribuicao = (0, 0, 0, 0)  # Placeholder
+    # Dados para os gráficos
+    # 1. Distribuição de desempenho (labels e data para o gráfico de barras)
+    cur.execute("""
+        SELECT 
+            CONCAT(u.nome, ' - ', DATE_FORMAT(MAX(t.data_hora), '%%d/%%m')) as label,
+            SUM(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) as acertos
+        FROM usuarios u
+        JOIN alunos a ON u.id = a.id
+        JOIN tentativas_quiz t ON a.id = t.aluno_id
+        JOIN respostas_alunos ra ON t.id = ra.tentativa_id
+        GROUP BY u.id
+        ORDER BY t.data_hora DESC
+        LIMIT 10;
+    """)
     
-    # Buscar apenas nomes dos cursos
-    cur.execute("SELECT nome FROM cursos ORDER BY nome")
-    cursos = cur.fetchall()
-    medias_por_curso = [(curso[0], 0) for curso in cursos]  # Placeholder
+    resultados_grafico = cur.fetchall()
+    labels = [r[0] for r in resultados_grafico]
+    data = [r[1] for r in resultados_grafico]
+    
+    # 2. Médias por curso para o gráfico de pizza
+    cur.execute("""
+        SELECT 
+            c.nome AS curso,
+            COALESCE(ROUND(AVG(CASE WHEN ra.correta = 1 THEN 1 ELSE 0 END) * 100, 2), 0) AS media_acertos
+        FROM cursos c
+        LEFT JOIN alunos a ON c.id = a.curso_id
+        LEFT JOIN usuarios u ON a.id = u.id
+        LEFT JOIN tentativas_quiz t ON a.id = t.aluno_id
+        LEFT JOIN respostas_alunos ra ON t.id = ra.tentativa_id
+        GROUP BY c.id, c.nome;
+    """)
+    
+    medias_por_curso = cur.fetchall()
+    cursos_labels = [r[0] for r in medias_por_curso]
+    cursos_data = [r[1] for r in medias_por_curso]
 
     cur.close()
 
     return render_template("relatorio_geral.html", 
                          medias=medias, 
                          alunos=alunos,
-                         distribuicao=distribuicao,
-                         medias_por_curso=medias_por_curso)
-
+                         labels=labels,
+                         data=data,
+                         cursos_labels=cursos_labels,
+                         cursos_data=cursos_data,
+                         acertos=sum(data) if data else 0,
+                         erros=sum([max(5 - d, 0) for d in data]) if data else 0)  # Assumindo 5 questões por quiz
 
 
 
