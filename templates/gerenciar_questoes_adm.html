@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Gerenciar Questões (ADM)</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Ajustes só para esta página */
+    .questoes-container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 40px auto;
+      text-align: left;
+    }
+
+    .questoes-container h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #001F87;
+    }
+
+    .questoes-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .questoes-table th, .questoes-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+
+    .questoes-table th {
+      background: #001F87;
+      color: white;
+    }
+
+    .questoes-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      margin: 2px;
+    }
+
+    .btn-green {
+      background-color: #00C264;
+      color: white;
+    }
+
+    .btn-red {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-blue {
+      background-color: #4C5FFF;
+      color: white;
+    }
+
+    .btn-green:hover { background-color: #00994d; }
+    .btn-red:hover { background-color: #a71d2a; }
+    .btn-blue:hover { background-color: #003fdd; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo EduQuiz">
+      EDUQUIZ - ADM
+    </div>
+    <nav>
+      <a href="{{ url_for('index_adm') }}">Início</a>
+      <a href="{{ url_for('logout') }}" class="login">Sair</a>
+    </nav>
+  </header>
+
+  <!-- Conteúdo -->
+  <main class="questoes-container">
+    <h1>Gerenciar Questões (ADM)</h1>
+
+    <!-- Mensagens -->
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <!-- Tabela -->
+    {% if questoes %}
+      <table class="questoes-table">
+        <tr>
+          <th>Enunciado</th>
+          <th>Nível</th>
+          <th>Assunto</th>
+          <th>Autor</th>
+          <th>Ações</th>
+        </tr>
+        {% for q in questoes %}
+        <tr>
+          <td>{{ q[1] }}</td>
+          <td>{{ q[2] }}</td>
+          <td>{{ q[3] }}</td>
+          <td>{{ q[4] }}</td>
+          <td>
+            <a href="{{ url_for('editar_questao_adm', questao_id=q[0]) }}">
+              <button class="btn-small btn-green">Editar</button>
+            </a>
+            <form action="{{ url_for('excluir_questao_adm', questao_id=q[0]) }}" method="post" style="display:inline;">
+              <button type="submit" class="btn-small btn-red" onclick="return confirm('Excluir esta questão?')">Excluir</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p class="quote">Nenhuma questão cadastrada no sistema.</p>
+    {% endif %}
+  </main>
+</body>
+</html>

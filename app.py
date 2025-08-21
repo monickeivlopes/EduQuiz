@@ -1134,6 +1134,93 @@ def relatorio_aluno(aluno_id):
                          melhores_assuntos=melhores_assuntos,
                          piores_assuntos=piores_assuntos)
 
+# GERENCIAR QUESTÕES - ADM
+@app.route('/gerenciar_questoes_adm')
+@login_required
+@adm_required
+def gerenciar_questoes_adm():
+    cursor = mysql.connection.cursor()
+    cursor.execute("""
+        SELECT q.id, q.enunciado, n.descricao AS nivel, a.nome AS assunto, u.nome AS autor
+        FROM questoes q
+        JOIN niveis_dificuldade n ON q.nivel_id = n.id
+        JOIN assuntos a ON q.assunto_id = a.id
+        JOIN usuarios u ON q.autor_id = u.id
+    """)
+    questoes = cursor.fetchall()
+
+    cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
+    niveis = cursor.fetchall()
+    cursor.execute("SELECT id, nome FROM assuntos")
+    assuntos = cursor.fetchall()
+
+    return render_template('gerenciar_questoes_adm.html',
+                           questoes=questoes,
+                           niveis=niveis,
+                           assuntos=assuntos)
+
+# EDITAR QUESTÃO - ADM
+@app.route('/editar_questao_adm/<int:questao_id>', methods=['GET', 'POST'])
+@login_required
+@adm_required
+def editar_questao_adm(questao_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT enunciado, nivel_id, assunto_id FROM questoes WHERE id = %s", (questao_id,))
+    questao = cursor.fetchone()
+    if not questao:
+        flash("Questão não encontrada.", "danger")
+        return redirect(url_for('gerenciar_questoes_adm'))
+
+    if request.method == 'POST':
+        novo_enunciado = request.form.get('enunciado')
+        nivel_id = request.form.get('nivel_id')
+        assunto_id = request.form.get('assunto_id')
+        alternativas = request.form.getlist('alternativas')
+        correta_index = int(request.form.get('correta_index')) - 1
+
+        cursor.execute("""
+            UPDATE questoes SET enunciado = %s, nivel_id = %s, assunto_id = %s WHERE id = %s
+        """, (novo_enunciado, nivel_id, assunto_id, questao_id))
+
+        cursor.execute("DELETE FROM alternativas WHERE questao_id = %s", (questao_id,))
+        for i, texto in enumerate(alternativas):
+            correta = 1 if i == correta_index else 0
+            cursor.execute("""
+                INSERT INTO alternativas (questao_id, texto, correta)
+                VALUES (%s, %s, %s)
+            """, (questao_id, texto, correta))
+
+        mysql.connection.commit()
+        flash("Questão atualizada com sucesso!", "success")
+        return redirect(url_for('gerenciar_questoes_adm'))
+
+    cursor.execute("SELECT descricao, id FROM niveis_dificuldade")
+    niveis = cursor.fetchall()
+    cursor.execute("SELECT nome, id FROM assuntos")
+    assuntos = cursor.fetchall()
+    cursor.execute("SELECT id, texto, correta FROM alternativas WHERE questao_id = %s", (questao_id,))
+    alternativas = cursor.fetchall()
+
+    return render_template('editar_questao_adm.html', 
+                           questao_id=questao_id,
+                           questao=questao,
+                           alternativas=alternativas,
+                           niveis=niveis,
+                           assuntos=assuntos)
+
+
+# EXCLUIR QUESTÃO - ADM
+@app.route('/excluir_questao_adm/<int:questao_id>', methods=['POST'])
+@login_required
+@adm_required
+def excluir_questao_adm(questao_id):
+    cursor = mysql.connection.cursor()
+    cursor.execute("DELETE FROM alternativas WHERE questao_id = %s", (questao_id,))
+    cursor.execute("DELETE FROM questoes WHERE id = %s", (questao_id,))
+    mysql.connection.commit()
+
+    flash("Questão excluída com sucesso.", "success")
+    return redirect(url_for('gerenciar_questoes_adm'))
 
 
 if __name__ == '__main__':
