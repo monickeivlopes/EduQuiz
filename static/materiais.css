@@ -1,0 +1,202 @@
+/* ====== Base & Variáveis ====== */
+:root{
+  --bg: #f4f6f9;
+  --panel: #f8f9fa;
+  --text: #333;
+  --muted: #666;
+  --primary: #001f87;
+  --primary-hover: #012fbb;
+  --secondary: #6c757d;
+  --secondary-hover: #5a6268;
+  --ring: #012588;
+  --card: #ffffff;
+  --border: #e9ecef;
+  --download: #00c853;
+  --download-hover: #009624;
+
+  /* Badges (matérias) */
+  --num-op-bg: #e3f2fd; --num-op-text: #1976d2;
+  --geometria-bg: #e8f5e9; --geometria-text: #388e3c;
+  --estatistica-bg: #fbe9e7; --estatistica-text: #d84315;
+  --algebra-bg: #fff3e0; --algebra-text: #f57c00;
+  --fin-bg: #e8eaf6; --fin-text: #303f9f;
+}
+
+*{ box-sizing: border-box; }
+html,body{ height:100%; }
+body{
+  margin:0;
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* ====== Layout ====== */
+main{
+  max-width: 1100px;
+  margin: 40px auto 80px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+/* ====== Header ====== */
+header{
+  position: sticky;
+  top:0; z-index: 20;
+  background: var(--primary);
+  color: white;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 15px 30px;
+}
+
+header .logo{ display:flex; align-items:center; gap:12px; font-size:1.5rem; font-weight:bold; }
+header .logo img{ height:40px; width:auto; display:block; }
+
+header nav a{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; width:40px; border-radius: 8px;
+  transition: background .2s;
+}
+header nav a:hover{ background: rgba(255,255,255,0.1); }
+header nav img{ width:30px; }
+
+/* ====== Títulos ====== */
+h1{
+  grid-column: 1 / -1;
+  margin: 18px 0 6px;
+  font-size: 2.2rem;
+  text-align: center;
+  color: #012588;
+}
+h2{
+  grid-column: 1 / -1;
+  margin: 0 0 18px;
+  color: #14348a;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+/* ====== Filtros ====== */
+.filtro-form{
+  grid-column: 1 / -1;
+  display:flex; flex-wrap:wrap; gap:15px;
+  justify-content: space-around;
+  align-items:center;
+  padding:20px;
+  border:1px solid var(--border);
+  background: var(--panel);
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.filtro-form > div{ display:flex; flex-direction:column; gap:8px; }
+
+.filtro-form label{ font-size:.9rem; color:#14348a; font-weight:600; }
+
+.filtro-form select,
+.filtro-form input[type="date"]{
+  appearance:none;
+  border:1px solid #ced4da;
+  background: white;
+  color: var(--text);
+  border-radius:6px;
+  padding: 10px;
+  font-size:.95rem;
+  min-width:180px;
+}
+.filtro-form button{
+  background: var(--primary);
+  color:white;
+  border:none;
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:500;
+  cursor:pointer;
+  transition: background .2s;
+}
+.filtro-form button:hover{ background: var(--primary-hover); }
+
+.filtro-form .btn-limpar{
+  display:inline-flex; align-items:center; justify-content:center;
+  background: var(--secondary);
+  color:white; text-decoration:none;
+  padding:10px 20px;
+  border-radius:6px;
+  font-weight:500;
+  transition: background .2s;
+}
+.filtro-form .btn-limpar:hover{ background: var(--secondary-hover); }
+
+/* ====== Contador ====== */
+.contador-materiais{
+  grid-column: 1 / -1;
+  margin:20px 0;
+  text-align:center;
+  font-style:italic;
+  color: var(--muted);
+  font-size:1.1rem;
+}
+
+/* ====== Cards de Materiais ====== */
+.card-material{
+  grid-column: span 6;
+  border:1px solid var(--border);
+  background: var(--card);
+  border-radius: 12px;
+  padding:25px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  transition: transform .2s, box-shadow .2s;
+  display:flex; flex-direction:column; gap:12px;
+}
+.card-material:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.card-material h3{ margin:0; color: var(--primary); font-size:1.3rem; }
+.card-material p{ margin:4px 0; font-size:.95rem; color: var(--text); line-height:1.5; }
+.card-material p strong{ color: var(--primary); }
+
+.card-material a{
+  align-self:flex-start;
+  background: var(--download);
+  color:white;
+  padding:12px 25px;
+  border-radius:25px;
+  text-decoration:none;
+  font-weight:600;
+  font-size:.95rem;
+  margin-top:10px;
+  transition: background .2s ease;
+}
+.card-material a:hover{ background: var(--download-hover); }
+
+/* ====== Badges ====== */
+.materia-badge{
+  display:inline-block;
+  font-size:.85rem;
+  font-weight:600;
+  padding:6px 12px;
+  border-radius:20px;
+  margin-bottom:10px;
+}
+.badge-numeros-e-operacoes{ background: var(--num-op-bg); color: var(--num-op-text); }
+.badge-geometria-e-medidas{ background: var(--geometria-bg); color: var(--geometria-text); }
+.badge-estatistica-e-probabilidade{ background: var(--estatistica-bg); color: var(--estatistica-text); }
+.badge-algebra-e-funcoes{ background: var(--algebra-bg); color: var(--algebra-text); }
+.badge-matematica-financeira-e-aplicada{ background: var(--fin-bg); color: var(--fin-text); }
+
+/* ====== Responsividade ====== */
+@media (max-width: 1024px){
+  .card-material{ grid-column: span 6; }
+}
+@media (max-width: 768px){
+  main{ grid-template-columns: 1fr; }
+  .card-material{ grid-column: 1; }
+  .filtro-form{ flex-direction:column; align-items:stretch; }
+  .filtro-form > div{ width:100%; }
+  h1,h2{ text-align:center; }
+}
