@@ -221,3 +221,14 @@ body {
     }
 
     
+    /* Remove o botão de "mostrar senha" padrão do Edge/Chrome */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+/* Alguns navegadores Webkit (Chrome/Safari) */
+input[type="password"]::-webkit-textfield-decoration-container {
+  display: none;
+}
+

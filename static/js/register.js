@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const type = passwordField.type === 'password' ? 'text' : 'password';
       passwordField.type = type;
 
-      eyeIcon.src = type === 'password' 
-        ? 'static/img/eye-closed.png'
-        : 'static/img/eye-open.png';
+      eyeIcon.src = type === 'password'
+  ? "/static/img/eye-closed.png"
+  : "/static/img/eye-open.png";
 
-      eyeIcon.alt = type === 'password' 
-        ? 'Olho Branco Aberto' 
-        : 'Olho Fechado';
+      eyeIcon.alt = type === 'password'
+        ? "Olho fechado"
+        : "Olho aberto";
     });
   }
 

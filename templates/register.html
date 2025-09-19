@@ -33,8 +33,10 @@
 
         <div class="password-container">
           <input type="password" id="password" name="senha" placeholder="Senha" required />
-          <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha"></span>
-        </div>
+          <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha">
+            <img id="eye-icon" src="{{ url_for('static', filename='img/eye-closed.png') }}" alt="Olho fechado" />
+          </span>
+        </div>        
 
         <select name="tipo" id="tipo" required >
           <option value="" disabled selected>Tipo de usuário</option>

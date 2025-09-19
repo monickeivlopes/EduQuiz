@@ -39,10 +39,14 @@
             <h2><img src="static/img/beca2.png" alt="Logo" class="modal-logo">Login</h2>
             <form method="POST" action="{{ url_for('login') }}">
                 <input type="email" name="email" placeholder="Email" required>
+
                 <div class="password-container">
                     <input type="password" id="password" name="senha" placeholder="Senha" required />
-                    <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha"></span>
-                </div>
+                    <span id="toggle-password" class="show-password" title="Mostrar/ocultar senha">
+                      <img id="eye-icon" src="{{ url_for('static', filename='img/eye-closed.png') }}" alt="Olho fechado" />
+                    </span>
+                  </div> 
+
                 <button type="submit">Entrar</button>
             </form>
 
