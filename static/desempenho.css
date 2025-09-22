@@ -1,0 +1,113 @@
+/* ====== BASE ====== */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f6f1e9; /* tom claro já usado no EduQuiz */
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ====== TÍTULOS ====== */
+h2 {
+  color:#00337a ;
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+h3 {
+  margin-top: 30px;
+  color: #00337a;
+  font-size: 1.4rem;
+}
+
+/* ====== FILTROS ====== */
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.filtros label {
+  font-weight: bold;
+  color: #4b4b4b;
+  font-size: 0.9rem;
+}
+
+.filtros select,
+.filtros input {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.filtros button {
+  background-color: #004aad;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filtros button:hover {
+  background-color: #00337a;
+  transform: translateY(-2px);
+}
+
+.filtros a {
+  color: #004aad;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+/* ====== RESULTADOS TOTAIS ====== */
+p {
+  font-size: 1rem;
+  margin: 6px 0;
+}
+
+/* ====== GRÁFICO ====== */
+.grafico-wrap {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 640px;
+  height: 320px;
+  margin: 15px 0;
+}
+
+/* ====== HISTÓRICO ====== */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 900px;
+}
+
+ul li {
+  background: white;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  font-size: 0.95rem;
+  border-left: 6px solid #004aad;
+}
+
+
