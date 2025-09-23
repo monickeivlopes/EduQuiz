@@ -555,60 +555,88 @@ def quiz():
 
     if request.method == 'POST':
         try:
-            # Obter dados do formulário
-            respostas = request.form.to_dict()
-            aluno_id = session.get('usuario_id')
-            nivel_id = int(respostas.pop('nivel_id'))
-            assunto_id = respostas.pop('assunto_id', 'todos').strip()
+            form = request.form
+            print("DEBUG /quiz POST form ->", dict(form))
 
-            # Verificar e processar assunto_id
-            assunto_id_value = None if assunto_id == 'todos' or assunto_id == '' else int(assunto_id)
-            
-            # Verificar aluno
+            aluno_id = session.get('usuario_id')
+
+            nivel_id_raw = form.get('nivel_id')            
+            assunto_id_raw = form.get('assunto_id', 'todos')
+
+            if nivel_id_raw is None:
+                flash('Nível não informado no formulário.', 'danger')
+                return redirect(url_for('index_aluno'))
+
+            nivel_id = None if nivel_id_raw == 'variada' else (int(nivel_id_raw) if nivel_id_raw.isdigit() else None)
+            assunto_id_value = None if (assunto_id_raw in [None, '', 'todos']) else int(assunto_id_raw)
+
+
             cursor.execute("SELECT id FROM alunos WHERE id = %s", (aluno_id,))
             if not cursor.fetchone():
                 flash('Aluno não encontrado', 'danger')
                 return redirect(url_for('index_aluno'))
 
-            # Obter o tempo de início da sessão
             inicio_quiz_str = session.get('inicio_quiz')
-            if not inicio_quiz_str:
-                flash('Tempo de início do quiz não registrado', 'warning')
-                return redirect(url_for('index_aluno'))
+            if inicio_quiz_str:
+                try:
+                    inicio_quiz = datetime.strptime(inicio_quiz_str, "%Y-%m-%d %H:%M:%S.%f")
+                    tempo_gasto = int((datetime.now() - inicio_quiz).total_seconds())
+                except Exception:
+                    tempo_gasto = 0
+            else:
+                tempo_gasto = 0
 
-            # Converter string para datetime
-            inicio_quiz = datetime.strptime(inicio_quiz_str, "%Y-%m-%d %H:%M:%S.%f")
-            fim_quiz = datetime.now()
-            tempo_gasto = int((fim_quiz - inicio_quiz).total_seconds())
-
-            # Inserir tentativa com tempo gasto
             cursor.execute("""
                 INSERT INTO tentativas_quiz (aluno_id, nivel_id, assunto_id, tempo_gasto)
                 VALUES (%s, %s, %s, %s)
             """, (aluno_id, nivel_id, assunto_id_value, tempo_gasto))
-            tentativa_id = cursor.lastrowid
+            mysql.connection.commit()
 
-            # Processar respostas
-            for questao_id_str, alternativa_id in respostas.items():
-                if questao_id_str in ['nivel_id', 'assunto_id']:
+ 
+            cursor.execute("SELECT LAST_INSERT_ID()")
+            tentativa_row = cursor.fetchone()
+            tentativa_id = tentativa_row[0] if tentativa_row else None
+            if not tentativa_id:
+                raise Exception("Não foi possível recuperar o id da tentativa inserida.")
+
+            for chave, valor in form.items():
+                if chave in ('nivel_id', 'assunto_id'):
                     continue
-                questao_id = int(questao_id_str)
+                try:
+                    questao_id = int(chave)
+                except Exception:
+                    continue
+
+                if not valor:
+                    continue
+                try:
+                    alternativa_id = int(valor)
+                except Exception:
+                    continue
+
                 cursor.execute("SELECT correta FROM alternativas WHERE id = %s", (alternativa_id,))
-                correta = cursor.fetchone()[0]
+                row = cursor.fetchone()
+                correta = int(row[0]) if row and row[0] is not None else 0
+
                 cursor.execute("""
                     INSERT INTO respostas_alunos (tentativa_id, questao_id, alternativa_id, correta)
                     VALUES (%s, %s, %s, %s)
                 """, (tentativa_id, questao_id, alternativa_id, correta))
 
             mysql.connection.commit()
+
+            session.pop('inicio_quiz', None)
+
             return redirect(url_for('quiz_resultado', tentativa_id=tentativa_id))
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             mysql.connection.rollback()
             flash(f'Erro ao processar quiz: {str(e)}', 'danger')
             return redirect(url_for('index_aluno'))
 
-    # ===== GET: exibe quiz =====
+
     if 'nivel_id' not in request.args:
         cursor.execute("SELECT id, descricao FROM niveis_dificuldade")
         niveis = cursor.fetchall()
@@ -616,30 +644,37 @@ def quiz():
         assuntos = cursor.fetchall()
         return render_template('quiz_inicio.html', niveis=niveis, assuntos=assuntos)
 
-    # Registrar início do quiz na sessão (como string)
     session['inicio_quiz'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
-    
-    # Resto do código para exibir o quiz...
-    nivel_id = int(request.args['nivel_id'])
+
+    nivel_id_raw = request.args['nivel_id']
     assunto_id = request.args.get('assunto_id', 'todos')
+
+    nivel_variado = (nivel_id_raw == 'variada')
     assunto_nome = 'Todos os assuntos'
-    
     if assunto_id != 'todos':
         cursor.execute("SELECT nome FROM assuntos WHERE id = %s", (assunto_id,))
         resultado = cursor.fetchone()
         if resultado:
             assunto_nome = resultado[0]
 
-    # Buscar questões
     query = """
-        SELECT q.id, q.enunciado 
+        SELECT q.id, q.enunciado
         FROM questoes q
-        WHERE q.nivel_id = %s
+        WHERE 1=1
     """
-    params = [nivel_id]
+    params = []
+    if not nivel_variado:
+        try:
+            nivel_id = int(nivel_id_raw)
+            query += " AND q.nivel_id = %s"
+            params.append(nivel_id)
+        except Exception:
+            pass
+
     if assunto_id != 'todos':
         query += " AND q.assunto_id = %s"
         params.append(assunto_id)
+
     query += " ORDER BY RAND() LIMIT 5"
     cursor.execute(query, tuple(params))
     questoes = cursor.fetchall()
@@ -648,7 +683,6 @@ def quiz():
         flash('Não há questões disponíveis para esta combinação.', 'warning')
         return redirect(url_for('quiz'))
 
-    # Alternativas
     questoes_com_alternativas = []
     for q in questoes:
         cursor.execute("SELECT id, texto FROM alternativas WHERE questao_id = %s", (q[0],))
@@ -660,10 +694,9 @@ def quiz():
         })
 
     return render_template('quiz.html',
-                         questoes=questoes_com_alternativas,
-                         nivel_id=nivel_id,
-                         assunto_nome=assunto_nome)
-
+                           questoes=questoes_com_alternativas,
+                           nivel_id=nivel_id_raw,
+                           assunto_nome=assunto_nome)
 
 
 
@@ -739,13 +772,21 @@ def quiz_resultado(tentativa_id):
     aluno_id = session['usuario_id']
     cursor = mysql.connection.cursor()
 
-    cursor.execute("SELECT nivel_id FROM tentativas_quiz WHERE id = %s AND aluno_id = %s", (tentativa_id, aluno_id))
+    # agora aceita nivel_id NULL (variado)
+    cursor.execute("""
+        SELECT t.nivel_id, n.descricao
+        FROM tentativas_quiz t
+        LEFT JOIN niveis_dificuldade n ON t.nivel_id = n.id
+        WHERE t.id = %s AND t.aluno_id = %s
+    """, (tentativa_id, aluno_id))
     tentativa = cursor.fetchone()
+
     if not tentativa:
         flash("Tentativa inválida ou acesso negado.", "danger")
         return redirect(url_for('index_aluno'))
-    
-    nivel_id = tentativa[0]  
+
+    nivel_id = tentativa[0]  # pode ser None
+    nivel_descricao = tentativa[1] if tentativa[1] else "Variada"
 
     cursor.execute("""
         SELECT q.enunciado, a.texto AS resposta_marcada, alt.texto AS resposta_correta, ra.correta
@@ -761,7 +802,14 @@ def quiz_resultado(tentativa_id):
     acertos = sum(1 for r in resultados if r[3] == 1)
     erros = total - acertos
 
-    return render_template("quiz_resultado.html", total=total,acertos=acertos,erros=erros,resultados=resultados,nivel_id=nivel_id)  
+    return render_template(
+        "quiz_resultado.html",
+        total=total,
+        acertos=acertos,
+        erros=erros,
+        resultados=resultados,
+        nivel_descricao=nivel_descricao
+    )
 
 @app.route('/desempenho')
 @login_required
@@ -770,7 +818,6 @@ def desempenho():
     aluno_id = session['usuario_id']
     cursor = mysql.connection.cursor()
 
-    # Parâmetros de filtro
     assunto_id = request.args.get('assunto')
     nivel_id = request.args.get('nivel')
     tempo_min = request.args.get('tempo_min')
@@ -778,7 +825,6 @@ def desempenho():
     data_inicio = request.args.get('inicio')
     data_fim = request.args.get('fim')
 
-    # Construir consultas com filtros
     base_query = """
         FROM respostas_alunos ra
         JOIN tentativas_quiz tq ON ra.tentativa_id = tq.id
@@ -787,7 +833,6 @@ def desempenho():
     """
     params = [aluno_id]
     
-    # Adicionar filtros
     filters = []
     
     if assunto_id and assunto_id != "todos":
@@ -795,20 +840,24 @@ def desempenho():
         params.append(assunto_id)
     
     if nivel_id and nivel_id != "todos":
-        filters.append("tq.nivel_id = %s")
-        params.append(nivel_id)
+        if nivel_id == "variada":
+            filters.append("tq.nivel_id IS NULL")
+        else:
+            filters.append("tq.nivel_id = %s")
+            params.append(nivel_id)
+
     
     if tempo_min:
         try:
             filters.append("tq.tempo_gasto >= %s")
-            params.append(int(tempo_min) * 60)  # Converter minutos para segundos
+            params.append(int(tempo_min) * 60)  
         except ValueError:
             flash('Tempo mínimo inválido', 'warning')
     
     if tempo_max:
         try:
             filters.append("tq.tempo_gasto <= %s")
-            params.append(int(tempo_max) * 60)  # Converter minutos para segundos
+            params.append(int(tempo_max) * 60)  
         except ValueError:
             flash('Tempo máximo inválido', 'warning')
     
@@ -820,7 +869,6 @@ def desempenho():
         filters.append("tq.data_hora < DATE_ADD(%s, INTERVAL 1 DAY)")
         params.append(data_fim)
     
-    # Consulta para totais
     query_totais = f"""
         SELECT 
             COUNT(*) AS total_questoes,
@@ -831,7 +879,6 @@ def desempenho():
     if filters:
         query_totais += " AND " + " AND ".join(filters)
     
-    # Consulta para tentativas
     query_tentativas = f"""
         SELECT 
             tq.id,
@@ -848,7 +895,6 @@ def desempenho():
     """
     tentativas_params = [aluno_id]
     
-    # Adicionar os mesmos filtros (exceto o primeiro que já está no WHERE)
     if filters:
         query_tentativas += " AND " + " AND ".join(filters)
         tentativas_params.extend(params[1:])
@@ -869,11 +915,9 @@ def desempenho():
         flash(f'Erro ao filtrar resultados: {str(e)}', 'danger')
         return redirect(url_for('desempenho'))
 
-    # Preparar dados para o template
     labels = [f"{r[1]} {r[2]}" for r in tentativas]
     data = [int(r[3] or 0) for r in tentativas]
 
-    # Obter listas para os dropdowns
     cursor.execute("SELECT id, nome FROM assuntos ORDER BY nome")
     assuntos = cursor.fetchall()
     

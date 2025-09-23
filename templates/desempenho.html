@@ -26,6 +26,10 @@
       <label for="nivel">Dificuldade:</label>
       <select name="nivel" id="nivel">
         <option value="todos" {{ 'selected' if filtro_nivel=='todos' else '' }}>Todos</option>
+
+        <!-- NOVO: opção Variada -->
+        <option value="variada" {{ 'selected' if filtro_nivel=='variada' else '' }}>Variada</option>
+
         {% for n in niveis %}
           <option value="{{ n[0] }}" {{ 'selected' if filtro_nivel==n[0]|string else '' }}>
             {{ n[1] }}
@@ -73,9 +77,9 @@
   <ul>
     {% for t in tentativas %}
       <li>
-        Quiz ID {{ t[0] }} — {{ t[1] }} às {{ t[2] }} —
-        Nível: {{ t[5] }} —
-        Acertos: {{ t[3] or 0 }} —
+        Quiz ID {{ t[0] }} — {{ t[1] }} às {{ t[2] }} — 
+        Nível: {{ t[5] if t[5] else 'Variada' }} — 
+        Acertos: {{ t[3] or 0 }} — 
         Tempo: {{ (t[4] // 60) if t[4] is not none else 0 }}min {{ (t[4] % 60) if t[4] is not none else 0 }}s
       </li>
     {% endfor %}

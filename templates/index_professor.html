@@ -32,6 +32,8 @@
       <a href="{{ url_for('adicionar_materiais') }}" class="btn-secundario">Gerenciar materiais</a>
     </div>
 
+    <button class="btn-sair" onclick="location.href='{{ url_for('logout') }}'">Sair</button>
+
 
   <!-- Modal de Gerenciar Questões -->
 {% if niveis and assuntos %}

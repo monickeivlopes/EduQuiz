@@ -35,7 +35,6 @@
             font-weight: bold;
         }
         
-        
         .info-direita span {
             background-color: #1f3179;
             padding: 10px 16px;
@@ -171,7 +170,8 @@
 
     <form method="POST">
         <input type="hidden" name="nivel_id" value="{{ nivel_id }}">
-        <input type="hidden" name="assunto_id" value="{{ assunto_id }}">
+        <input type="hidden" name="assunto_id" value="{{ request.args.get('assunto_id','todos') }}">
+
 
         {% for questao in questoes %}
             <div class="questao {% if loop.index == 1 %}active{% endif %}">
@@ -182,7 +182,8 @@
                 <!-- Parte direita: nível e assunto -->
                 <div class="info-direita">
                     <span>
-                        Nível: 
+                        Nível:
+                        {% if nivel_id == 'variada' %}Variada{% endif %}
                         {% if nivel_id == 1 %}Fácil{% endif %}
                         {% if nivel_id == 2 %}Médio{% endif %}
                         {% if nivel_id == 3 %}Difícil{% endif %}
@@ -207,7 +208,7 @@
         {% endfor %}
 
         <!-- Botão responder -->
-        <button type="submit" class="btn-responder">Responder</button>
+        <button type="submit" class="btn-responder">Finalizar Quiz</button>
 
         <!-- Botões de navegação -->
         <div class="botoes-container">

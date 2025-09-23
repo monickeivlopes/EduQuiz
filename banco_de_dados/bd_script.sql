@@ -111,7 +111,7 @@ INSERT INTO niveis_dificuldade (descricao) VALUES ('Fácil'), ('Médio'), ('Dif�
 INSERT INTO assuntos (nome) VALUES ('Matemática'), ('História'), ('Química');
 
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
-VALUES ('Administrador', 'adm@gmail.com', SHA2('souadm', 256), 'adm');
+VALUES ('Administrador', 'adm@adm.com', SHA2('souadm', 256), 'adm');
 
 
 ALTER TABLE usuarios
@@ -149,6 +149,8 @@ ALTER TABLE respostas_alunos DROP FOREIGN KEY respostas_alunos_ibfk_2;
 ALTER TABLE respostas_alunos DROP FOREIGN KEY respostas_alunos_ibfk_3;
 
 ALTER TABLE materiais DROP FOREIGN KEY fk_materiais_usuarios;
+ALTER TABLE tentativas_quiz MODIFY COLUMN nivel_id INT NULL;
+
 
 
 -- ALUNOS
@@ -223,6 +225,8 @@ INSERT INTO assuntos (nome) VALUES
 delete from assuntos where id = 1;
 delete from assuntos where id = 2;
 delete from assuntos where id = 3;
+
+
 
 ALTER TABLE tentativas_quiz ADD COLUMN assunto_id INT NULL AFTER nivel_id;
 ALTER TABLE tentativas_quiz ADD CONSTRAINT fk_tentativa_assunto 
