@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ajuda do Aluno - EduQuiz</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="static/Ajuda.css" />
+  
 </head>
 <body>
   <header>
@@ -14,9 +16,9 @@
       <span>EDUQUIZ</span>
     </div>
     <nav>
-      <a href="{{ url_for('index_aluno') }}" class="home-icon">
-        <img src="static/img/casa.png" alt="Ícone casa" />
-      </a>
+  <a href="{{ url_for('index_aluno') }}" class="home-icon">
+    <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+  </a>
     </nav>
   </header>
 
@@ -24,52 +26,77 @@
     <h1 class="text-center mb-4">Ajuda para Alunos</h1>
     <p class="text-center mb-5">Saiba como utilizar as principais funções da sua página de usuário no EduQuiz.</p>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Iniciar Quiz"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">Abre uma janela para você escolher a dificuldade do quiz (Fácil, Médio ou Difícil). Após escolher, clique novamente em "Iniciar Quiz" dentro do modal para começar.</p>
-          </div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="help-card" onclick="this.classList.toggle('flipped')">
+      <div class="help-card-inner">
+        <div class="help-card-face help-card-front bg-primary">
+          <i class="bi bi-question-circle help-card-icon"></i>
+          <h5>Iniciar Quiz</h5>
         </div>
-
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Ver desempenho"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">Leva você para a página onde pode acompanhar seus resultados nos quizzes realizados, como acertos, erros e evolução por tema.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Materiais de estudo"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">Redireciona para a seção com conteúdos disponibilizados por seus professores, para ajudar na sua preparação antes ou depois dos quizzes.</p>
-          </div>
-        </div>
-
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-danger dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Sair"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">Encerra sua sessão no sistema e volta para a página inicial (login). Use este botão quando terminar seus estudos.</p>
-          </div>
+        <div class="help-card-face help-card-back">
+          Abre uma janela para escolher a dificuldade (Fácil, Médio ou Difícil). Após escolher, clique em "Iniciar Quiz" dentro do modal.
         </div>
       </div>
     </div>
-  </main>
+  </div>
+
+  <div class="col-md-6">
+    <div class="help-card" onclick="this.classList.toggle('flipped')">
+      <div class="help-card-inner">
+        <div class="help-card-face help-card-front bg-primary">
+          <i class="bi bi-bar-chart help-card-icon"></i>
+          <h5>Ver Desempenho</h5>
+        </div>
+        <div class="help-card-face help-card-back">
+          Mostra seus resultados nos quizzes realizados: acertos, erros e evolução por tema.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="help-card" onclick="this.classList.toggle('flipped')">
+      <div class="help-card-inner">
+        <div class="help-card-face help-card-front bg-primary">
+          <i class="bi bi-journal-text help-card-icon"></i>
+          <h5>Materiais de Estudo</h5>
+        </div>
+        <div class="help-card-face help-card-back">
+          Redireciona para a seção com conteúdos dos professores, ajudando na sua preparação.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="help-card" onclick="this.classList.toggle('flipped')">
+      <div class="help-card-inner">
+        <div class="help-card-face help-card-front bg-danger">
+          <i class="bi bi-box-arrow-right help-card-icon"></i>
+          <h5>Sair</h5>
+        </div>
+        <div class="help-card-face help-card-back">
+          Encerra sua sessão e volta para a página inicial (login). Use este botão ao terminar.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
 
   <!-- Scripts Bootstrap -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+ <script>
+document.querySelectorAll('.flip-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('flipped');
+  });
+});
+</script>
+
 </body>
 </html>

@@ -10,77 +10,101 @@ body {
   padding: 0;
 }
 
-
 header {
-    background-color: #001f87;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 2px solid #e0e0e0;
+  background-color: #001f87;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 2px solid #e0e0e0;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .logo img {
-    height: 40px;
+  height: 40px;
 }
 
 .home-icon img {
-    height: 30px;
+  height: 30px;
 }
 
-/* Estilo dos dropdowns */
-.dropdown-faq .btn {
-    background-color: #2b3baf;
-    border: none;
-    border-radius: 30px !important;
-    padding: 15px 25px;
-    font-weight: bold;
-    text-align: left;
-    white-space: normal;
-    height: auto;
+/* css dos cartões, da pra usar em outros */
+.help-card {
+  background: transparent;
+  perspective: 1000px;
+  cursor: pointer;
+  height: 220px;
+  margin-bottom: 1rem;
 }
 
-.dropdown-faq .btn:hover {
-    background-color: #1e2e8c;
+.help-card-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: white; 
 }
 
-.dropdown-faq .dropdown-menu {
-    border: none;
-    border-radius: 0 0 20px 20px;
-    margin-top: -10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-top: 1px solid rgba(0,0,0,0.05);
-    width: calc(100% - 30px);
-    margin-left: 15px;
+
+.help-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.7s, box-shadow 0.3s;
+  transform-style: preserve-3d;
+  border-radius: 15px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.25); 
 }
 
-.dropdown-faq .dropdown-item {
-    color: #001f87;
-    padding: 15px 20px;
-    white-space: normal;
+.help-card.flipped .help-card-inner {
+  transform: rotateY(180deg);
 }
 
-.dropdown-faq .dropdown-toggle::after {
-    float: right;
-    margin-top: 8px;
+.help-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
 }
 
-/* Layout responsivo */
+.help-card-front {
+  color: white;
+}
+
+.help-card-back {
+  background-color: #f8f9fa;
+  color: #001f87;
+  transform: rotateY(180deg);
+  font-size: 0.95rem;
+  text-align: center;
+  padding: 15px;
+}
+
+.help-card-icon {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+
 @media (max-width: 768px) {
-    .row {
-        flex-direction: column;
-    }
-    
-    .col-md-6 {
-        max-width: 100%;
-    }
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-6 {
+    max-width: 100%;
+  }
 }
