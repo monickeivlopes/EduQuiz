@@ -7,6 +7,19 @@
   <link rel="stylesheet" href="/static/desempenho.css" />
 </head>
 <body>
+<header>
+  <div class="logo">
+    <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+    <span>EDUQUIZ</span>
+  </div>
+  <nav>
+    <a href="{{ url_for('index_aluno') }}">
+      <img src="static/img/casa.png" alt="Ícone de home" />
+    </a>
+  </nav>
+</header>
+
+<main>
   <h2>Desempenho</h2>
 
   <form method="get" class="filtros">
@@ -90,5 +103,6 @@
     const Data = {{ data | tojson }};
   </script>
   <script src="{{ url_for('static', filename='js/desempenho.js') }}"></script>
+</main>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* ====== BASE ====== */
-body {
+main {
   font-family: Arial, Helvetica, sans-serif;
   background-color: #f6f1e9; /* tom claro já usado no EduQuiz */
   color: #333;
@@ -110,4 +110,24 @@ ul li {
   border-left: 6px solid #004aad;
 }
 
+
+header{
+  position: sticky;
+  top:0; z-index: 20;
+  background: #001f87;
+  color: white;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 15px 30px;
+}
+
+header .logo{ display:flex; align-items:center; gap:12px; font-size:1.5rem; font-weight:bold; }
+header .logo img{ height:40px; width:auto; display:block; }
+
+header nav a{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; width:40px; border-radius: 8px;
+  transition: background .2s;
+}
+header nav a:hover{ background: rgba(255,255,255,0.1); }
+header nav img{ width:30px; }
 
