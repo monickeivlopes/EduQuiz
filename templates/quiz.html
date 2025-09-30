@@ -55,7 +55,7 @@
 
         .alternativas-container {
             position: fixed;
-            top: 50%;
+            top: 52%;
             right: 110px;
             transform: translateY(-50%);
             width: 30%;
@@ -110,55 +110,29 @@
             transform: translateX(-30%);
         }
 
-        .botoes-container {
-            position: fixed;
-            bottom: 60px;
-            right: 110px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-sair,
-        .btn-voltar,
-        .btn-proxima {
-            border: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-
-        .btn-sair {
-            background-color: #ff0000;
-            color: white;
-        }
-
-        .btn-voltar {
-            background-color: #f57c00;
-            color: white;
-        }
-
-        .btn-proxima {
-            background-color: #22ff23;
-            color: white;
-        }
+       .btn-sair {
+        position: fixed;
+        bottom: 60px;
+        left: 75%; /* ajusta a posição para não colar no "Finalizar Quiz" */
+        background-color: #ff0000;
+        color: white;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 14px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1.1rem;
+        min-width: 110px;
+        transition: background-color 0.3s;
+        transform: translateX(-30%);
+    }
 
         .btn-responder:hover {
             background-color: #0213ff;
         }
 
         .btn-sair:hover {
-            background-color: #d10000;
-        }
-
-        .btn-voltar:hover {
-            background-color: #c46a00;
-        }
-
-        .btn-proxima:hover {
-            background-color: #1ac51a;
+            background-color: #c90202;
         }
 
         hr {
@@ -182,11 +156,20 @@
                 <!-- Parte direita: nível e assunto -->
                 <div class="info-direita">
                     <span>
-                        Nível:
-                        {% if nivel_id == 'variada' %}Variada{% endif %}
-                        {% if nivel_id == 1 %}Fácil{% endif %}
-                        {% if nivel_id == 2 %}Médio{% endif %}
-                        {% if nivel_id == 3 %}Difícil{% endif %}
+                        <span>
+                            Nível:
+                            {% if nivel_id == 'variada' %}
+                            Variada
+                            {% elif nivel_id == '1' or nivel_id == 1 %}
+                            Fácil
+                            {% elif nivel_id == '2' or nivel_id == 2 %}
+                            Médio
+                            {% elif nivel_id == '3' or nivel_id == 3 %}
+                            Difícil
+                            {% else %}
+                            Desconhecido
+                            {% endif %}
+                        </span>
                     </span>
                     <span>Assunto: {{ assunto_nome }}</span>
                 </div>
@@ -213,8 +196,6 @@
         <!-- Botões de navegação -->
         <div class="botoes-container">
             <button type="button" class="btn-sair" onclick="window.location.href='/index_aluno'">Sair</button>
-            <button type="button" class="btn-voltar" id="btnVoltar">Voltar</button>
-            <button type="button" class="btn-proxima" id="btnProxima">Próxima</button>
         </div>
     </form>
 
