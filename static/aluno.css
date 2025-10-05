@@ -169,8 +169,19 @@ h1 {
 
 .dificuldade {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;           /* permite quebrar linha */
+    justify-content: center;   /* centraliza os botões */
+    gap: 10px;                 /* espaçamento entre eles */
     margin-bottom: 1.5rem;
+}
+
+.dificuldade-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .dificuldade input[type="radio"] {
@@ -178,16 +189,13 @@ h1 {
 }
 
 .dificuldade label {
-    background-color: #cfd2d6; 
+    background-color: #cfd2d6;
     color: #000;
-    padding: 10px 14px;
+    padding: 10px 20px;
     border-radius: 12px;
     font-weight: bold;
     cursor: pointer;
-    flex: 1;
-    margin: 0 5px;
     text-align: center;
-    user-select: none;
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -195,6 +203,7 @@ h1 {
     background-color: #0099ff;
     color: white;
 }
+
 
 /* Botões */
 .modal-content button {
@@ -377,4 +386,31 @@ header {
 
 main {
     padding-top: 80px; /* altura aproximada do header */
+}
+
+.assunto-container {
+    display: flex;
+    flex-direction: column;   /* label acima do select */
+    align-items: center;      /* centraliza horizontalmente */
+    gap: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.assunto-container label {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: normal;      /* sem negrito */
+}
+
+.assunto-container select {
+    width: 90%;
+    padding: 10px 40px 10px 14px;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    margin-top: 5px;
+    background-color: #002366; /* estilo original */
+    color: #fff;
+    text-align: center;
+    appearance: none;
 }
