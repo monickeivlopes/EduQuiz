@@ -8,7 +8,17 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='relatorio_geral.css') }}">
 </head>
 <body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+            <span>EDUQUIZ</span>
+        </div>
+    </header>
+
     <div class="container">
+        <!-- Página Header -->
         <div class="header">
             <h1>Relatório Geral da Turma</h1>
             <p>Análise completa do desempenho dos alunos</p>
@@ -111,27 +121,31 @@
         </div>
 
         <!-- Charts -->
-       <div class="charts-row">
-    <div class="chart-container">
-        <h3>Top 10 Alunos por Acertos (Últimas Tentativas)</h3>
-        <canvas id="performanceChart" height="250"></canvas>
-    </div>
-    <div class="chart-container">
-        <h3>Média de Acertos por Curso</h3>
-        <canvas id="courseChart" height="250"></canvas>
-    </div>
-</div>
+        <div class="charts-row">
+            <div class="chart-container">
+                <h3>Top 10 Alunos por Acertos (Últimas Tentativas)</h3>
+                <canvas id="performanceChart" height="250"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>Média de Acertos por Curso</h3>
+                <canvas id="courseChart" height="250"></canvas>
+            </div>
+        </div>
 
-<!-- Dados do Flask para o JS externo -->
-<script>
-    const Labels = {{ labels | tojson | safe }};
-    const Data = {{ data | tojson | safe }};
-    const CursosLabels = {{ cursos_labels | tojson | safe }};
-    const CursosData = {{ cursos_data | tojson | safe }};
-    const TotalAcertos = {{ acertos | default(0) }};
-    const TotalErros = {{ erros | default(0) }};
-</script>
+    </div> <!-- /.container -->
 
+    <!-- Dados do Flask para JS -->
+    <script>
+        const Labels = {{ labels | tojson | safe }};
+        const Data = {{ data | tojson | safe }};
+        const CursosLabels = {{ cursos_labels | tojson | safe }};
+        const CursosData = {{ cursos_data | tojson | safe }};
+        const TotalAcertos = {{ acertos | default(0) }};
+        const TotalErros = {{ erros | default(0) }};
+    </script>
+
+    <!-- Script externo -->
     <script src="{{ url_for('static', filename='js/relatorio_geral.js') }}"></script>
+
 </body>
 </html>

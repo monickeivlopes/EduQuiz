@@ -1,26 +1,116 @@
-/* ====== BASE ====== */
-main {
-  font-family: Arial, Helvetica, sans-serif;
-  background-color: #f6f1e9; /* tom claro já usado no EduQuiz */
-  color: #333;
+/* ====== VARIÁVEIS DE COR ====== */
+:root {
+  --bg: #f4f6f9;
+  --panel: #f8f9fa;
+  --text: #333;
+  --muted: #666;
+  --primary: #001f87;
+  --primary-hover: #012fbb;
+  --secondary: #6c757d;
+  --secondary-hover: #5a6268;
+  --ring: #012588;
+  --card: #ffffff;
+  --border: #e9ecef;
+  --download: #00c853;
+  --download-hover: #009624;
+}
+
+/* ====== BASE GERAL ====== */
+* {
+  box-sizing: border-box;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ====== HEADER ====== */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  width: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+header .logo img {
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
+/* Ícone da casa maior */
+header nav a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+header nav a:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+header nav img {
+  width: 38px;
+  transition: transform 0.2s, filter 0.2s;
+}
+
+header nav img:hover {
+  transform: scale(1.15);
+  filter: brightness(1.2);
+}
+
+/* ====== CONTEÚDO PRINCIPAL ====== */
+main {
+  width: 100%;
+  max-width: 900px;
+  padding: 100px 20px 40px; /* espaço pro header fixo */
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 /* ====== TÍTULOS ====== */
+h1,
 h2 {
-  color:#00337a ;
-  font-size: 2rem;
+  color: var(--primary);
+  text-align: center;
   margin-bottom: 20px;
 }
 
-h3 {
-  margin-top: 30px;
-  color: #00337a;
-  font-size: 1.4rem;
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+  margin-top: 25px;
 }
 
 /* ====== FILTROS ====== */
@@ -28,106 +118,133 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  background: white;
+  background: var(--panel);
   padding: 16px 20px;
   border-radius: 12px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
   margin-bottom: 25px;
   width: 100%;
-  max-width: 900px;
+  border: 1px solid var(--border);
 }
 
 .filtros label {
   font-weight: bold;
-  color: #4b4b4b;
+  color: var(--text);
   font-size: 0.9rem;
 }
 
 .filtros select,
 .filtros input {
-  padding: 6px 10px;
-  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.95rem;
+  background-color: white;
+  color: var(--text);
 }
 
 .filtros button {
-  background-color: #004aad;
+  background-color: var(--primary);
   color: white;
   border: none;
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
+  font-weight: bold;
   transition: all 0.2s ease;
 }
 
 .filtros button:hover {
-  background-color: #00337a;
+  background-color: var(--primary-hover);
   transform: translateY(-2px);
 }
 
 .filtros a {
-  color: #004aad;
+  color: var(--primary);
   text-decoration: none;
   font-weight: 600;
   margin-left: 8px;
 }
 
-/* ====== RESULTADOS TOTAIS ====== */
+/* ====== GRÁFICO ====== */
+.grafico-wrap {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  height: 320px;
+  margin: 20px 0;
+  border: 1px solid var(--border);
+}
+
+/* ====== RESULTADOS ====== */
 p {
   font-size: 1rem;
   margin: 6px 0;
-}
-
-/* ====== GRÁFICO ====== */
-.grafico-wrap {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 640px;
-  height: 320px;
-  margin: 15px 0;
+  text-align: center;
+  color: var(--muted);
 }
 
 /* ====== HISTÓRICO ====== */
 ul {
   list-style: none;
   padding: 0;
-  margin: 0;
   width: 100%;
-  max-width: 900px;
 }
 
 ul li {
-  background: white;
+  background: var(--card);
   padding: 12px 16px;
   border-radius: 10px;
   margin-bottom: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
   font-size: 0.95rem;
-  border-left: 6px solid #004aad;
+  border-left: 6px solid var(--primary);
+  color: var(--text);
 }
 
-
-header{
-  position: sticky;
-  top:0; z-index: 20;
-  background: #001f87;
+/* ====== BOTÕES ====== */
+.btn-sair,
+.btn-voltar {
+  background-color: var(--download);
   color: white;
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
-header .logo{ display:flex; align-items:center; gap:12px; font-size:1.5rem; font-weight:bold; }
-header .logo img{ height:40px; width:auto; display:block; }
-
-header nav a{
-  display:inline-flex; align-items:center; justify-content:center;
-  height:40px; width:40px; border-radius: 8px;
-  transition: background .2s;
+.btn-sair:hover,
+.btn-voltar:hover {
+  background-color: var(--download-hover);
+  transform: translateY(-2px);
 }
-header nav a:hover{ background: rgba(255,255,255,0.1); }
-header nav img{ width:30px; }
 
+/* ====== RESPONSIVIDADE ====== */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  header .logo {
+    justify-content: center;
+  }
+
+  header nav img {
+    width: 32px;
+  }
+
+  .filtros {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grafico-wrap {
+    height: 250px;
+  }
+}
