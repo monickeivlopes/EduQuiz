@@ -82,7 +82,7 @@ body.page-inicio .botoes-secundarios {
 }
 
 body.page-inicio a.btn-secundario {
-  background-color: #4C5FFF;
+  background-color: #0011a8;
   color: white;
   text-decoration: none;
   padding: 12px 25px;
@@ -93,12 +93,12 @@ body.page-inicio a.btn-secundario {
 }
 
 body.page-inicio a.btn-secundario:hover {
-  background-color: #3b4ccc;
+  background-color: #001adb;
 }
 
 /* Botão sair */
 body.page-inicio .btn-sair {
-  background-color: #6c757d;
+  background-color: red;
   color: white;
   border: none;
   border-radius: 30px;
@@ -109,7 +109,7 @@ body.page-inicio .btn-sair {
 }
 
 body.page-inicio .btn-sair:hover {
-  background-color: #5a6268;
+  background-color: #cc0000;
 }
 
 /* Modal */
@@ -225,3 +225,4 @@ header .btn-ajuda:hover {
   color: #003366;
   text-align: left;
 }
+
