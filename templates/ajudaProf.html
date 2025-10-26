@@ -4,8 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ajuda do Professor - EduQuiz</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='Ajuda.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='Ajudaprof.css') }}" />
 </head>
 <body>
   <header>
@@ -24,71 +23,60 @@
     <h1 class="text-center mb-4">Ajuda para Professores</h1>
     <p class="text-center mb-5">Entenda como usar as ferramentas disponíveis para você como professor no EduQuiz.</p>
 
-    <div class="row">
-      <div class="col-md-6">
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Gerenciar questões"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">
-              Permite criar, editar e excluir questões. Ao clicar, um formulário é exibido para selecionar o nível de dificuldade, assunto e adicionar as alternativas, incluindo a correta.
-            </p>
-          </div>
+    <div class="ajuda-cards-container">
+        <div class="ajuda-card">
+            <div class="ajuda-card-inner">
+                <div class="ajuda-card-front">Gerenciar questões</div>
+                <div class="ajuda-card-back">
+                    Permite criar, editar e excluir questões. Escolha nível, assunto e alternativas, incluindo a correta.
+                </div>
+            </div>
         </div>
 
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Modal de Nova Questão
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">
-              O modal é aberto ao acessar "Gerenciar questões". Nele, você pode inserir os dados da nova pergunta. Clique em "Concluir" para salvar ou "Voltar" para cancelar.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Relatório de alunos"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">
-              Leva a uma página (em construção ou futura) onde será possível acompanhar o desempenho individual dos alunos em quizzes realizados.
-            </p>
-          </div>
+        <div class="ajuda-card">
+            <div class="ajuda-card-inner">
+                <div class="ajuda-card-front">Modal de Nova Questão</div>
+                <div class="ajuda-card-back">
+                    Abra o modal ao acessar "Gerenciar questões". Insira os dados e clique em "Concluir" ou "Voltar".
+                </div>
+            </div>
         </div>
 
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-primary dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Gerenciar materiais"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">
-              Redireciona para a página onde o professor pode enviar, editar ou remover materiais de estudo por assunto ou nível.
-            </p>
-          </div>
+        <div class="ajuda-card">
+            <div class="ajuda-card-inner">
+                <div class="ajuda-card-front">Relatório de alunos</div>
+                <div class="ajuda-card-back">
+                    Página para acompanhar o desempenho individual dos alunos em quizzes realizados.
+                </div>
+            </div>
         </div>
 
-        <div class="btn-group dropdown-faq w-100 mb-3">
-          <button type="button" class="btn btn-danger dropdown-toggle text-left" data-toggle="dropdown">
-            Botão "Sair"
-          </button>
-          <div class="dropdown-menu w-100">
-            <p class="dropdown-item">
-              Encerra sua sessão e retorna para a tela de login. Use quando finalizar suas atividades como professor.
-            </p>
-          </div>
+        <div class="ajuda-card">
+            <div class="ajuda-card-inner">
+                <div class="ajuda-card-front">Gerenciar materiais</div>
+                <div class="ajuda-card-back">
+                    Enviar, editar ou remover materiais de estudo por assunto ou nível.
+                </div>
+            </div>
         </div>
-      </div>
+
+        <div class="ajuda-card sair">
+            <div class="ajuda-card-inner">
+                <div class="ajuda-card-front">Sair</div>
+                <div class="ajuda-card-back">
+                    Encerra sua sessão e retorna para a tela de login.
+                </div>
+            </div>
+        </div>
     </div>
   </main>
 
-  <!-- Scripts Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"></script>
+  <script>
+    document.querySelectorAll('.ajuda-card').forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
+    });
+  </script>
 </body>
 </html>
