@@ -1,0 +1,176 @@
+/* ===============================
+   RESET E BODY
+   =============================== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #001f87;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===============================
+   HEADER
+   =============================== */
+header {
+    background-color: #001f87;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logo img {
+    height: 40px;
+}
+
+nav .home-icon img {
+    height: 30px;
+}
+
+/* ===============================
+   CONTAINER PRINCIPAL
+   =============================== */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-5 {
+    margin-bottom: 2rem;
+}
+
+/* ===============================
+   CARDS DE AJUDA
+   =============================== */
+.ajuda-cards-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 40px 1px; 
+    justify-items: center;
+    margin-top: 30px;
+}
+
+/* CARD INDIVIDUAL */
+.ajuda-card {
+    width: 100%;
+    max-width: 350px;
+    height: 130px;
+    perspective: 1000px;
+    cursor: pointer;
+    border-radius: 15px;
+    position: relative;
+}
+
+/* INTERIOR DO CARD */
+.ajuda-card-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+}
+
+/* CLASSE QUE VIRA O CARD */
+.ajuda-card.flipped .ajuda-card-inner {
+    transform: rotateY(180deg);
+}
+
+/* FRENTE E VERSO */
+.ajuda-card-front,
+.ajuda-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    color: #ffffff;
+}
+
+/* ===============================
+   FRENTE COM DEGRADÊ
+   =============================== */
+.ajuda-card-front {
+    background: linear-gradient(135deg, #001f87, #0050ff);
+    justify-content: center;
+    gap: 8px;
+}
+
+/* TEXTO E SETA */
+.card-text {
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+}
+
+.card-arrow {
+    font-size: 14px;
+    transition: transform 0.3s;
+}
+
+/* ROTACIONA A SETA QUANDO O CARD VIRA */
+.ajuda-card.flipped .card-arrow {
+    transform: rotate(90deg);
+}
+
+/* VERSO COM DEGRADÊ */
+.ajuda-card-back {
+    background: linear-gradient(135deg, #003cff, #0051ff);
+    transform: rotateY(180deg);
+    font-weight: normal;
+    font-size: 14px;
+}
+
+/* CARD SAIR */
+.ajuda-card.sair .ajuda-card-front,
+.ajuda-card.sair .ajuda-card-back {
+    background-color: #dc3545;
+}
+
+/* ESPAÇAMENTO ENTRE LINHAS */
+.ajuda-cards-container .ajuda-card:nth-child(n+4) {
+    justify-self: center;
+}
+
+/* ===============================
+   RESPONSIVO
+   =============================== */
+@media (max-width: 992px) {
+    .ajuda-cards-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .ajuda-card {
+        width: 90%;
+        max-width: 320px;
+    }
+}
