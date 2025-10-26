@@ -1,419 +1,44 @@
+/* ESTILO GERAL DA PÁGINA */
 body {
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #004aad;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(255,255,255,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(255,255,255,0.08)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(255,255,255,0.06)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(255,255,255,0.10)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(255,255,255,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(255,255,255,0.12)'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(255,255,255,0.08)'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(255,255,255,0.06)'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(255,255,255,0.10)'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(255,255,255,0.12)' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
   background-repeat: repeat;
-  background-position: center;
   background-size: 160px 160px;
   color: white;
   text-align: center;
 }
 
-
+/* CABEÇALHO */
 header {
-    background-color: #001f87;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 2px solid #e0e0e0;
+  background-color: #001f87;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 2px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .logo img {
-    height: 40px;
+  height: 40px;
 }
 
-.home-button {
-    text-decoration: none;
-    background-color: #001f87;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-.home-button:hover {
-    background-color: #2b3baf;
-}
-
-
-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    gap: 30px;
-}
-
-h1 {
-    font-size: 2.5em;
-    font-weight: bold;
-}
-
-.btn-iniciar {
-    background-color: #00ff4c;
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    border: none;
-    border-radius: 30px;
-    padding: 15px 40px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-iniciar:hover {
-    background-color: #00cc3b;
-}
-
-.botoes-secundarios {
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    align-items: center;
-}
-
-.btn-secundario {
-    background-color: #001958;
-    color: white;
-    font-weight: bold;
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: background-color 0.3s;
-}
-
-.btn-secundario:hover {
-    background-color: #0c2b8c;
-}
-
-.btn-sair {
-    background-color: red;
-    color: white;
-    font-weight: bold;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 30px;
-    margin-top: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.btn-sair:hover {
-    background-color: #cc0000;
-}
-
-/* modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    width: 200vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.modal-content {
-    background-color: #002366; 
-    padding: 2rem;
-    border-radius: 25px;
-    width: 700px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-}
-
-
-.modal-content h2 {
-    margin-bottom: 1.5rem;
-    font-size: 1.6rem;
-    font-weight: 700;
-}
-
-
-.modal-content select {
-    width: 100%;
-    padding: 10px 40px 10px 14px;
-    border-radius: 12px;
-    border: none;
-    font-size: 1rem;
-    margin: 1.5rem;
-    background-color: #002366;
-    color: #fff;
-}
-
-
-.dificuldade {
-    display: flex;
-    flex-wrap: wrap;           /* permite quebrar linha */
-    justify-content: center;   /* centraliza os botões */
-    gap: 10px;                 /* espaçamento entre eles */
-    margin-bottom: 1.5rem;
-}
-
-.dificuldade-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.dificuldade input[type="radio"] {
-    display: none;
-}
-
-.dificuldade label {
-    background-color: #cfd2d6;
-    color: #000;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.dificuldade input[type="radio"]:checked + label {
-    background-color: #0099ff;
-    color: white;
-}
-
-
-/* Botões */
-.modal-content button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    margin-bottom: 12px;
-    transition: background-color 0.3s;
-}
-
-
-.modal-content .btn-iniciar {
-    background-color: #00cc44;
-    color: white;
-}
-
-
-.modal-content #fechar-modal {
-    background-color: #007bff;
-    color: white;
-}
-
-
-.modal-content button:hover {
-    filter: brightness(1.1);
-}
-
-/* Reset básico */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-header {
-    background-color: #004aad;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-header .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-header .logo img {
-    width: 40px;
-}
-
-header .logo span {
-    font-size: 1.5rem;
-    font-weight: bold;
-}
-
-header nav a {
-    margin-left: 20px;
-}
-
-header nav img {
-    width: 30px;
-    transition: transform 0.2s;
-}
-
-header nav img:hover {
-    transform: scale(1.1);
-}
-
-
-/* Conteúdo principal */
-main {
-    flex: 1;
-    padding: 40px 20px;
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-main h1 {
-    margin-bottom: 40px;
-    color: #004aad;
-}
-
-.materiais {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-
-.material {
-    background-color: white;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.material:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-}
-
-.material h2 {
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.material a {
-    display: inline-block;
-    background-color: #004aad;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.material a:hover {
-    background-color: #00337a;
-}
-
-
-/* Botão voltar */
-.btn-voltar {
-    margin-top: 40px;
-    background-color: #e0e0e0;
-    color: #333;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-voltar:hover {
-    background-color: #ccc;
-}
-
-
-/* Responsividade */
-@media (max-width: 600px) {
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    header nav {
-        margin-top: 10px;
-    }
-
-    main h1 {
-        font-size: 1.8rem;
-    }
-}
-/* Ajuste - Fixar header */
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-main {
-    padding-top: 80px; /* altura aproximada do header */
-}
-
-.assunto-container {
-    display: flex;
-    flex-direction: column;   /* label acima do select */
-    align-items: center;      /* centraliza horizontalmente */
-    gap: 8px;
-    margin-bottom: 1.5rem;
-}
-
-.assunto-container label {
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: normal;      /* sem negrito */
-}
-
-.assunto-container select {
-    width: 90%;
-    padding: 10px 40px 10px 14px;
-    border-radius: 12px;
-    border: none;
-    font-size: 1rem;
-    margin-top: 5px;
-    background-color: #002366; /* estilo original */
-    color: #fff;
-    text-align: center;
-    appearance: none;
-}
 /* Botão de ajuda */
 header .btn-ajuda {
   background-color: #4C5FFF;
@@ -424,15 +49,251 @@ header .btn-ajuda {
   font-weight: bold;
   font-size: 14px;
   transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1;
-  margin-left: auto;
 }
 
 header .btn-ajuda:hover {
   background-color: #3b4ccc;
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 20px 60px;
+  gap: 30px;
+}
+
+h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+}
+
+.btn-iniciar {
+  background-color: #00ff4c;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  padding: 15px 40px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-iniciar:hover {
+  background-color: #00cc3b;
+}
+
+.botoes-secundarios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn-secundario {
+  background-color: #001958;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s;
+}
+
+.btn-secundario:hover {
+  background-color: #0c2b8c;
+}
+
+.btn-sair {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 30px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-sair:hover {
+  background-color: #cc0000;
+}
+
+/* MODAL CONFIGURAR QUIZ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+
+  /* alinhamento central corrigido */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #002366;
+  padding: 3rem 2rem 3.5rem;
+  border-radius: 25px;
+  width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  text-align: center;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 505px;
+  /* centralização real abaixo do header */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+}
+
+.modal-content h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+/* Dificuldade */
+.dificuldade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.dificuldade-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.dificuldade input[type="radio"] {
+  display: none;
+}
+
+.dificuldade label {
+  background-color: #cfd2d6;
+  color: #000;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dificuldade input[type="radio"]:checked + label {
+  background-color: #0099ff;
+  color: white;
+}
+/* Assunto */
+.assunto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* garante centralização */
+  width: 100%;
+  max-width: 500px; /* evita que o select fique maior que a tela */
+  gap: 7px;
+  margin-bottom: 1.8rem;
+  box-sizing: border-box; /* evita overflow */
+}
+
+.assunto-container label {
+  color: #fff;
+  font-size: 1.1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.assunto-container select {
+  width: 112%; /* ocupa todo o container */
+  max-width: 250px; /* evita que ultrapasse o container */
+  padding: 10px;
+  padding-left: 10px;
+  border-radius: 12px;
+  border: 2px solid #fff;
+  font-size: 1rem;
+  background-color: #002366;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  transition: border 0.3s;
+  box-sizing: border-box;
+
+}
+
+.assunto-container select:hover,
+.assunto-container select:focus {
+  border-color: #4C5FFF;
+  outline: none;
+}
+
+
+/* Botões do modal */
+.botoes-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-content .btn-iniciar,
+.modal-content .btn-voltar {
+  padding: 10px;
+  border: none;
+  border-radius: 18px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content .btn-iniciar {
+  background-color: #00cc44;
+  color: white;
+  width: auto;           /* botão ajusta à largura do texto */
+  padding: 10px 25px;    /* mais espaço horizontal */
+  white-space: nowrap;    /* impede quebra de linha */
+  display: inline-block;
+}
+
+.modal-content .btn-iniciar:hover {
+  background-color: #009933;
+}
+
+.modal-content .btn-voltar {
+  background-color: #007bff;
+  color: white;
+  width: 85%;
+}
+
+.modal-content .btn-voltar:hover {
+  background-color: #0056b3;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 600px) {
+  .modal-content {
+    width: 90%;
+    transform: translate(-50%, -40%);
+  }
 }
 
