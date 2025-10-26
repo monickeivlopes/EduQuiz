@@ -41,8 +41,11 @@ header {
   background: transparent;
   perspective: 1000px;
   cursor: pointer;
-  height: 220px;
+  height: 180px;
   margin-bottom: 1rem;
+  max-width: 88%;  /* diminui largura nas laterais */
+  margin-left: auto;
+  margin-right: auto; /* centraliza horizontalmente */
 }
 
 .help-card-icon {
@@ -108,3 +111,4 @@ header {
     max-width: 100%;
   }
 }
+
