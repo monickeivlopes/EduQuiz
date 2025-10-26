@@ -50,6 +50,7 @@ nav a {
     text-decoration: none;
     font-size: 1em;
     margin-right: 20px;
+    font-weight: bold
 }
 
 nav .login {
@@ -60,6 +61,7 @@ nav .login {
     padding: 8px 20px;
     font-size: 1em;
     cursor: pointer;
+    font-weight: bold
 }
 
 
@@ -384,4 +386,5 @@ input {
   input[type="password"]::-webkit-textfield-decoration-container {
     display: none;
   }
+
   
