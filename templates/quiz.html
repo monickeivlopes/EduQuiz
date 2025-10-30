@@ -94,9 +94,6 @@
         }
 
         .btn-responder {
-            position: fixed;
-            bottom: 60px;
-            left: 35%;
             background-color:  #0e2aff;
             color: white;
             border: none;
@@ -107,25 +104,20 @@
             font-size: 1.1rem;
             min-width: 140px;
             transition: background-color 0.3s;
-            transform: translateX(-30%);
         }
 
-       .btn-sair {
-        position: fixed;
-        bottom: 60px;
-        left: 75%; /* ajusta a posição para não colar no "Finalizar Quiz" */
-        background-color: #ff0000;
-        color: white;
-        border: none;
-        padding: 12px 15px;
-        border-radius: 14px;
-        cursor: pointer;
-        font-weight: bold;
-        font-size: 1.1rem;
-        min-width: 110px;
-        transition: background-color 0.3s;
-        transform: translateX(-30%);
-    }
+        .btn-sair {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-width: 110px;
+            transition: background-color 0.3s;
+        }
 
         .btn-responder:hover {
             background-color: #0213ff;
@@ -146,38 +138,19 @@
         <input type="hidden" name="nivel_id" value="{{ nivel_id }}">
         <input type="hidden" name="assunto_id" value="{{ request.args.get('assunto_id','todos') }}">
 
-
         {% for questao in questoes %}
             <div class="questao {% if loop.index == 1 %}active{% endif %}">
-                
-                <!-- Parte esquerda: número da questão -->
                 <p class="info-esquerda">Questão {{ loop.index }} de {{ questoes|length }}</p>
-
-                <!-- Parte direita: nível e assunto -->
                 <div class="info-direita">
                     <span>
-                        <span>
-                            Nível:
-                            {% if nivel_id == 'variada' %}
-                            Variada
-                            {% elif nivel_id == '1' or nivel_id == 1 %}
-                            Fácil
-                            {% elif nivel_id == '2' or nivel_id == 2 %}
-                            Médio
-                            {% elif nivel_id == '3' or nivel_id == 3 %}
-                            Difícil
-                            {% else %}
-                            Desconhecido
-                            {% endif %}
-                        </span>
+                        Nível:
+                        {% if nivel_id == 'variada' %}Variada{% elif nivel_id == '1' or nivel_id == 1 %}Fácil{% elif nivel_id == '2' or nivel_id == 2 %}Médio{% elif nivel_id == '3' or nivel_id == 3 %}Difícil{% else %}Desconhecido{% endif %}
                     </span>
                     <span>Assunto: {{ assunto_nome }}</span>
                 </div>
 
-                <!-- Enunciado -->
                 <p class="enunciado-centro"><strong>{{ questao.enunciado }}</strong></p>
 
-                <!-- Alternativas -->
                 <div class="alternativas-container">
                     {% for alternativa in questao.alternativas %}
                         <input type="radio" id="alt{{ questao.id }}_{{ loop.index0 }}" name="{{ questao.id }}" value="{{ alternativa[0] }}" required>
@@ -190,11 +163,11 @@
             <hr>
         {% endfor %}
 
-        <!-- Botão responder -->
-        <button type="submit" class="btn-responder">Finalizar Quiz</button>
-
-        <!-- Botões de navegação -->
-        <div class="botoes-container">
+        <!-- Botões de navegação e finalização -->
+        <div class="botoes-container" style="position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px;">
+            <button type="button" id="btnVoltar" class="btn-responder" style="background-color: #3d4b83;">Voltar</button>
+            <button type="button" id="btnProxima" class="btn-responder">Próxima</button>
+            <button type="submit" id="btnFinalizar" class="btn-responder" style="display: none; background-color: #0e2aff;">Finalizar Quiz</button>
             <button type="button" class="btn-sair" onclick="window.location.href='/index_aluno'">Sair</button>
         </div>
     </form>
@@ -203,13 +176,23 @@
         const questoes = document.querySelectorAll('.questao');
         const btnProxima = document.getElementById('btnProxima');
         const btnVoltar = document.getElementById('btnVoltar');
+        const btnFinalizar = document.getElementById('btnFinalizar');
         let indiceAtivo = 0;
+
+        function atualizarVisibilidadeBotoes() {
+            btnVoltar.style.display = indiceAtivo === 0 ? 'none' : 'inline-block';
+            btnProxima.style.display = indiceAtivo === questoes.length - 1 ? 'none' : 'inline-block';
+            btnFinalizar.style.display = indiceAtivo === questoes.length - 1 ? 'inline-block' : 'none';
+        }
+
+        atualizarVisibilidadeBotoes();
 
         btnProxima.addEventListener('click', () => {
             if (indiceAtivo < questoes.length - 1) {
                 questoes[indiceAtivo].classList.remove('active');
                 indiceAtivo++;
                 questoes[indiceAtivo].classList.add('active');
+                atualizarVisibilidadeBotoes();
             }
         });
 
@@ -218,9 +201,9 @@
                 questoes[indiceAtivo].classList.remove('active');
                 indiceAtivo--;
                 questoes[indiceAtivo].classList.add('active');
+                atualizarVisibilidadeBotoes();
             }
         });
     </script>
-
 </body>
 </html>
