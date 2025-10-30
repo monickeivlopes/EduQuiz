@@ -61,7 +61,7 @@ body.page-inicio h1 {
 
 /* Botão principal */
 body.page-inicio .btn-iniciar {
-  background-color: #00c26e;
+  background-color: #00ff4c;
   color: white;
   padding: 15px 30px;
   border-radius: 30px;
@@ -73,7 +73,7 @@ body.page-inicio .btn-iniciar {
 }
 
 body.page-inicio .btn-iniciar:hover {
-  background-color: #009e4f;
+  background-color: #00cc3b;
 }
 
 /* Botões secundários */
@@ -82,7 +82,7 @@ body.page-inicio .botoes-secundarios {
 }
 
 body.page-inicio a.btn-secundario {
-  background-color: #0011a8;
+  background-color: #001958;
   color: white;
   text-decoration: none;
   padding: 12px 25px;
@@ -93,7 +93,7 @@ body.page-inicio a.btn-secundario {
 }
 
 body.page-inicio a.btn-secundario:hover {
-  background-color: #001adb;
+  background-color: #0c2b8c;
 }
 
 /* Botão sair */
