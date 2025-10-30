@@ -14,19 +14,12 @@ body {
 
 /* Header fixo */
 header {
-  background-color: #001F87;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 30px;
-  flex-wrap: wrap;
-  gap: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+   background-color: #001f87;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .logo {
@@ -225,4 +218,3 @@ header .btn-ajuda:hover {
   color: #003366;
   text-align: left;
 }
-
