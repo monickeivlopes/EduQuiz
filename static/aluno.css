@@ -1,15 +1,16 @@
 /* ESTILO GERAL DA PÁGINA */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #004aad;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(255,255,255,0.12)'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(255,255,255,0.08)'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(255,255,255,0.06)'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(255,255,255,0.10)'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(255,255,255,0.12)' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 160px 160px;
-  color: white;
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 120px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
   text-align: center;
 }
+
 
 /* CABEÇALHO */
 header {
@@ -44,7 +45,7 @@ header .btn-ajuda {
   background-color: #4C5FFF;
   color: white;
   text-decoration: none;
-  padding: 6px 16px;
+  padding: 8px 24px;
   border-radius: 20px;
   font-weight: bold;
   font-size: 14px;

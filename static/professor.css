@@ -1,4 +1,4 @@
-/* Reset e estilo global */
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fafafa;
@@ -9,54 +9,84 @@ body {
   color: #001F87;
   margin: 0;
   padding: 0;
-}
-
-
-/* Header fixo */
-header {
-   background-color: #001f87;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    border-bottom: 2px solid #e0e0e0;
-}
-
-.logo {
-  font-size: 1.5em;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-/* Estilo da página de início */
-body.page-inicio main {
-  max-width: 700px;
-  margin: 0 auto;
-  padding-top: 100px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  justify-content: center;
   text-align: center;
 }
 
+header {
+  background-color: #001f87;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 2px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.logo img {
+  height: 42px;
+}
+
+/* Botão de ajuda — maior e com destaque */
+header .btn-ajuda {
+  background-color: #4C5FFF;
+  color: white;
+  text-decoration: none;
+  padding: 10px 26px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  line-height: 1;
+}
+
+header .btn-ajuda:hover {
+  background-color: #3b4ccc;
+  transform: scale(1.05);
+}
+
+/* 🧭 CONTEÚDO PRINCIPAL CENTRALIZADO */
+body.page-inicio main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+}
+
+/* Título */
 body.page-inicio h1 {
   font-size: 2.5em;
   margin-bottom: 40px;
+  color: #001F87;
 }
 
-/* Botão principal */
+/* 🟢 Botão principal */
 body.page-inicio .btn-iniciar {
   background-color: #00ff4c;
   color: white;
-  padding: 15px 30px;
+  padding: 15px 40px;
   border-radius: 30px;
   font-weight: bold;
   font-size: 18px;
@@ -69,7 +99,7 @@ body.page-inicio .btn-iniciar:hover {
   background-color: #00cc3b;
 }
 
-/* Botões secundários */
+/* 🔵 Botões secundários */
 body.page-inicio .botoes-secundarios {
   margin-bottom: 20px;
 }
@@ -78,7 +108,7 @@ body.page-inicio a.btn-secundario {
   background-color: #001958;
   color: white;
   text-decoration: none;
-  padding: 12px 25px;
+  padding: 12px 30px;
   border-radius: 30px;
   font-weight: bold;
   display: inline-block;
@@ -89,13 +119,13 @@ body.page-inicio a.btn-secundario:hover {
   background-color: #0c2b8c;
 }
 
-/* Botão sair */
+/* 🔴 Botão sair */
 body.page-inicio .btn-sair {
   background-color: red;
   color: white;
   border: none;
   border-radius: 30px;
-  padding: 12px 25px;
+  padding: 12px 30px;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -105,7 +135,7 @@ body.page-inicio .btn-sair:hover {
   background-color: #cc0000;
 }
 
-/* Modal */
+/* 📘 MODAL */
 body.page-inicio .modal {
   display: none;
   position: fixed;
@@ -118,25 +148,48 @@ body.page-inicio .modal {
 }
 
 body.page-inicio .modal-content {
-  padding: 20px 30px; /* reduz um pouco o padding interno */
-  max-width: 450px;   /* reduz um pouco a largura máxima */
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 500px;
   margin: auto;
+  box-sizing: border-box;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
+.modal-titulo {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #001F87;
+}
+
+/* Inputs, selects e textarea */
 body.page-inicio .modal-content select,
 body.page-inicio .modal-content input,
 body.page-inicio .modal-content textarea {
   width: 100%;
-  margin-bottom: 8px;
-  padding: 8px;
+  margin-bottom: 12px;
+  padding: 10px;
   border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 16px;
 }
 
-/* Botões do modal */
+/* Labels */
+.label-filtro {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #003366;
+  text-align: left;
+}
+
+/* Botões dentro do modal */
 body.page-inicio .modal-content button {
-  min-width: 100px;
+  min-width: 120px;
   padding: 12px 20px;
   border-radius: 30px;
   border: none;
@@ -154,67 +207,4 @@ body.page-inicio .btn-editar {
 body.page-inicio .btn-concluir:hover,
 body.page-inicio .btn-editar:hover {
   background-color: #009e4f;
-}
-.modal {
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.modal-content {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
-  margin: auto;
-}
-/* Botão de ajuda no header */
-header .btn-ajuda {
-  background-color: #4C5FFF;
-  color: white;
-  text-decoration: none;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-weight: bold;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  line-height: 1;
-  margin-left: auto;
-}
-
-header .btn-ajuda:hover {
-  background-color: #3b4ccc;
-}
-
-/* Título principal do modal, centralizado */
-.modal-titulo {
-  text-align: center;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #001F87;
-}
-
-/* Labels acima dos selects e inputs, para dar espaçamento e destaque */
-.label-filtro {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #003366;
-  text-align: left;
 }
