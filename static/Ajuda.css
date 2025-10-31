@@ -1,114 +1,149 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fafafa;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(0,0,0,0.08)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(0,0,0,0.06)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(0,0,0,0.10)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-position: center;
-  background-size: 160px 160px;
-  color: #001f87;
-  margin: 0;
-  padding: 0;
-}
-
-header {
-  background-color: #001f87;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 40px;
-  border-bottom: 2px solid #e0e0e0;
+/* ===============================
+   HEADER (versão compacta)
+   =============================== */
+   header {
+    background-color: #001f87;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px; /* antes: 20px 40px */
+    border-bottom: 2px solid #e0e0e0;
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px; /* antes: 24px */
+    font-weight: bold;
+    color: #ffffff;
 }
 
 .logo img {
-  height: 40px;
+    height: 32px; /* antes: 40px */
 }
 
-.home-icon img {
-  height: 30px;
+nav .home-icon i {
+    font-size: 26px; /* antes: 30px */
+    color: white;
 }
 
-/* css dos cartões, da pra usar em outros */
+
+/* ===============================
+   CONTAINER PRINCIPAL
+   =============================== */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.mb-5 {
+    margin-bottom: 2rem;
+}
+
+/* ===============================
+   CARDS DE AJUDA
+   =============================== */
+.row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 35px;
+    justify-items: center;
+    margin-top: 30px;
+}
+
+/* CARD INDIVIDUAL */
 .help-card {
-  background: transparent;
-  perspective: 1000px;
-  cursor: pointer;
-  height: 180px;
-  margin-bottom: 1rem;
-  max-width: 88%;  /* diminui largura nas laterais */
-  margin-left: auto;
-  margin-right: auto; /* centraliza horizontalmente */
+    width: 360px;          /* antes 320px → mais largo */
+    height: 190px;         /* antes 150px → mais alto */
+    perspective: 1000px;
+    cursor: pointer;
+    border-radius: 18px;
+    position: relative;
 }
 
-.help-card-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
-  color: white; 
-}
-
-
+/* INTERIOR DO CARD */
 .help-card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.7s, box-shadow 0.3s;
-  transform-style: preserve-3d;
-  border-radius: 15px;
-  box-shadow: 0 12px 25px rgba(0,0,0,0.25); 
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform-origin: center center;
 }
 
+/* CLASSE QUE VIRA O CARD */
 .help-card.flipped .help-card-inner {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
+/* FRENTE E VERSO */
 .help-card-face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 15px;
-  backface-visibility: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffffff;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
+/* FRENTE */
 .help-card-front {
-  color: white;
-}
-
-.help-card-back {
-  background-color: #f8f9fa;
-  color: #001f87;
-  transform: rotateY(180deg);
-  font-size: 0.95rem;
-  text-align: center;
-  padding: 15px;
-}
-
-.help-card-icon {
-  font-size: 50px;
-  margin-bottom: 10px;
-}
-
-
-@media (max-width: 768px) {
-  .row {
+    background: linear-gradient(135deg, #002bb8, #007bff);
     flex-direction: column;
-  }
-
-  .col-md-6 {
-    max-width: 100%;
-  }
 }
 
+/* VERSO */
+.help-card-back {
+    background-color: #007bff;
+    transform: rotateY(180deg);
+    font-weight: normal;
+    font-size: 15px;
+    color: #ffffff;
+    padding: 25px;
+}
+
+/* ÍCONE NA FRENTE */
+.help-card-icon {
+    font-size: 55px;       /* antes 45px → um pouco maior */
+    margin-bottom: 10px;
+    color: white;
+}
+
+/* CARD SAIR */
+.help-card.bg-danger .help-card-front,
+.help-card.bg-danger .help-card-back {
+    background-color: #dc3545;
+}
+
+/* ===============================
+   RESPONSIVO
+   =============================== */
+@media (max-width: 992px) {
+    .row {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .help-card {
+        width: 90%;
+        max-width: 360px;
+    }
+}
