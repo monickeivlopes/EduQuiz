@@ -265,12 +265,11 @@ ALTER TABLE tentativas_quiz ADD COLUMN tempo_gasto INT; -- segundos
 
 
 
--- ==========================
--- QUESTOES
--- ==========================
+USE eduquiz;
 
 -- Certifique-se de ter ao menos 1 professor cadastrado:
 -- (ajuste o id se necessário)
+
 INSERT INTO usuarios (nome, email, senha_hash, tipo)
 VALUES ('Prof.', 'prof@prof', SHA2('123', 256), 'professor');
 
@@ -279,491 +278,839 @@ SELECT id FROM usuarios WHERE email = 'prof@prof';
 
 SET @prof_id = (SELECT id FROM professores WHERE id = (SELECT id FROM usuarios WHERE email = 'prof@prof'));
 
--- ==========================
--- NÚMEROS E OPERAÇÕES
--- ==========================
+-- Números e Operações
+
+-- ===========================
+-- QUESTÕES FÁCEIS (NÍVEL 1)
+-- ===========================
 
 -- Questão 1 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('João comprou 3 pacotes de figurinhas. Cada pacote contém 8 figurinhas. Quantas figurinhas João tem ao todo?', 1, 4, @prof_id);
+VALUES ('Maria tinha 15 balas e ganhou mais 12 de sua amiga. Quantas balas ela tem agora?', 1, @assunto_id, @prof_id);
 SET @q1 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q1, '11', 0),
-(@q1, '24', 1),
-(@q1, '18', 0),
+(@q1, '25', 0),
+(@q1, '26', 0),
+(@q1, '27', 1),
 (@q1, '28', 0);
 
 -- Questão 2 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Ana tinha R$ 50,00 e gastou R$ 18,00 em um lanche. Quanto sobrou para ela?', 1, 4, @prof_id);
+VALUES ('Carlos tinha R$ 20,00 e comprou um refrigerante de R$ 6,00. Quanto sobrou?', 1, @assunto_id, @prof_id);
 SET @q2 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q2, 'R$ 28,00', 1),
-(@q2, 'R$ 30,00', 0),
-(@q2, 'R$ 32,00', 0),
-(@q2, 'R$ 36,00', 0);
+(@q2, '12', 0),
+(@q2, '13', 0),
+(@q2, '14', 0),
+(@q2, '14,00', 1);
 
 -- Questão 3 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um ônibus saiu de uma cidade com 40 passageiros. Em uma parada, desceram 12 pessoas e subiram 8. Quantas pessoas há no ônibus agora?', 1, 4, @prof_id);
+VALUES ('Um trem tem 8 vagões, e cada vagão tem 10 assentos. Quantos assentos há ao todo?', 1, @assunto_id, @prof_id);
 SET @q3 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q3, '36', 0),
-(@q3, '38', 0),
-(@q3, '40', 1),
-(@q3, '42', 0);
+(@q3, '60', 0),
+(@q3, '70', 0),
+(@q3, '80', 1),
+(@q3, '90', 0);
 
--- Questão 4 (Médio)
+-- Questão 4 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma caixa tem 12 garrafas de suco. Cada garrafa contém 1,5 litro. Quantos litros há no total?', 2, 4, @prof_id);
+VALUES ('Em uma caixa há 36 bombons. Se forem divididos igualmente entre 6 pessoas, quantos bombons cada uma receberá?', 1, @assunto_id, @prof_id);
 SET @q4 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q4, '15 L', 0),
-(@q4, '16,5 L', 0),
-(@q4, '17 L', 0),
-(@q4, '18 L', 1);
-
--- Questão 5 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Pedro tem 240 figurinhas. Ele quer dividir igualmente entre 8 amigos. Quantas figurinhas cada amigo vai receber?', 2, 4, @prof_id);
-SET @q5 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q5, '25', 0),
-(@q5, '28', 0),
-(@q5, '30', 1),
-(@q5, '35', 0);
-
--- Questão 6 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma padaria vendeu 3,5 kg de pão pela manhã e 4,25 kg à tarde. Quantos quilos de pão foram vendidos no total?', 2, 4, @prof_id);
-SET @q6 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q6, '7,25 kg', 1),
-(@q6, '7,50 kg', 0),
-(@q6, '8 kg', 0),
-(@q6, '8,25 kg', 0);
-
--- Questão 7 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um pedreiro usou 2,5 sacos de cimento por dia durante 6 dias. Quantos sacos ele usou ao todo?', 3, 4, @prof_id);
-SET @q7 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q7, '12,5 sacos', 1),
-(@q7, '13 sacos', 0),
-(@q7, '14 sacos', 0),
-(@q7, '15 sacos', 0);
-
--- Questão 8 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma fábrica produz 120 peças por hora. Se trabalha 7,5 horas por dia, quantas peças são produzidas por dia?', 3, 4, @prof_id);
-SET @q8 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q8, '800', 0),
-(@q8, '850', 0),
-(@q8, '900', 1),
-(@q8, '950', 0);
-
--- Questão 9 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um tanque de 900 litros foi esvaziado igualmente em 6 horas. Quantos litros foram retirados por hora?', 3, 4, @prof_id);
-SET @q9 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q9, '120', 0),
-(@q9, '130', 0),
-(@q9, '140', 0),
-(@q9, '150', 1);
-
-
-
--- ==========================
--- GEOMETRIA E MEDIDAS
--- ==========================
-
--- Questão 1 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um retângulo tem base de 8 cm e altura de 5 cm. Qual é sua área?', 1, 5, @prof_id);
-SET @q1 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q1, '13 cm²', 0),
-(@q1, '20 cm²', 0),
-(@q1, '30 cm²', 1),
-(@q1, '40 cm²', 0);
-
--- Questão 2 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um triângulo tem base de 10 cm e altura de 6 cm. Qual é a sua área?', 1, 5, @prof_id);
-SET @q2 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q2, '15 cm²', 0),
-(@q2, '25 cm²', 0),
-(@q2, '30 cm²', 1),
-(@q2, '60 cm²', 0);
-
--- Questão 3 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um quadrado tem lado medindo 7 cm. Qual é o seu perímetro?', 1, 5, @prof_id);
-SET @q3 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q3, '14 cm', 0),
-(@q3, '21 cm', 0),
-(@q3, '28 cm', 1),
-(@q3, '49 cm', 0);
-
--- Questão 4 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um terreno retangular mede 12 m de comprimento e 8 m de largura. Qual é a área total do terreno?', 2, 5, @prof_id);
-SET @q4 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q4, '80 m²', 0),
-(@q4, '90 m²', 0),
-(@q4, '96 m²', 1),
-(@q4, '100 m²', 0);
-
--- Questão 5 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um círculo tem raio de 7 cm. Use π = 3,14. Qual é aproximadamente a área do círculo?', 2, 5, @prof_id);
-SET @q5 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q5, '120 cm²', 0),
-(@q5, '145 cm²', 0),
-(@q5, '150 cm²', 0),
-(@q5, '153,86 cm²', 1);
-
--- Questão 6 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um cubo tem aresta de 3 cm. Qual é o seu volume?', 2, 5, @prof_id);
-SET @q6 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q6, '9 cm³', 0),
-(@q6, '18 cm³', 0),
-(@q6, '27 cm³', 1),
-(@q6, '36 cm³', 0);
-
--- Questão 7 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um retângulo tem perímetro de 50 cm. Se a base mede 15 cm, qual é a altura?', 3, 5, @prof_id);
-SET @q7 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q7, '10 cm', 1),
-(@q7, '12 cm', 0),
-(@q7, '15 cm', 0),
-(@q7, '20 cm', 0);
-
--- Questão 8 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um cilindro tem raio de 4 cm e altura de 10 cm. Use π = 3,14. Qual é o volume do cilindro?', 3, 5, @prof_id);
-SET @q8 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q8, '400 cm³', 0),
-(@q8, '502,4 cm³', 1),
-(@q8, '520 cm³', 0),
-(@q8, '628 cm³', 0);
-
--- Questão 9 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um triângulo isósceles tem dois lados medindo 10 cm e base de 12 cm. Qual é o perímetro desse triângulo?', 3, 5, @prof_id);
-SET @q9 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q9, '30 cm', 1),
-(@q9, '32 cm', 0),
-(@q9, '34 cm', 0),
-(@q9, '36 cm', 0);
-
-
-
--- ==========================
--- ESTATÍSTICA E PROBABILIDADE
--- ==========================
-
--- Questão 1 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma pesquisa perguntou a 50 alunos qual era seu esporte favorito. 20 gostam de futebol, 15 de vôlei, 10 de basquete e 5 de natação. Quantos alunos não escolheram futebol?', 1, 6, @prof_id);
-SET @q1 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q1, '15', 0),
-(@q1, '20', 0),
-(@q1, '30', 1),
-(@q1, '35', 0);
-
--- Questão 2 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Em uma caixa há 3 bolas vermelhas, 2 azuis e 5 verdes. Qual é o total de bolas?', 1, 6, @prof_id);
-SET @q2 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q2, '8', 0),
-(@q2, '9', 0),
-(@q2, '10', 1),
-(@q2, '11', 0);
-
--- Questão 3 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um dado comum tem 6 faces numeradas de 1 a 6. Qual é a probabilidade de sair um número par?', 1, 6, @prof_id);
-SET @q3 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q3, '1/3', 0),
-(@q3, '1/2', 1),
-(@q3, '2/3', 0),
-(@q3, '5/6', 0);
-
--- Questão 4 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('A tabela mostra o número de livros lidos por 5 alunos em um mês: Ana=3, Bruno=5, Carla=2, Diego=4, Elisa=6. Qual é a média de livros lidos?', 2, 6, @prof_id);
-SET @q4 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q4, '3', 0),
-(@q4, '4', 1),
 (@q4, '5', 0),
-(@q4, '6', 0);
-
--- Questão 5 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Em uma turma, 40% dos alunos são meninos. Se a turma tem 30 alunos, quantas são meninas?', 2, 6, @prof_id);
-SET @q5 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q5, '10', 0),
-(@q5, '12', 0),
-(@q5, '18', 1),
-(@q5, '20', 0);
-
--- Questão 6 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Em uma pesquisa, 60% das pessoas preferem transporte público e o restante prefere carro particular. Se foram entrevistadas 200 pessoas, quantas preferem carro particular?', 2, 6, @prof_id);
-SET @q6 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q6, '60', 0),
-(@q6, '70', 0),
-(@q6, '80', 1),
-(@q6, '100', 0);
-
--- Questão 7 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Em uma escola, 30% dos alunos praticam futebol, 25% vôlei, 15% basquete e o restante não pratica esportes. Qual a porcentagem dos que não praticam esportes?', 3, 6, @prof_id);
-SET @q7 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q7, '20%', 0),
-(@q7, '25%', 0),
-(@q7, '30%', 1),
-(@q7, '35%', 0);
-
--- Questão 8 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um baralho tem 52 cartas. Qual é a probabilidade de tirar uma carta de copas?', 3, 6, @prof_id);
-SET @q8 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q8, '1/2', 0),
-(@q8, '1/4', 1),
-(@q8, '1/3', 0),
-(@q8, '1/13', 0);
-
--- Questão 9 (Difícil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('O gráfico mostra o número de visitantes em um parque durante a semana: Segunda=100, Terça=150, Quarta=200, Quinta=250, Sexta=300. Qual é o aumento percentual de segunda para sexta-feira?', 3, 6, @prof_id);
-SET @q9 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q9, '100%', 0),
-(@q9, '150%', 1),
-(@q9, '200%', 0),
-(@q9, '250%', 0);
-
-
-
--- ==========================
--- ÁLGEBRA E FUNÇÕES
--- ==========================
-
--- Questão 1 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Resolva a equação: x + 5 = 9', 1, 7, @prof_id);
-SET @q1 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q1, '3', 0),
-(@q1, '4', 1),
-(@q1, '5', 0),
-(@q1, '6', 0);
-
--- Questão 2 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Qual é o valor de y em y = 2x + 1 quando x = 3?', 1, 7, @prof_id);
-SET @q2 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q2, '5', 0),
-(@q2, '6', 0),
-(@q2, '7', 1),
-(@q2, '8', 0);
-
--- Questão 3 (Fácil)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Simplifique a expressão: 3x + 2x', 1, 7, @prof_id);
-SET @q3 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q3, '5x', 1),
-(@q3, '6x', 0),
-(@q3, 'x^2', 0),
-(@q3, '3x^2', 0);
-
--- Questão 4 (Médio)
-INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Resolva: 2x - 4 = 10', 2, 7, @prof_id);
-SET @q4 = LAST_INSERT_ID();
-INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q4, '6', 1),
+(@q4, '4', 0),
 (@q4, '7', 0),
-(@q4, '8', 0),
-(@q4, '10', 0);
+(@q4, '6', 1);
 
--- Questão 5 (Médio)
+-- Questão 5 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('A função f(x) = 3x + 2. Qual é o valor de f(4)?', 2, 7, @prof_id);
+VALUES ('O número 47 é composto por quantas dezenas e quantas unidades?', 1, @assunto_id, @prof_id);
 SET @q5 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q5, '10', 0),
-(@q5, '12', 0),
-(@q5, '14', 1),
-(@q5, '16', 0);
+(@q5, '4 dezenas e 7 unidades', 1),
+(@q5, '3 dezenas e 17 unidades', 0),
+(@q5, '5 dezenas e 2 unidades', 0),
+(@q5, '7 dezenas e 4 unidades', 0);
+
+
+-- ===========================
+-- QUESTÕES MÉDIAS (NÍVEL 2)
+-- ===========================
 
 -- Questão 6 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma loja vende camisetas por R$ 30 cada. O total pago é dado por T = 30x, onde x é o número de camisetas. Quanto pagará alguém que comprar 5 camisetas?', 2, 7, @prof_id);
+VALUES ('Uma padaria vendeu 85 pães de manhã e 67 à tarde. Quantos pães foram vendidos no total?', 2, @assunto_id, @prof_id);
 SET @q6 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q6, 'R$ 100', 0),
-(@q6, 'R$ 120', 0),
-(@q6, 'R$ 150', 1),
-(@q6, 'R$ 200', 0);
+(@q6, '142', 1),
+(@q6, '145', 0),
+(@q6, '150', 0),
+(@q6, '152', 0);
 
--- Questão 7 (Difícil)
+-- Questão 7 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Resolva a equação quadrática: x^2 - 5x + 6 = 0', 3, 7, @prof_id);
+VALUES ('Um caminhão transporta 125 caixas em cada viagem. Se ele fizer 8 viagens, quantas caixas transportará?', 2, @assunto_id, @prof_id);
 SET @q7 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q7, 'x = 1 e x = 6', 0),
-(@q7, 'x = 2 e x = 3', 1),
-(@q7, 'x = 3 e x = 5', 0),
-(@q7, 'x = 0 e x = 6', 0);
+(@q7, '900', 0),
+(@q7, '950', 0),
+(@q7, '1000', 1),
+(@q7, '1050', 0);
 
--- Questão 8 (Difícil)
+-- Questão 8 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma função é definida por f(x) = x^2 - 4x + 3. Qual é o valor mínimo dessa função?', 3, 7, @prof_id);
+VALUES ('Uma família gasta R$ 2.450,00 por mês. Quanto gastará em 5 meses?', 2, @assunto_id, @prof_id);
 SET @q8 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q8, '1', 1),
-(@q8, '0', 0),
-(@q8, '2', 0),
-(@q8, '3', 0);
+(@q8, 'R$ 10.250,00', 0),
+(@q8, 'R$ 12.250,00', 0),
+(@q8, 'R$ 12.450,00', 1),
+(@q8, 'R$ 13.000,00', 0);
 
--- Questão 9 (Difícil)
+-- Questão 9 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('O gráfico de uma função linear corta o eixo y em 2 e o eixo x em 4. Qual é a equação da função?', 3, 7, @prof_id);
+VALUES ('O triplo de um número é 48. Qual é esse número?', 2, @assunto_id, @prof_id);
 SET @q9 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q9, 'y = -1/2x + 2', 1),
-(@q9, 'y = 2x + 4', 0),
-(@q9, 'y = 1/2x - 2', 0),
-(@q9, 'y = -x + 4', 0);
+(@q9, '12', 0),
+(@q9, '14', 0),
+(@q9, '15', 0),
+(@q9, '16', 1);
+
+-- Questão 10 (Médio)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um terreno tem formato retangular com 25 m de comprimento e 18 m de largura. Qual é a área desse terreno?', 2, @assunto_id, @prof_id);
+SET @q10 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q10, '425 m²', 0),
+(@q10, '440 m²', 0),
+(@q10, '450 m²', 1),
+(@q10, '475 m²', 0);
 
 
+-- ===========================
+-- QUESTÕES DIFÍCEIS (NÍVEL 3)
+-- ===========================
 
--- ==========================
--- MATEMÁTICA FINANCEIRA E APLICADA
--- ==========================
+-- Questão 11 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma máquina produz 320 peças por hora. Se funcionar 7 horas por dia, quantas peças são produzidas por dia?', 3, @assunto_id, @prof_id);
+SET @q11 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q11, '2.140', 0),
+(@q11, '2.200', 1),
+(@q11, '2.250', 0),
+(@q11, '2.300', 0);
+
+-- Questão 12 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um tanque de 960 litros foi esvaziado em 8 horas de forma constante. Quantos litros saíram por hora?', 3, @assunto_id, @prof_id);
+SET @q12 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q12, '110', 0),
+(@q12, '115', 0),
+(@q12, '120', 1),
+(@q12, '125', 0);
+
+-- Questão 13 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um número é o dobro de outro. Se a soma deles é 72, quais são esses números?', 3, @assunto_id, @prof_id);
+SET @q13 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q13, '24 e 48', 1),
+(@q13, '26 e 46', 0),
+(@q13, '30 e 42', 0),
+(@q13, '20 e 52', 0);
+
+-- Questão 14 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma escola há 480 alunos. Se 3/8 deles são do turno da manhã, quantos estudam nesse turno?', 3, @assunto_id, @prof_id);
+SET @q14 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q14, '160', 0),
+(@q14, '170', 0),
+(@q14, '180', 1),
+(@q14, '200', 0);
+
+-- Questão 15 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um caminhão percorreu 450 km com 50 litros de combustível. Quantos quilômetros percorre por litro?', 3, @assunto_id, @prof_id);
+SET @q15 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q15, '7', 0),
+(@q15, '8', 0),
+(@q15, '9', 1),
+(@q15, '10', 0);
+
+-- Geometria e Medidas
+
+-- ===========================
+-- QUESTÕES FÁCEIS (NÍVEL 1)
+-- ===========================
 
 -- Questão 1 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um produto custa R$ 100,00 e recebeu um desconto de 10%. Qual é o novo preço?', 1, 10, @prof_id);
+VALUES ('Um quadrado tem lados medindo 5 cm. Qual é o seu perímetro?', 1, @assunto_id, @prof_id);
 SET @q1 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q1, 'R$ 90,00', 1),
-(@q1, 'R$ 95,00', 0),
-(@q1, 'R$ 85,00', 0),
-(@q1, 'R$ 80,00', 0);
+(@q1, '10 cm', 0),
+(@q1, '15 cm', 0),
+(@q1, '20 cm', 1),
+(@q1, '25 cm', 0);
 
 -- Questão 2 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Se João ganha R$ 2.000,00 e recebe um aumento de 5%, quanto passa a ganhar?', 1, 10, @prof_id);
+VALUES ('Qual é a forma geométrica que tem três lados?', 1, @assunto_id, @prof_id);
 SET @q2 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q2, 'R$ 2.050,00', 1),
-(@q2, 'R$ 2.100,00', 0),
-(@q2, 'R$ 2.200,00', 0),
-(@q2, 'R$ 2.250,00', 0);
+(@q2, 'Quadrado', 0),
+(@q2, 'Triângulo', 1),
+(@q2, 'Retângulo', 0),
+(@q2, 'Círculo', 0);
 
 -- Questão 3 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Maria gastou R$ 45,00 de um total de R$ 90,00. Qual a porcentagem que ela gastou?', 1, 10, @prof_id);
+VALUES ('Um retângulo tem comprimento 8 cm e largura 4 cm. Qual é sua área?', 1, @assunto_id, @prof_id);
 SET @q3 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q3, '25%', 0),
-(@q3, '45%', 0),
-(@q3, '50%', 1),
-(@q3, '75%', 0);
+(@q3, '12 cm²', 0),
+(@q3, '24 cm²', 1),
+(@q3, '28 cm²', 0),
+(@q3, '32 cm²', 0);
 
--- Questão 4 (Médio)
+-- Questão 4 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um celular custa R$ 1.200,00 à vista, mas pode ser parcelado em 6 vezes de R$ 220,00. Qual é o valor total pago a prazo e quanto de juros foi pago?', 2, 10, @prof_id);
+VALUES ('Qual é o nome do sólido geométrico que tem 6 faces quadradas iguais?', 1, @assunto_id, @prof_id);
 SET @q4 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q4, 'R$ 1.200,00 – R$ 0,00', 0),
-(@q4, 'R$ 1.320,00 – R$ 120,00', 1),
-(@q4, 'R$ 1.350,00 – R$ 150,00', 0),
-(@q4, 'R$ 1.400,00 – R$ 200,00', 0);
+(@q4, 'Cubo', 1),
+(@q4, 'Esfera', 0),
+(@q4, 'Cilindro', 0),
+(@q4, 'Cone', 0);
 
--- Questão 5 (Médio)
+-- Questão 5 (Fácil)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um capital de R$ 500,00 foi aplicado a 2% ao mês durante 4 meses em juros simples. Qual o valor dos juros?', 2, 10, @prof_id);
+VALUES ('Um círculo tem raio de 7 cm. Qual é o diâmetro?', 1, @assunto_id, @prof_id);
 SET @q5 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q5, 'R$ 30,00', 1),
-(@q5, 'R$ 35,00', 0),
-(@q5, 'R$ 40,00', 0),
-(@q5, 'R$ 50,00', 0);
+(@q5, '7 cm', 0),
+(@q5, '10 cm', 0),
+(@q5, '12 cm', 0),
+(@q5, '14 cm', 1);
+
+
+-- ===========================
+-- QUESTÕES MÉDIAS (NÍVEL 2)
+-- ===========================
 
 -- Questão 6 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um produto custava R$ 80,00 e sofreu aumento de 25%. Qual o novo preço?', 2, 10, @prof_id);
+VALUES ('Um triângulo tem base de 10 cm e altura de 6 cm. Qual é sua área?', 2, @assunto_id, @prof_id);
 SET @q6 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q6, 'R$ 85,00', 0),
-(@q6, 'R$ 90,00', 0),
-(@q6, 'R$ 95,00', 0),
-(@q6, 'R$ 100,00', 1);
+(@q6, '20 cm²', 0),
+(@q6, '25 cm²', 0),
+(@q6, '30 cm²', 1),
+(@q6, '35 cm²', 0);
 
--- Questão 7 (Difícil)
+-- Questão 7 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um investimento de R$ 2.000,00 rendeu 3% ao mês durante 6 meses em juros compostos. Qual o montante final?', 3, 10, @prof_id);
+VALUES ('Qual é o volume de um cubo cujo lado mede 4 cm?', 2, @assunto_id, @prof_id);
 SET @q7 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q7, 'R$ 2.200,00', 0),
-(@q7, 'R$ 2.374,00', 1),
-(@q7, 'R$ 2.500,00', 0),
-(@q7, 'R$ 2.600,00', 0);
+(@q7, '16 cm³', 0),
+(@q7, '32 cm³', 0),
+(@q7, '48 cm³', 0),
+(@q7, '64 cm³', 1);
 
--- Questão 8 (Difícil)
+-- Questão 8 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Um empréstimo de R$ 1.500,00 foi feito a 4% ao mês em juros simples, por 8 meses. Qual será o montante total?', 3, 10, @prof_id);
+VALUES ('Um terreno tem formato retangular e mede 12 m por 8 m. Qual é o seu perímetro?', 2, @assunto_id, @prof_id);
 SET @q8 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q8, 'R$ 1.900,00', 1),
-(@q8, 'R$ 1.920,00', 0),
-(@q8, 'R$ 2.000,00', 0),
-(@q8, 'R$ 2.100,00', 0);
+(@q8, '36 m', 0),
+(@q8, '38 m', 0),
+(@q8, '40 m', 1),
+(@q8, '42 m', 0);
 
--- Questão 9 (Difícil)
+-- Questão 9 (Médio)
 INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
-VALUES ('Uma loja oferece 10% de desconto à vista ou parcelamento em 3 vezes sem juros. Um cliente opta pelo parcelamento, mas o valor à vista é R$ 900,00. Qual o valor total que ele pagará parcelando?', 3, 10, @prof_id);
+VALUES ('Um círculo tem raio de 3 cm. Use π = 3,14 e calcule sua área.', 2, @assunto_id, @prof_id);
 SET @q9 = LAST_INSERT_ID();
 INSERT INTO alternativas (questao_id, texto, correta) VALUES
-(@q9, 'R$ 900,00', 0),
-(@q9, 'R$ 950,00', 0),
-(@q9, 'R$ 1.000,00', 1),
-(@q9, 'R$ 1.100,00', 0);
+(@q9, '18,84 cm²', 0),
+(@q9, '28,26 cm²', 1),
+(@q9, '30 cm²', 0),
+(@q9, '32 cm²', 0);
+
+-- Questão 10 (Médio)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma parede tem 2,5 m de altura e 4,2 m de largura. Qual é a área total?', 2, @assunto_id, @prof_id);
+SET @q10 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q10, '9,5 m²', 0),
+(@q10, '10 m²', 0),
+(@q10, '10,5 m²', 1),
+(@q10, '11 m²', 0);
 
 
+-- ===========================
+-- QUESTÕES DIFÍCEIS (NÍVEL 3)
+-- ===========================
+
+-- Questão 11 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um cilindro tem raio de 5 cm e altura de 10 cm. Use π = 3,14. Qual é o volume?', 3, @assunto_id, @prof_id);
+SET @q11 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q11, '785 cm³', 1),
+(@q11, '800 cm³', 0),
+(@q11, '820 cm³', 0),
+(@q11, '900 cm³', 0);
+
+-- Questão 12 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um triângulo retângulo tem catetos de 9 cm e 12 cm. Qual é o comprimento da hipotenusa?', 3, @assunto_id, @prof_id);
+SET @q12 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q12, '14 cm', 0),
+(@q12, '15 cm', 1),
+(@q12, '16 cm', 0),
+(@q12, '18 cm', 0);
+
+-- Questão 13 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma piscina tem 6 m de comprimento, 4 m de largura e 1,5 m de profundidade. Qual é seu volume em litros?', 3, @assunto_id, @prof_id);
+SET @q13 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q13, '30.000 L', 0),
+(@q13, '32.000 L', 1),
+(@q13, '34.000 L', 0),
+(@q13, '36.000 L', 0);
+
+-- Questão 14 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um terreno circular tem raio de 10 m. Use π = 3,14. Qual é o perímetro (circunferência)?', 3, @assunto_id, @prof_id);
+SET @q14 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q14, '31,4 m', 0),
+(@q14, '62,8 m', 1),
+(@q14, '65 m', 0),
+(@q14, '70 m', 0);
+
+-- Questão 15 (Difícil)
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um prisma retangular tem dimensões 5 cm, 8 cm e 10 cm. Qual é o volume?', 3, @assunto_id, @prof_id);
+SET @q15 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q15, '350 cm³', 0),
+(@q15, '380 cm³', 0),
+(@q15, '400 cm³', 1),
+(@q15, '420 cm³', 0);
+
+-- Estatística e Probabilidade
+
+-- =========================
+-- QUESTÕES FÁCEIS (NÍVEL 1)
+-- =========================
+
+-- Questão 1
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma pesquisa com 10 alunos, foram obtidas as seguintes idades: 13, 14, 13, 15, 14, 13, 16, 14, 13, 15. Qual é a moda das idades?', 1, @assunto_id, @prof_id);
+SET @q1 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q1, '13', 1),
+(@q1, '14', 0),
+(@q1, '15', 0),
+(@q1, '16', 0);
+
+-- Questão 2
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma urna há 4 bolas vermelhas e 6 bolas azuis. Qual é a probabilidade de retirar uma bola vermelha?', 1, @assunto_id, @prof_id);
+SET @q2 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q2, '40%', 1),
+(@q2, '50%', 0),
+(@q2, '60%', 0),
+(@q2, '30%', 0);
+
+-- Questão 3
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('As notas de Pedro foram: 6, 7, 8 e 9. Qual é a média aritmética?', 1, @assunto_id, @prof_id);
+SET @q3 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q3, '7,0', 0),
+(@q3, '7,5', 1),
+(@q3, '8,0', 0),
+(@q3, '6,5', 0);
+
+-- Questão 4
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um dado comum possui 6 faces numeradas de 1 a 6. Qual é a probabilidade de sair um número par?', 1, @assunto_id, @prof_id);
+SET @q4 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q4, '1/3', 0),
+(@q4, '1/2', 1),
+(@q4, '2/3', 0),
+(@q4, '1/6', 0);
+
+-- Questão 5
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma turma de 20 alunos, 8 são meninas. Qual é a porcentagem de meninas na turma?', 1, @assunto_id, @prof_id);
+SET @q5 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q5, '35%', 0),
+(@q5, '40%', 1),
+(@q5, '45%', 0),
+(@q5, '50%', 0);
+
+-- =========================
+-- QUESTÕES MÉDIAS (NÍVEL 2)
+-- =========================
+
+-- Questão 6
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Os salários de cinco funcionários são: 1200, 1300, 1300, 1400 e 2000. Qual é a mediana?', 2, @assunto_id, @prof_id);
+SET @q6 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q6, '1300', 1),
+(@q6, '1400', 0),
+(@q6, '1500', 0),
+(@q6, '2000', 0);
+
+-- Questão 7
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma moeda é lançada 3 vezes. Qual é a probabilidade de sair cara em todas as jogadas?', 2, @assunto_id, @prof_id);
+SET @q7 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q7, '1/3', 0),
+(@q7, '1/4', 0),
+(@q7, '1/8', 1),
+(@q7, '1/2', 0);
+
+-- Questão 8
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma pesquisa, as idades dos participantes foram: 20, 22, 22, 23, 24, 25, 25, 25, 26, 30. Qual é a moda?', 2, @assunto_id, @prof_id);
+SET @q8 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q8, '22', 0),
+(@q8, '25', 1),
+(@q8, '23', 0),
+(@q8, '26', 0);
+
+-- Questão 9
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma urna contém 5 bolas verdes, 3 vermelhas e 2 amarelas. Qual é a probabilidade de retirar uma bola vermelha?', 2, @assunto_id, @prof_id);
+SET @q9 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q9, '1/5', 0),
+(@q9, '3/10', 1),
+(@q9, '2/5', 0),
+(@q9, '1/2', 0);
+
+-- Questão 10
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('As temperaturas (em °C) registradas durante 5 dias foram: 22, 25, 24, 23, 26. Qual é a média?', 2, @assunto_id, @prof_id);
+SET @q10 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q10, '24', 1),
+(@q10, '25', 0),
+(@q10, '23', 0),
+(@q10, '22', 0);
+
+-- =========================
+-- QUESTÕES DIFÍCEIS (NÍVEL 3)
+-- =========================
+
+-- Questão 11
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma fábrica, a probabilidade de uma peça ser defeituosa é de 5%. Qual é a probabilidade de uma amostra de 3 peças não ter nenhuma defeituosa?', 3, @assunto_id, @prof_id);
+SET @q11 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q11, '85,7%', 0),
+(@q11, '90%', 0),
+(@q11, '85%', 0),
+(@q11, '85,7%', 1);
+
+-- Questão 12
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Os números 4, 6, 8 e 12 têm média 7,5. Qual seria a nova média se acrescentarmos o número 10?', 3, @assunto_id, @prof_id);
+SET @q12 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q12, '8', 1),
+(@q12, '7,8', 0),
+(@q12, '7,5', 0),
+(@q12, '8,5', 0);
+
+-- Questão 13
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um dado é lançado duas vezes. Qual é a probabilidade de sair um número par nas duas jogadas?', 3, @assunto_id, @prof_id);
+SET @q13 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q13, '1/2', 0),
+(@q13, '1/3', 0),
+(@q13, '1/4', 1),
+(@q13, '2/3', 0);
+
+-- Questão 14
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('A média de 8 números é 12. Se um número 16 for adicionado, qual será a nova média?', 3, @assunto_id, @prof_id);
+SET @q14 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q14, '12,5', 1),
+(@q14, '13', 0),
+(@q14, '11,5', 0),
+(@q14, '12', 0);
+
+-- Questão 15
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um concurso teve 500 participantes. 300 acertaram a primeira questão e 200 acertaram a segunda. Se 100 acertaram ambas, qual é a probabilidade de um participante escolhido ao acaso ter acertado pelo menos uma questão?', 3, @assunto_id, @prof_id);
+SET @q15 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q15, '80%', 1),
+(@q15, '70%', 0),
+(@q15, '60%', 0),
+(@q15, '50%', 0);
+
+-- Álgebra e Funções
+
+-- ===========================
+-- QUESTÕES FÁCEIS (NÍVEL 1)
+-- ===========================
+
+-- Questão 1
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Resolva a equação: x + 5 = 12. Qual é o valor de x?', 1, @assunto_id, @prof_id);
+SET @q1 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q1, '5', 0),
+(@q1, '6', 0),
+(@q1, '7', 1),
+(@q1, '8', 0);
+
+-- Questão 2
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Se y = 3x e x = 4, qual é o valor de y?', 1, @assunto_id, @prof_id);
+SET @q2 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q2, '7', 0),
+(@q2, '10', 0),
+(@q2, '12', 1),
+(@q2, '14', 0);
+
+-- Questão 3
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('A expressão 2a + 3a é igual a:', 1, @assunto_id, @prof_id);
+SET @q3 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q3, '5a', 1),
+(@q3, '6a', 0),
+(@q3, 'a²', 0),
+(@q3, 'a + 6', 0);
+
+-- Questão 4
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Se uma função é dada por f(x) = x + 2, qual é o valor de f(5)?', 1, @assunto_id, @prof_id);
+SET @q4 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q4, '5', 0),
+(@q4, '6', 0),
+(@q4, '7', 1),
+(@q4, '8', 0);
+
+-- Questão 5
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Simplifique a expressão: 4x + 3x', 1, @assunto_id, @prof_id);
+SET @q5 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q5, '6x', 0),
+(@q5, '7x', 1),
+(@q5, '8x', 0),
+(@q5, '4x²', 0);
+
+-- ===========================
+-- QUESTÕES MÉDIAS (NÍVEL 2)
+-- ===========================
+
+-- Questão 6
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Resolva a equação: 2x - 4 = 10. O valor de x é:', 2, @assunto_id, @prof_id);
+SET @q6 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q6, '5', 0),
+(@q6, '6', 0),
+(@q6, '7', 1),
+(@q6, '8', 0);
+
+-- Questão 7
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('A função f(x) = 2x + 1. Qual é o valor de f(4)?', 2, @assunto_id, @prof_id);
+SET @q7 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q7, '7', 0),
+(@q7, '8', 0),
+(@q7, '9', 1),
+(@q7, '10', 0);
+
+-- Questão 8
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Qual é o valor de x na equação: 3x + 9 = 0?', 2, @assunto_id, @prof_id);
+SET @q8 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q8, '-3', 1),
+(@q8, '0', 0),
+(@q8, '3', 0),
+(@q8, '9', 0);
+
+-- Questão 9
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Em uma função linear f(x) = 5x - 2, qual é o valor de f(3)?', 2, @assunto_id, @prof_id);
+SET @q9 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q9, '13', 1),
+(@q9, '12', 0),
+(@q9, '15', 0),
+(@q9, '10', 0);
+
+-- Questão 10
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('A expressão 2(x + 3) é equivalente a:', 2, @assunto_id, @prof_id);
+SET @q10 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q10, '2x + 6', 1),
+(@q10, 'x + 6', 0),
+(@q10, '2x + 3', 0),
+(@q10, 'x² + 6', 0);
+
+-- ===========================
+-- QUESTÕES DIFÍCEIS (NÍVEL 3)
+-- ===========================
+
+-- Questão 11
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Resolva a equação do 2º grau: x² - 5x + 6 = 0', 3, @assunto_id, @prof_id);
+SET @q11 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q11, 'x = 2 ou x = 3', 1),
+(@q11, 'x = 1 ou x = 6', 0),
+(@q11, 'x = 3 ou x = 5', 0),
+(@q11, 'x = -2 ou x = -3', 0);
+
+-- Questão 12
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('A função f(x) = x² - 4x + 3 tem raízes em:', 3, @assunto_id, @prof_id);
+SET @q12 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q12, 'x = 1 e x = 3', 1),
+(@q12, 'x = 2 e x = 3', 0),
+(@q12, 'x = 1 e x = 4', 0),
+(@q12, 'x = 3 e x = 4', 0);
+
+-- Questão 13
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Qual é o vértice da parábola f(x) = x² - 6x + 8?', 3, @assunto_id, @prof_id);
+SET @q13 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q13, '(3, -1)', 1),
+(@q13, '(2, -4)', 0),
+(@q13, '(4, -2)', 0),
+(@q13, '(3, 1)', 0);
+
+-- Questão 14
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Se f(x) = 2x² e g(x) = x + 1, qual é o valor de f(g(2))?', 3, @assunto_id, @prof_id);
+SET @q14 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q14, '18', 1),
+(@q14, '12', 0),
+(@q14, '10', 0),
+(@q14, '8', 0);
+
+-- Questão 15
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Resolva: (x + 2)(x - 3) = 0', 3, @assunto_id, @prof_id);
+SET @q15 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q15, 'x = -2 ou x = 3', 1),
+(@q15, 'x = 2 ou x = -3', 0),
+(@q15, 'x = 3 ou x = 4', 0),
+(@q15, 'x = -1 ou x = 3', 0);
+
+-- Matemática Financeira e Aplicada
+
+-- ============================================
+-- Questões de Matemática Financeira e Aplicada
+-- ============================================
+
+SET @prof_id = 1;
+SET @assunto_id = (SELECT id FROM assuntos WHERE nome = 'Matemática Financeira e Aplicada');
+
+-- =========================
+-- QUESTÕES FÁCEIS (NÍVEL 1)
+-- =========================
+
+-- Questão 1
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um produto custa R$ 200,00 e está com 10% de desconto. Qual é o valor do desconto?', 1, @assunto_id, @prof_id);
+SET @q1 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q1, 'R$ 15,00', 0),
+(@q1, 'R$ 20,00', 1),
+(@q1, 'R$ 25,00', 0),
+(@q1, 'R$ 30,00', 0);
+
+-- Questão 2
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Maria comprou uma blusa de R$ 80,00 e pagou com uma nota de R$ 100,00. Quanto recebeu de troco?', 1, @assunto_id, @prof_id);
+SET @q2 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q2, 'R$ 15,00', 0),
+(@q2, 'R$ 18,00', 0),
+(@q2, 'R$ 20,00', 1),
+(@q2, 'R$ 22,00', 0);
+
+-- Questão 3
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um celular de R$ 1.000,00 teve aumento de 10%. Qual será o novo preço?', 1, @assunto_id, @prof_id);
+SET @q3 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q3, 'R$ 1.050,00', 0),
+(@q3, 'R$ 1.080,00', 0),
+(@q3, 'R$ 1.100,00', 1),
+(@q3, 'R$ 1.120,00', 0);
+
+-- Questão 4
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um produto custava R$ 250,00 e passou a custar R$ 200,00. Qual foi o percentual de desconto?', 1, @assunto_id, @prof_id);
+SET @q4 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q4, '15%', 0),
+(@q4, '18%', 0),
+(@q4, '20%', 1),
+(@q4, '25%', 0);
+
+-- Questão 5
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Carlos aplicou R$ 1.000,00 e após 1 mês teve lucro de R$ 50,00. Qual foi o rendimento percentual?', 1, @assunto_id, @prof_id);
+SET @q5 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q5, '3%', 0),
+(@q5, '4%', 0),
+(@q5, '5%', 1),
+(@q5, '6%', 0);
 
 -- ==========================
--- Verificação final
+-- QUESTÕES MÉDIAS (NÍVEL 2)
 -- ==========================
-SELECT COUNT(*) AS total_questoes FROM questoes;
-SELECT COUNT(*) AS total_alternativas FROM alternativas;
+
+-- Questão 6
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um capital de R$ 2.000,00 foi aplicado a juros simples de 2% ao mês durante 5 meses. Qual o montante final?', 2, @assunto_id, @prof_id);
+SET @q6 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q6, 'R$ 2.100,00', 0),
+(@q6, 'R$ 2.150,00', 0),
+(@q6, 'R$ 2.200,00', 1),
+(@q6, 'R$ 2.250,00', 0);
+
+-- Questão 7
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um empréstimo de R$ 1.200,00 foi feito a 3% ao mês, por 4 meses, com juros simples. Qual o valor total dos juros?', 2, @assunto_id, @prof_id);
+SET @q7 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q7, 'R$ 144,00', 1),
+(@q7, 'R$ 120,00', 0),
+(@q7, 'R$ 130,00', 0),
+(@q7, 'R$ 150,00', 0);
+
+-- Questão 8
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um produto teve aumento de 8% e passou a custar R$ 540,00. Qual era o preço anterior?', 2, @assunto_id, @prof_id);
+SET @q8 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q8, 'R$ 480,00', 0),
+(@q8, 'R$ 490,00', 0),
+(@q8, 'R$ 500,00', 1),
+(@q8, 'R$ 510,00', 0);
+
+-- Questão 9
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um investimento de R$ 5.000,00 rendeu R$ 600,00 após 6 meses. Qual foi a taxa de juros simples mensal?', 2, @assunto_id, @prof_id);
+SET @q9 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q9, '1,5%', 0),
+(@q9, '2%', 0),
+(@q9, '2,5%', 0),
+(@q9, '2%', 1);
+
+-- Questão 10
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um carro financiado por R$ 30.000,00 gera juros simples de 2% ao mês. Após 10 meses, quanto será pago de juros?', 2, @assunto_id, @prof_id);
+SET @q10 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q10, 'R$ 6.000,00', 1),
+(@q10, 'R$ 5.000,00', 0),
+(@q10, 'R$ 4.000,00', 0),
+(@q10, 'R$ 7.000,00', 0);
+
+-- ===========================
+-- QUESTÕES DIFÍCEIS (NÍVEL 3)
+-- ===========================
+
+-- Questão 11
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um capital de R$ 1.000,00 foi aplicado a juros compostos de 5% ao mês por 3 meses. Qual será o montante final?', 3, @assunto_id, @prof_id);
+SET @q11 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q11, 'R$ 1.150,00', 0),
+(@q11, 'R$ 1.157,63', 1),
+(@q11, 'R$ 1.160,00', 0),
+(@q11, 'R$ 1.200,00', 0);
+
+-- Questão 12
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um valor de R$ 2.000,00 foi aplicado a juros compostos de 3% ao mês por 6 meses. Qual o montante?', 3, @assunto_id, @prof_id);
+SET @q12 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q12, 'R$ 2.360,00', 0),
+(@q12, 'R$ 2.380,00', 0),
+(@q12, 'R$ 2.382,03', 1),
+(@q12, 'R$ 2.400,00', 0);
+
+-- Questão 13
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um investimento dobrou em 10 meses sob juros compostos de 7,18% ao mês. Isso confirma a "regra dos 70"?', 3, @assunto_id, @prof_id);
+SET @q13 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q13, 'Sim, aproximadamente', 1),
+(@q13, 'Não, o tempo seria maior', 0),
+(@q13, 'Não, o tempo seria menor', 0),
+(@q13, 'Depende da taxa efetiva', 0);
+
+-- Questão 14
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Uma dívida de R$ 5.000,00 será quitada em 12 meses com juros compostos de 2% ao mês. Qual será o valor final aproximado?', 3, @assunto_id, @prof_id);
+SET @q14 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q14, 'R$ 6.000,00', 0),
+(@q14, 'R$ 6.200,00', 0),
+(@q14, 'R$ 6.340,00', 1),
+(@q14, 'R$ 6.500,00', 0);
+
+-- Questão 15
+INSERT INTO questoes (enunciado, nivel_id, assunto_id, autor_id)
+VALUES ('Um investimento de R$ 3.000,00 rende 4% ao mês. Após 1 ano, qual será o montante total em juros compostos?', 3, @assunto_id, @prof_id);
+SET @q15 = LAST_INSERT_ID();
+INSERT INTO alternativas (questao_id, texto, correta) VALUES
+(@q15, 'R$ 4.500,00', 0),
+(@q15, 'R$ 4.734,00', 1),
+(@q15, 'R$ 4.800,00', 0),
+(@q15, 'R$ 5.000,00', 0);
+
+
+
 
 
 
