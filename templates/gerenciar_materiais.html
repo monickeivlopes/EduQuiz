@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Gerenciar Materiais</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='professor.css') }}">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
   <style>
     * {
       box-sizing: border-box;
@@ -179,7 +181,11 @@
 
   <header>
     <div class="logo">Eduquiz - Administração</div>
-    <a href="{{ url_for('index_adm') }}" class="btn-secundario">Voltar</a>
+    <nav>
+    <a href="{{ url_for('index_adm') }}" class="home-icon">
+    <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+    </a>
+  </nav>
   </header>
 
   <main>

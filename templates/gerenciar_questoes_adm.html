@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>Gerenciar Questões (ADM)</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
   <style>
     /* Ajustes só para esta página */
     .questoes-container {
@@ -80,9 +82,10 @@
       EDUQUIZ - ADM
     </div>
     <nav>
-      <a href="{{ url_for('index_adm') }}">Início</a>
-      <a href="{{ url_for('logout') }}" class="login">Sair</a>
-    </nav>
+    <a href="{{ url_for('index_adm') }}" class="home-icon">
+    <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+    </a>
+  </nav>
   </header>
 
   <!-- Conteúdo -->

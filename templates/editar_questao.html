@@ -3,54 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Questão</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            margin-top: 40px;
+            width: 600px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #444;
+        }
+
+        textarea, select, input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 130px;
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .btn-delete {
+            background: #d9534f;
+            margin-top: 20px;
+        }
+
+        .btn-delete:hover {
+            background: #b52b27;
+        }
+
+        .btn-voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            background: #6c757d;
+            padding: 10px;
+            border-radius: 6px;
+            color: white;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .btn-voltar:hover {
+            background: #565e64;
+        }
+    </style>
 </head>
 <body>
-    <h2>Editar Questão</h2>
 
-    <form method="POST">
-        <label>Enunciado:</label><br>
-        <textarea name="enunciado" required>{{ questao[0] }}</textarea><br><br>
+    <div class="container">
+        <h2>Editar Questão</h2>
 
-        <label>Nível de dificuldade:</label><br>
-        <select name="nivel_id" required>
-            {% for nivel in niveis %}
-                <option value="{{ nivel[1] }}" {% if nivel[1] == questao[1] %}selected{% endif %}>
-                    {{ nivel[0] }}
-                </option>
+        <form method="POST">
+
+            <label>Enunciado:</label>
+            <textarea name="enunciado" required>{{ questao[0] }}</textarea>
+
+            <label>Nível de dificuldade:</label>
+            <select name="nivel_id" required>
+                {% for nivel in niveis %}
+                    <option value="{{ nivel[1] }}" {% if nivel[1] == questao[1] %}selected{% endif %}>
+                        {{ nivel[0] }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Assunto:</label>
+            <select name="assunto_id" required>
+                {% for assunto in assuntos %}
+                    <option value="{{ assunto[1] }}" {% if assunto[1] == questao[2] %}selected{% endif %}>
+                        {{ assunto[0] }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <label>Alternativas:</label>
+            {% for alt in alternativas %}
+                <input type="text" name="alternativas" value="{{ alt[1] }}" required>
             {% endfor %}
-        </select><br><br>
 
-        <label>Assunto:</label><br>
-        <select name="assunto_id" required>
-            {% for assunto in assuntos %}
-                <option value="{{ assunto[1] }}" {% if assunto[1] == questao[2] %}selected{% endif %}>
-                    {{ assunto[0] }}
-                </option>
+            <label>Índice da alternativa correta (1 a {{ alternativas|length }}):</label>
+            {% for alt in alternativas %}
+                {% set i = loop.index %}
+                {% if alt[2] == 1 %}
+                    <input type="number" name="correta_index" value="{{ i }}" required>
+                {% endif %}
             {% endfor %}
-        </select><br><br>
 
-        <label>Alternativas:</label><br>
-        {% for alt in alternativas %}
-            {% set i = loop.index %}
-            <input type="text" name="alternativas" value="{{ alt[1] }}" required><br>
-        {% endfor %}
+            <button type="submit">Salvar Alterações</button>
+        </form>
 
-        <label>Índice da alternativa correta (1 a {{ alternativas|length }}):</label><br>
-        {% for alt in alternativas %}
-            {% set i = loop.index %}
-            {% if alt[2] == 1 %}
-                <input type="number" name="correta_index" value="{{ i }}" required><br><br>
-            {% endif %}
-        {% endfor %}
+        <form method="POST" action="{{ url_for('excluir_questao', questao_id=questao_id) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta questão?')">
+            <button class="btn-delete" type="submit">Excluir Questão</button>
+        </form>
 
+        <a class="btn-voltar" href="{{ url_for('gerenciar_questoes') }}">Voltar</a>
+    </div>
 
-        <button type="submit">Salvar Alterações</button>
-    </form>
-
-    <form method="POST" action="{{ url_for('excluir_questao', questao_id=questao_id) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta questão?')">
-        <button type="submit" style="margin-top: 20px; background-color: red; color: white;">Excluir Questão</button>
-    </form>
-
-    <a href="{{ url_for('gerenciar_questoes') }}">Voltar</a>
 </body>
 </html>
