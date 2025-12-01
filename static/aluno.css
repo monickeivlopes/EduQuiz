@@ -45,10 +45,10 @@ header .btn-ajuda {
   background-color: #4C5FFF;
   color: white;
   text-decoration: none;
-  padding: 8px 24px;
+  padding: 8px 25px;
   border-radius: 20px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
   transition: background-color 0.3s ease;
 }
 
@@ -292,3 +292,4 @@ h1 {
     transform: translate(-50%, -40%);
   }
 }
+
