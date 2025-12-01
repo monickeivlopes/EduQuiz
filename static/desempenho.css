@@ -248,3 +248,17 @@ ul li {
     height: 250px;
   }
 }
+.logo-link {
+    text-decoration: none; 
+}
+
+.logo-link .logo-text {
+    color: white;          
+    cursor: default;       
+    font-weight: bold;     
+}
+
+
+.logo-link img {
+    cursor: pointer;
+}
