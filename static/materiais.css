@@ -200,3 +200,16 @@ h2{
   .filtro-form > div{ width:100%; }
   h1,h2{ text-align:center; }
 }
+.logo-link {
+    text-decoration: none; 
+}
+
+.logo-link .logo-text {
+    color: white;          
+    cursor: default;       
+    font-weight: bold;     
+}
+
+.logo-link img {
+    cursor: pointer;
+}
