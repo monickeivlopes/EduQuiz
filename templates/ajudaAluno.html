@@ -10,17 +10,20 @@
   
 </head>
 <body>
-  <header>
+  
+<header>
+  <a href="{{ url_for('index_aluno') }}" class="logo-link">
     <div class="logo">
       <img src="static/img/Logo.png" alt="Logo EduQuiz" />
-      <span>EDUQUIZ</span>
+      <span class="logo-text">EDUQUIZ</span>
     </div>
-    <nav>
-  <a href="{{ url_for('index_aluno') }}" class="home-icon">
-    <i class="bi bi-house" style="font-size:30px; color:white;"></i>
   </a>
-    </nav>
-  </header>
+  <nav>
+    <a href="{{ url_for('index_aluno') }}" class="home-icon">
+      <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+    </a>
+  </nav>
+</header>
 
   <main class="container mt-5">
     <h1 class="text-center mb-4">Ajuda para Alunos</h1>
