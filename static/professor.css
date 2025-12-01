@@ -1,17 +1,16 @@
-
-body {
+/* ========================= */
+/* ESTILO GERAL DA PÁGINA */
+body.page-inicio {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fafafa;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Ctext x='10' y='30' font-size='26' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∑%3C/text%3E%3Ctext x='90' y='50' font-size='26' fill='rgba(0,0,0,0.08)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E√%3C/text%3E%3Ctext x='20' y='120' font-size='26' fill='rgba(0,0,0,0.06)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3Eπ%3C/text%3E%3Ctext x='100' y='130' font-size='26' fill='rgba(0,0,0,0.10)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif'%3E∞%3C/text%3E%3Ctext x='30' y='80' font-size='18' fill='rgba(0,0,0,0.12)' font-family='Segoe UI, Tahoma, Geneva, Verdana, sans-serif' transform='rotate(-15 30,80)'%3EEduQuiz%3C/text%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-position: center;
-  background-size: 160px 160px;
   color: #001F87;
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
+/* ========================= */
+/* CABEÇALHO */
 header {
   background-color: #001f87;
   display: flex;
@@ -26,7 +25,6 @@ header {
   z-index: 1000;
 }
 
-/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -40,171 +38,101 @@ header {
   height: 42px;
 }
 
-/* Botão de ajuda — maior e com destaque */
+/* Botão ajuda */
 header .btn-ajuda {
   background-color: #4C5FFF;
   color: white;
   text-decoration: none;
-  padding: 10px 26px;
+  padding: 8px 25px;
   border-radius: 25px;
   font-weight: bold;
-  font-size: 16px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
-  line-height: 1;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
 }
 
 header .btn-ajuda:hover {
   background-color: #3b4ccc;
-  transform: scale(1.05);
 }
-
-/* 🧭 CONTEÚDO PRINCIPAL CENTRALIZADO */
-body.page-inicio main {
+/* ========================= */
+/* CONTEÚDO PRINCIPAL PADRONIZADO */
+main {
   max-width: 700px;
   margin: 0 auto;
-  padding-top: 120px;
+  padding-top: 200px; /* aumenta o recuo do topo para descer todo o bloco */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
+  gap: 20px; /* espaçamento vertical entre os elementos */
+  min-height: calc(100vh - 200px);
 }
 
-/* Título */
-body.page-inicio h1 {
+/* Título - mais espaço abaixo do h1 */
+main h1 {
   font-size: 2.5em;
-  margin-bottom: 40px;
-  color: #001F87;
+  font-weight: bold;
+  margin: 0 0 50px 0; /* espaço extra entre o h1 e os botões */
 }
 
-/* 🟢 Botão principal */
-body.page-inicio .btn-iniciar {
+/* ========================= */
+/* BOTÕES PADRÃO */
+.btn-iniciar,
+.btn-secundario,
+.btn-sair {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;       
+  min-height: 50px;   
+  padding: 0 12px;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  margin: 0; /* espaçamento controlado pelo gap */
+}
+
+/* Botão iniciar */
+.btn-iniciar {
   background-color: #00ff4c;
   color: white;
-  padding: 15px 40px;
-  border-radius: 30px;
-  font-weight: bold;
-  font-size: 18px;
-  margin-bottom: 40px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
 }
 
-body.page-inicio .btn-iniciar:hover {
+.btn-iniciar:hover {
   background-color: #00cc3b;
 }
 
-/* 🔵 Botões secundários */
-body.page-inicio .botoes-secundarios {
-  margin-bottom: 20px;
+/* Botões secundários */
+.botoes-secundarios {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 20px; 
 }
 
-body.page-inicio a.btn-secundario {
+.btn-secundario {
   background-color: #001958;
   color: white;
   text-decoration: none;
-  padding: 12px 30px;
-  border-radius: 30px;
-  font-weight: bold;
-  display: inline-block;
-  transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px; 
 }
 
-body.page-inicio a.btn-secundario:hover {
+.btn-secundario:hover {
   background-color: #0c2b8c;
 }
 
-/* 🔴 Botão sair */
-body.page-inicio .btn-sair {
+/* Botão sair */
+.btn-sair {
   background-color: red;
   color: white;
-  border: none;
-  border-radius: 30px;
-  padding: 12px 30px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-body.page-inicio .btn-sair:hover {
+.btn-sair:hover {
   background-color: #cc0000;
-}
-
-/* 📘 MODAL */
-body.page-inicio .modal {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-body.page-inicio .modal-content {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 500px;
-  margin: auto;
-  box-sizing: border-box;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.modal-titulo {
-  text-align: center;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 30px;
-  color: #001F87;
-}
-
-/* Inputs, selects e textarea */
-body.page-inicio .modal-content select,
-body.page-inicio .modal-content input,
-body.page-inicio .modal-content textarea {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-/* Labels */
-.label-filtro {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #003366;
-  text-align: left;
-}
-
-/* Botões dentro do modal */
-body.page-inicio .modal-content button {
-  min-width: 120px;
-  padding: 12px 20px;
-  border-radius: 30px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-body.page-inicio .btn-concluir,
-body.page-inicio .btn-editar {
-  background-color: #00c26e;
-  color: white;
-}
-
-body.page-inicio .btn-concluir:hover,
-body.page-inicio .btn-editar:hover {
-  background-color: #009e4f;
 }
