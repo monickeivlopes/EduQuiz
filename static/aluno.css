@@ -9,8 +9,8 @@ body {
   min-height: 100vh;
   justify-content: center;
   text-align: center;
+  font-family: 'Segoe UI', sans-serif;
 }
-
 
 /* CABEÇALHO */
 header {
@@ -40,7 +40,7 @@ header {
   height: 40px;
 }
 
-/* Botão de ajuda */
+/* Botão de ajuda (mantido do tamanho original) */
 header .btn-ajuda {
   background-color: #4C5FFF;
   color: white;
@@ -63,7 +63,7 @@ main {
   align-items: center;
   justify-content: center;
   padding: 120px 20px 60px;
-  gap: 30px;
+  gap: 20px; /* espaçamento padrão entre todos os botões */
 }
 
 h1 {
@@ -71,60 +71,73 @@ h1 {
   font-weight: bold;
 }
 
+/* ========================= */
+/* BOTÕES PRINCIPAIS PADRONIZADOS */
+/* ========================= */
+.btn-iniciar,
+.btn-secundario,
+.btn-sair,
+.modal-content .btn-iniciar,
+.modal-content .btn-voltar {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 220px;       /* largura padrão */
+  min-height: 50px;   /* altura padrão */
+  padding: 12px 0;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  /* Remove bordas/escuridão ao redor */
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+
+/* Botão iniciar */
 .btn-iniciar {
   background-color: #00ff4c;
   color: white;
-  font-size: 1.2em;
-  font-weight: bold;
-  border: none;
-  border-radius: 30px;
-  padding: 15px 40px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btn-iniciar:hover {
   background-color: #00cc3b;
 }
 
-.botoes-secundarios {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
+/* Botões secundários */
 .btn-secundario {
   background-color: #001958;
   color: white;
-  font-weight: bold;
-  text-decoration: none;
-  padding: 12px 24px;
-  border-radius: 30px;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: background-color 0.3s;
 }
 
 .btn-secundario:hover {
   background-color: #0c2b8c;
 }
 
+/* Botão sair */
 .btn-sair {
   background-color: red;
   color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
-  padding: 10px 30px;
-  margin-top: 20px;
-  cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btn-sair:hover {
   background-color: #cc0000;
+}
+
+/* Botoes secundários container */
+.botoes-secundarios {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* espaçamento consistente */
 }
 
 /* MODAL CONFIGURAR QUIZ */
@@ -136,7 +149,6 @@ h1 {
   backdrop-filter: blur(5px);
   z-index: 2000;
 
-  /* alinhamento central corrigido */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -153,13 +165,11 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  min-height: 505px;
-  /* centralização real abaixo do header */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -45%);
+  min-height: 505px;
 }
 
 .modal-content h2 {
@@ -204,17 +214,18 @@ h1 {
   background-color: #0099ff;
   color: white;
 }
+
 /* Assunto */
 .assunto-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* garante centralização */
+  justify-content: center;
   width: 100%;
-  max-width: 500px; /* evita que o select fique maior que a tela */
+  max-width: 500px;
   gap: 7px;
   margin-bottom: 1.8rem;
-  box-sizing: border-box; /* evita overflow */
+  box-sizing: border-box;
 }
 
 .assunto-container label {
@@ -225,8 +236,8 @@ h1 {
 }
 
 .assunto-container select {
-  width: 112%; /* ocupa todo o container */
-  max-width: 250px; /* evita que ultrapasse o container */
+  width: 112%;
+  max-width: 250px;
   padding: 10px;
   padding-left: 10px;
   border-radius: 12px;
@@ -238,7 +249,6 @@ h1 {
   cursor: pointer;
   transition: border 0.3s;
   box-sizing: border-box;
-
 }
 
 .assunto-container select:hover,
@@ -247,33 +257,16 @@ h1 {
   outline: none;
 }
 
-
 /* Botões do modal */
 .botoes-modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-}
-
-.modal-content .btn-iniciar,
-.modal-content .btn-voltar {
-  padding: 10px;
-  border: none;
-  border-radius: 18px;
-  font-weight: bold;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  gap: 20px; /* mesmo espaçamento padronizado */
 }
 
 .modal-content .btn-iniciar {
   background-color: #00cc44;
-  color: white;
-  width: auto;           /* botão ajusta à largura do texto */
-  padding: 10px 25px;    /* mais espaço horizontal */
-  white-space: nowrap;    /* impede quebra de linha */
-  display: inline-block;
 }
 
 .modal-content .btn-iniciar:hover {
@@ -282,8 +275,6 @@ h1 {
 
 .modal-content .btn-voltar {
   background-color: #007bff;
-  color: white;
-  width: 85%;
 }
 
 .modal-content .btn-voltar:hover {
@@ -292,9 +283,12 @@ h1 {
 
 /* RESPONSIVIDADE */
 @media (max-width: 600px) {
+  main {
+    gap: 15px; /* espaçamento menor em telas pequenas */
+  }
+
   .modal-content {
     width: 90%;
     transform: translate(-50%, -40%);
   }
 }
-
