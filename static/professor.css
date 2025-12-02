@@ -136,3 +136,10 @@ main h1 {
 .btn-sair:hover {
   background-color: #cc0000;
 }
+
+/* Modal de gerenciamento de questões (professor) */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}

@@ -224,6 +224,10 @@ ul li {
   transform: translateY(-2px);
 }
 
+.link-limpar {
+  margin-left: 10px;
+}
+
 /* ====== RESPONSIVIDADE ====== */
 @media (max-width: 768px) {
   header {

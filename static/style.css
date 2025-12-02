@@ -70,6 +70,22 @@ nav .home-icon img {
     height: 24px;
 }
 
+/* Ícone de casa padrão (Bootstrap Icons) usado em vários cabeçalhos */
+.home-icon i {
+  font-size: 30px;
+  color: white;
+}
+
+/* Formulários exibidos em linha (exclusão de itens em tabelas) */
+.inline-form {
+  display: inline;
+}
+
+/* Modal aberta explicitamente (por exemplo, gerenciar questões do professor) */
+.modal-open {
+  display: flex;
+}
+
 main {
     flex: 1;
     padding: 50px 20px;

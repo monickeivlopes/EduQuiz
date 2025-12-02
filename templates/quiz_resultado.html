@@ -18,19 +18,19 @@
 
     <hr>
 
-    <button onclick="toggleGabarito()" style="margin-top: 10px;">Ver Gabarito</button>
+    <button onclick="toggleGabarito()" class="btn-gabarito">Ver Gabarito</button>
 
-    <div id="gabarito" style="display: none; margin-top: 20px;">
+    <div id="gabarito">
       <h3>Gabarito</h3>
       {% for enunciado, resposta_marcada, resposta_correta, correta in resultados %}
-        <div style="margin-bottom: 15px;">
+        <div class="gabarito-item">
           <strong>Pergunta:</strong> {{ enunciado }}<br>
           <strong>Sua resposta:</strong> {{ resposta_marcada }}<br>
           <strong>Resposta correta:</strong> {{ resposta_correta }}<br>
           {% if correta %}
-            <span style="color: green;">✔️ Acertou</span>
+            <span class="texto-acerto">✔️ Acertou</span>
           {% else %}
-            <span style="color: red;">❌ Errou</span>
+            <span class="texto-erro">❌ Errou</span>
           {% endif %}
         </div>
       {% endfor %}

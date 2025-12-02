@@ -3,78 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Editar Questão</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        .container {
-            background: rgb(255, 255, 255);
-            margin-top: 40px;
-            width: 600px;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        h2 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-        }
-
-        label {
-            font-weight: bold;
-            color: #444;
-        }
-
-        textarea, select, input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            margin-bottom: 18px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            height: 130px;
-            resize: none;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .btn-delete {
-            background: #d9534f;
-            margin-top: 20px;
-        }
-
-        .btn-delete:hover {
-            background: #b52b27;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='editar_questao.css') }}">
 
 </head>
 <body>

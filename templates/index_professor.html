@@ -37,7 +37,7 @@
 
   <!-- Modal de Gerenciar Questões -->
 {% if niveis and assuntos %}
-<div id="modalGerenciar" class="modal" style="display: flex;">
+<div id="modalGerenciar" class="modal modal-open">
   <div class="modal-content">
     <h2 class="modal-titulo">Gerenciar Questões</h2>
 
@@ -68,7 +68,7 @@
 
       <label for="correta_index" class="label-filtro">Índice da correta (1 a 4):</label>
       <input type="number" name="correta_index" id="correta_index" min="1" max="4" required>
-            <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <div class="modal-actions">
         <button type="button" onclick="fecharModal()">Voltar</button>
         <button type="submit" class="btn-concluir">Concluir</button>
       </div>

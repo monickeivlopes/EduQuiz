@@ -48,13 +48,14 @@ button a {
 
 /* ====== GABARITO ====== */
 #gabarito {
+    display: none;
     margin-top: 25px;
     width: 90%;
     max-width: 800px;
 }
 
 /* Cada questão */
-#gabarito div {
+.gabarito-item {
     background: white;
     border-left: 6px solid #00337a; /* verde lateral */
     padding: 12px 16px;
@@ -67,15 +68,18 @@ button a {
     color: #4b4b4b;
 }
 
-#gabarito span {
+.gabarito-item span {
     font-weight: bold;
 }
 
-/* Cor acerto/erro */
-#gabarito span[style*="green"] {
-    color: #2e7d32 !important;
+.texto-acerto {
+    color: #2e7d32;
 }
 
-#gabarito span[style*="red"] {
-    color: #c62828 !important;
+.texto-erro {
+    color: #c62828;
+}
+
+.btn-gabarito {
+    margin-top: 10px;
 }

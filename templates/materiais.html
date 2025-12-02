@@ -18,7 +18,7 @@
   </a>
   <nav>
     <a href="{{ url_for('index_aluno') }}" class="home-icon">
-      <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+      <i class="bi bi-house"></i>
     </a>
   </nav>
 </header>
@@ -82,8 +82,8 @@
     </div>
   {% else %}
     <div class="sem-materiais">
-      <p style="font-size: 1.2rem;">Nenhum material encontrado para os filtros selecionados.</p>
-      <p style="color: #999;">Tente ajustar os filtros ou verifique se há materiais disponíveis.</p>
+      <p class="sem-materiais-texto">Nenhum material encontrado para os filtros selecionados.</p>
+      <p class="sem-materiais-subtexto">Tente ajustar os filtros ou verifique se há materiais disponíveis.</p>
     </div>
   {% endfor %}
 </main>

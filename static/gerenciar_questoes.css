@@ -1,0 +1,70 @@
+/* Estilos extraídos de templates/gerenciar_questoes.html */
+
+.questoes-container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+.questoes-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #001F87;
+}
+
+.questoes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.questoes-table th,
+.questoes-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.questoes-table th {
+  background: #001F87;
+  color: white;
+}
+
+.questoes-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+.btn-small {
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.btn-green {
+  background-color: #00C264;
+  color: white;
+}
+
+.btn-red {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-blue {
+  background-color: #4C5FFF;
+  color: white;
+}
+
+.btn-green:hover { background-color: #00994d; }
+.btn-red:hover { background-color: #a71d2a; }
+.btn-blue:hover { background-color: #003fdd; }
+
+

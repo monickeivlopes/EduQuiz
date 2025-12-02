@@ -200,6 +200,12 @@ h2{
   .filtro-form > div{ width:100%; }
   h1,h2{ text-align:center; }
 }
+.sem-materiais-texto {
+  font-size: 1.2rem;
+}
+.sem-materiais-subtexto {
+  color: #999;
+}
 .logo-link {
     text-decoration: none; 
 }
