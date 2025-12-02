@@ -238,3 +238,9 @@ textarea {
 
 /* --- Estilos herdados de professor.css (sem conflitos) --- */
 /* ... Estilos do header, modal, etc ... (mesclados onde não houve sobreposição) */
+
+nav .home-icon i.bi {
+  font-size: 30px;
+  color: white;
+  font-family: "bootstrap-icons";
+}

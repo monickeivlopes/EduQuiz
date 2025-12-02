@@ -34,8 +34,9 @@ header {
     height: 40px;
 }
 
-nav .home-icon img {
-    height: 30px;
+nav .home-icon i {
+    font-size: 30px;
+    color: white;
 }
 
 /* ===============================

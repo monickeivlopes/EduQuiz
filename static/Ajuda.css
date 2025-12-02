@@ -24,7 +24,7 @@
 }
 
 nav .home-icon i {
-    font-size: 26px; /* antes: 30px */
+    font-size: 30px; /* volta ao tamanho original de 30px */
     color: white;
 }
 

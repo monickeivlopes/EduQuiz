@@ -266,3 +266,8 @@ ul li {
 .logo-link img {
     cursor: pointer;
 }
+
+nav .home-icon i {
+  font-size: 30px;
+  color: white;
+}
