@@ -12,7 +12,7 @@ body.page-inicio {
 /* ========================= */
 /* CABEÇALHO */
 header {
-  background-color: #001f87;
+  background-color: #001F87;
   display: flex;
   justify-content: space-between;
   align-items: center;
