@@ -2,14 +2,20 @@
   box-sizing: border-box;
 }
 
+/* ============================
+   ESTILOS GERAIS DA PÁGINA
+   ============================ */
 body.page-materiais {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fafafa;
   color: #001F87;
   margin: 0;
-  padding-top: 70px; 
+  padding-top: 80px; 
 }
 
+/* ============================
+   HEADER
+   ============================ */
 header {
   background-color: #001F87;
   color: white;
@@ -26,14 +32,17 @@ header {
   gap: 10px;
 }
 
+/* Ícone Home */
 nav .home-icon i {
   font-size: 30px;
   color: white;
 }
 
+/* LOGO */
 .logo {
-  font-size: 1.5em;
-  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo img {
@@ -41,7 +50,12 @@ nav .home-icon i {
   height: auto;
 }
 
+.logo-text {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
+/* Botão secundário do header (se usado) */
 header a.btn-secundario {
   background-color: #4C5FFF;
   color: white;
@@ -56,6 +70,9 @@ header a.btn-secundario:hover {
   background-color: #3b4ccc;
 }
 
+/* ============================
+   MAIN
+   ============================ */
 main {
   max-width: 900px;
   margin: 20px auto 40px;
@@ -70,6 +87,7 @@ main h1 {
   text-align: center;
 }
 
+/* Lista de cartões */
 section {
   display: flex;
   flex-wrap: wrap;
@@ -77,6 +95,9 @@ section {
   justify-content: center;
 }
 
+/* ============================
+   CARD DE USUÁRIO
+   ============================ */
 .card-material {
   background: white;
   border: 1px solid #ddd;
@@ -99,6 +120,7 @@ section {
 
 .card-material input[type="text"],
 .card-material input[type="email"],
+.card-material input[type="password"],
 .card-material select {
   width: 100%;
   padding: 10px 12px;
@@ -108,13 +130,15 @@ section {
   transition: border-color 0.3s ease;
 }
 
-.card-material input[type="text"]:focus,
-.card-material input[type="email"]:focus,
+.card-material input:focus,
 .card-material select:focus {
   border-color: #4C5FFF;
   outline: none;
 }
 
+/* ============================
+   BOTÕES
+   ============================ */
 .botoes-acoes {
   display: flex;
   gap: 15px;
@@ -132,6 +156,7 @@ section {
   transition: background-color 0.3s ease;
 }
 
+/* Botão SALVAR */
 .botoes-acoes button.salvar {
   background-color: #00c26e;
   color: white;
@@ -141,6 +166,7 @@ section {
   background-color: #009e4f;
 }
 
+/* Botão EXCLUIR */
 .botoes-acoes button.excluir {
   background-color: #ff5c5c;
   color: white;
@@ -150,6 +176,9 @@ section {
   background-color: #d14343;
 }
 
+/* ============================
+   RESPONSIVIDADE
+   ============================ */
 @media (max-width: 460px) {
   .card-material {
     max-width: 100%;
@@ -165,5 +194,3 @@ section {
     gap: 10px;
   }
 }
-
-
