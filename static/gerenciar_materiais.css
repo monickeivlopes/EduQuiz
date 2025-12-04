@@ -36,6 +36,12 @@ nav .home-icon i {
   font-weight: bold;
 }
 
+.logo img {
+  max-height: 50px;
+  height: auto;
+}
+
+
 header a.btn-secundario {
   background-color: #4C5FFF;
   color: white;
@@ -160,5 +166,4 @@ section {
   }
 }
 
-/* --- Estilos herdados de professor.css (sem conflitos) --- */
-/* ... Restante do CSS global aproveitado ... */
+
