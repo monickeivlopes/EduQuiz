@@ -9,20 +9,20 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='gerenciar_questoes_adm.css') }}">
 </head>
 <body>
-  <header>
+<header>
     <a href="{{ url_for('index_adm') }}" class="logo-link">
-      <div class="logo">
-        <img src="static/img/Logo.png" alt="Logo EduQuiz" />
-        <span class="logo-text">EDUQUIZ</span>
-      </div>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo EduQuiz"/>
+            <span class="logo-text">EDUQUIZ</span>
+        </div>
     </a>
 
     <nav>
-    <a href="{{ url_for('index_adm') }}" class="home-icon">
-    <i class="bi bi-house"></i>
-    </a>
-  </nav>
-  </header>
+        <a href="{{ url_for('index_adm') }}" class="home-icon">
+            <i class="bi bi-house"></i>
+        </a>
+    </nav>
+</header>
 
   <!-- Conteúdo -->
   <main class="questoes-container">

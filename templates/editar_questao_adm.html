@@ -4,9 +4,26 @@
     <meta charset="UTF-8">
     <title>Editar Questão</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='editar_questao.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
 </head>
 <body>
+
+<header>
+    <a href="{{ url_for('index_adm') }}" class="logo-link">
+        <div class="logo">
+            <img src="{{ url_for('static', filename='img/Logo.png') }}" alt="Logo EduQuiz">
+            <span class="logo-text">EDUQUIZ</span>
+        </div>
+    </a>
+
+    <nav>
+        <a href="{{ url_for('index_adm') }}" class="home-icon">
+            <i class="bi bi-house" style="font-size:30px; color:white;"></i>
+        </a>
+    </nav>
+</header>
+
 
     <div class="container">
         <h2>Editar Questão</h2>

@@ -8,6 +8,33 @@ body {
     display: flex;
     justify-content: center;
 }
+/* CABEÇALHO */
+header {
+  background-color: #001F87;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  border-bottom: 2px solid #e0e0e0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.6em;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.logo img {
+  height: 42px;
+}
 
 .container {
     background: #ffffff;

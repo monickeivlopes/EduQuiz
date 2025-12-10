@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='relatorio_aluno.css') }}">
 </head>
 <body>
+    <!-- Header -->
+    <header>
+        <a href="{{ url_for('index_professor') }}" class="logo-link">
+            <div class="logo">
+              <img src="static/img/Logo.png" alt="Logo EduQuiz" />
+              <span class="logo-text">EDUQUIZ</span>
+            </div>
+          </a>
+    
+        <nav>
+  <a href="{{ url_for('index_professor') }}" class="home-icon">
+    <i class="bi bi-house"></i>
+  </a>
+    </nav>
+    </header>
+
     <div class="container">
         <h1>📊 Relatório Individual do Aluno</h1>
 

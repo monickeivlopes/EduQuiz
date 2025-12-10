@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="/static/resultado.css">
 </head>
 <body>
+
+    <header>
+        <div class="logo">
+            <img src="static/img/Logo.png">
+            <span>EDUQUIZ</span>
+        </div>
+        <nav>
+           <a href="{{ url_for('ajudaAluno') }}" class="btn-ajuda">Ajuda</a>
+        </nav>
+    </header>
+
+
+
     <h2>Resultado do Quiz</h2>
 
     <!-- NOVO: exibe dificuldade -->

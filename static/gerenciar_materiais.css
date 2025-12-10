@@ -194,3 +194,21 @@ section {
     gap: 10px;
   }
 }
+
+.logo-link {
+  text-decoration: none;      
+  color: white;               
+}
+
+.logo-text {
+  color: white;               
+  font-weight: bold;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+}
+
+
+.logo-link:hover .logo-text {
+  color: white;
+  opacity: 0.8;           
+}
